@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- <property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">sun8562778</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/electric</property> -->
+
+		<property name="hibernate.connection.autocommit">true</property>
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.show_sql">true</property>
+
+		<property name="connection.pool_size">1</property>
+
+		<property name="cache.use_second_level_cache">true</property>
+		<property name="cache.provider_class">
+			net.sf.ehcache.hibernate.EhCacheProvider
+		</property>
+		<property name="cache.region.factory_class">
+			org.hibernate.cache.ehcache.EhCacheRegionFactory
+		</property>
+
+		<property name="cache.use_query_cache">true</property>
+		<property name="format_sql">true</property>
+
+		<mapping resource="com/sw/elec/domain/ElecText.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecCommonMsg.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecDictionary.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecUser.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecRolePopedom.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecUserRole.hbm.xml"></mapping>
+	</session-factory>
+</hibernate-configuration>	
