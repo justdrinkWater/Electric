@@ -9,5 +9,9 @@ public interface IElecUserDao extends ICommonDao<ElecUser> {
 
 	List<ElecUser> findByLogonName(String logonName);
 
+	List<Object> getPopedomByLogonName(String logonName);
+
+	List<Object[]> findUserRoles(String logonName);
+
 
 }

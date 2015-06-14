@@ -17,6 +17,9 @@
 			<result name="home">
 				/WEB-INF/page/menu/home.jsp
 			</result>
+			<result name="error">
+				/WEB-INF/page/menu/index.jsp
+			</result>
 			<result name="title">
 				/WEB-INF/page/menu/title.jsp
 			</result>
@@ -43,6 +46,9 @@
 			</result>
 			<result name="alermZD">
 				/WEB-INF/page/menu/alermZD.jsp
+			</result>
+			<result name="logout">
+				/WEB-INF/page/menu/index.jsp
 			</result>
 		</action>
 		<!-- 代办事宜 -->

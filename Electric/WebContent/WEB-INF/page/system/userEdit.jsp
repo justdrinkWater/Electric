@@ -6,7 +6,8 @@
 		编辑用户
 	</s:if> <s:else>
 		查看明细
-	</s:else></title>
+	</s:else>
+</title>
 <LINK href="${pageContext.request.contextPath }/css/Style.css"
 	type="text/css" rel="stylesheet">
 <script type="text/javascript"
@@ -18,8 +19,9 @@
 	charset="gb2312"></script>
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
+		var password = "";  /* 修改密码之前的密码 */
 	window.onload = function() {
-		var password = document.getElementById("logonPwd").value;
+		password = document.getElementById("logonPwd").value;
 		document.getElementById("passwordconfirm").value = password;
 	}
 
@@ -76,14 +78,22 @@
 		//别人的代码。。。现在的问题是提交表单后自身关闭，但是现在是自身关闭了
 		//但是没有提交表单...
 		//theForm.submit();
+		var password2 = document.getElementById("logonPwd").value;
 		
+		var md5Flag = 1;
+		if(password2 != password){
+			md5Flag = 0;
+		}
+		var roleflag = document.getElementById("roleflag").value;
 		$.ajax({  
             type : "POST",  
-            url : "${pageContext.request.contextPath}/system/elecUserAction_save.do",  
+            url : "${pageContext.request.contextPath}/system/elecUserAction_save.do?md5Flag="+md5Flag,  
             data : $("#Form1").serialize(),  
-            success : function(msg) {  
-            	window.opener.location.reload();
-            	window.close();
+            success : function(msg) {
+            	if(roleflag==null||roleflag==""){
+	          		window.opener.location.reload();
+    	        	window.close();
+            	}
             },
             error:function(){
             	alert("编辑失败");
@@ -113,7 +123,9 @@
 				</font>
 				</td>
 			</tr>
-			<s:hidden name="userID" id="userID" />
+				<s:hidden name="userID" id="userID" />
+				<s:hidden name="roleflag" id="roleflag"/>	
+			<%--<s:hidden name="md5flag" id="md5flag"/>--%>
 			<tr>
 				<td align="center" bgColor="#f5fafe" class="ta_01">登&nbsp;&nbsp;录&nbsp;&nbsp;名：
 					<font color="#FF0000">*</font>
@@ -193,13 +205,16 @@
 			</TR>
 			<tr>
 				<td class="ta_01" style="WIDTH: 100%" align="center"
-					bgColor="#f5fafe" colSpan="4"><s:if
-						test="#request.viewflag == ''">
+					bgColor="#f5fafe" colSpan="4">
+					<s:if test="#request.viewflag == ''">
 						<input type="button" name="BT_Submit" value="保存"
 							style="font-size: 12px; color: black;" onClick="check_null()">
 					</s:if> <FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
-					<input style="font-size: 12px; color: black;" type="button"
-					value="关闭" name="Reset1" onClick="window.close()"></td>
+					<s:if test="#request.roleflag == '1'">
+						<input style="font-size: 12px; color: black;" type="button"
+						value="关闭" name="Reset1" onClick="window.close()">
+					</s:if>
+					</td>
 			</tr>
 		</table>
 	</s:form>

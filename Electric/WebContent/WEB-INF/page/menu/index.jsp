@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
 <head>
 <meta http-equiv="Content-Language" content="zh-cn">
@@ -70,7 +71,7 @@ FORM {
 						<br>
 						<br>
 						<tr>
-							<td width=12%></td>
+							<td width=20%></td>
 							<td align=center
 								background="${pageContext.request.contextPath}/images/index.jpg">
 								<table border="0" width="98%" id="table3" height="412"
@@ -82,6 +83,13 @@ FORM {
 										<td height="313" width="73%"></td>
 										<td height="99" width="27%">
 											<table border="0" width="70%" id="table4">
+												<tr>
+													<td colspan="2" width="200">
+														<font color="red" size="2">
+															<s:fielderror name="error"/>
+														</font>
+													</td>
+												</tr>
 												<tr>
 													<td width="100"><img border="0"
 														src="${pageContext.request.contextPath}/images/yonghu.gif"

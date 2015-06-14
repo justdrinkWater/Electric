@@ -1,18 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <script language="javascript">
-	/* 	function checkchar() {
-	 document.Form1.action = "${pageContext.request.contextPath }/system/elecUserAction_home.do";
-	 document.Form1.submit();
-	 } */
-	function reloadPage() {
-		history.go(0);
-		document.execCommand("refresh")
-		document.location = document.location;
-		document.location.reload();
-	}
 </script>
-
 <HTML>
 <HEAD>
 <title>用户管理</title>

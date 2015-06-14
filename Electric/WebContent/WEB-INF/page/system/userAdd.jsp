@@ -69,7 +69,7 @@ function check_null() {
 	//theForm.submit();
 	$.ajax({  
         type : "POST",  
-        url : "${pageContext.request.contextPath}/system/elecUserAction_save.do",  
+        url : "${pageContext.request.contextPath}/system/elecUserAction_save.do?md5Flag=0",  
         data : $("#Form1").serialize(),  
         success : function(msg) {  
         	window.opener.location.reload();

@@ -24,10 +24,14 @@ public class ElecUserForm implements Serializable {
 	private String onDutyDate; // 入职时间
 	private String offDutyDate; // 离职时间
 	private String remark; // 备注
-	
+
 	private String viewflag;
-	
-	private String flag;//表示是否拥有这个权限
+
+	private String flag;// 表示是否拥有这个权限
+
+	private String md5Flag;// 表示是否需要对这个密码进行加密，因为在编辑用户的时候不需要再次进行加密
+
+	private String roleflag;// 用于判断当前的用户是否是系统管理员或者是高级管理员,当为1时，表示不是，为空则是
 
 	public String getUserID() {
 		return userID;
@@ -164,8 +168,21 @@ public class ElecUserForm implements Serializable {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-	
 
-	
-	
+	public String getMd5Flag() {
+		return md5Flag;
+	}
+
+	public void setMd5Flag(String md5Flag) {
+		this.md5Flag = md5Flag;
+	}
+
+	public String getRoleflag() {
+		return roleflag;
+	}
+
+	public void setRoleflag(String roleflag) {
+		this.roleflag = roleflag;
+	}
+
 }

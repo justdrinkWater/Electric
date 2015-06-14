@@ -1,5 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.sw.elec.domain.*" %>
 <%@taglib uri="/struts-tags" prefix="s"%>
+<% ElecUser user = (ElecUser)request.getSession().getAttribute("globle_user"); %>
+<% String userName = user.getUserName(); %>
 <HTML>
 <HEAD>
 <TITLE>Top</TITLE>
@@ -85,7 +88,7 @@ TH {
 					<table cellSpacing="2" height="25" cellPadding="0" width="100%"
 						border="0">
 						<tr>
-							<td valign="top"><b><font color="#FFFFFF">欢迎您!&nbsp;&nbsp;&nbsp;admin</font></b>
+							<td valign="top"><b><font color="#FFFFFF">欢迎您!&nbsp;&nbsp;&nbsp;<%out.print(userName);%></font></b>
 							</td>
 						</tr>
 					</table>
@@ -94,13 +97,19 @@ TH {
 				<td width="18%" height="25" bgcolor="#0965CA" align="center">
 					<table border="0" width="100%" cellspacing="0" cellpadding="0">
 						<tr>
-							<td width="100%" align="center"><A href="loading.jsp"
-								target="mainFrame"><font color="#FFFFFF"><b>返回首页</b></font></a>
-								<font color="#FFFFFF"><b>|</b></font> <A href="logout.do"
-								target="_top"> <font color="#FFFFFF"><b>重新登录</b></font></A> <font
-								color="#FFFFFF"><b>|</b></font> <A
-								href="javascript:parent.exitsys()" target="_top"> <font
-									color="#FFFFFF"><b>退出系统</b></font></A></td>
+							<td width="100%" align="center">
+								<a href="${pageContext.request.contextPath }/system/elecMenuAction_loading.do" target="mainFrame">
+								<font color="#FFFFFF"><b>返回首页</b></font>
+								</a>
+								<font color="#FFFFFF"><b>|</b></font> 
+								<a href="${pageContext.request.contextPath }/system/elecMenuAction_logout.do" target="_top"> 
+								<font color="#FFFFFF"><b>重新登录</b></font>
+								</a> 
+								<font color="#FFFFFF"><b>|</b></font> 
+								<a href="javascript:parent.exitsys()" target="_top"> 
+								<font color="#FFFFFF"><b>退出系统</b></font>
+								</a>
+							</td>
 						</tr>
 					</table>
 				</td>

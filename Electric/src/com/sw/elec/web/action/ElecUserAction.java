@@ -53,6 +53,9 @@ public class ElecUserAction extends BaseAction implements
 
 	public String save() {
 		elecUserService.saveUser(elecUserForm);
+		String roleflag = (String) this.request.getAttribute("roleflag");
+		if(roleflag != null && "1".equals(roleflag))
+			return edit();
 		return "list";
 	}
 
@@ -64,6 +67,10 @@ public class ElecUserAction extends BaseAction implements
 		String viewFlag = elecUserForm.getViewflag() != null ? elecUserForm
 				.getViewflag() : "";
 		this.request.setAttribute("viewflag", viewFlag);
+		//当roleflag为1时，则跳到userEdit.jsp页面
+		//当rolefla为空，则跳到userIndex.jsp页面
+		String roleflag = elecUserForm.getRoleflag();
+		this.request.setAttribute("roleflag", roleflag);
 		return "edit";
 	}
 

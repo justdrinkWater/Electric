@@ -1,6 +1,7 @@
 package com.sw.elec.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.sw.elec.dao.IElecDictionaryDao;
 import com.sw.elec.dao.IElecUserDao;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecUserService;
+import com.sw.elec.util.MD5keyBean;
 import com.sw.elec.util.StringHelper;
 import com.sw.elec.web.form.ElecUserForm;
 
@@ -129,7 +131,22 @@ public class ElecUserServiceImpl implements IElecUserService {
 			elecUser.setJctID(elecUserForm.getJctID());
 			elecUser.setUserName(elecUserForm.getUserName());
 			elecUser.setLogonName(elecUserForm.getLogonName());
-			elecUser.setLogonPwd(elecUserForm.getLogonPwd());
+			// 需要将密码进行加密才存到数据库中
+			MD5keyBean md5keyBean = new MD5keyBean();
+			if (elecUserForm.getLogonPwd() != null
+					|| !"".equals(elecUserForm.getLogonPwd())) {
+				// 还需要判断是否是首次保存用户或者是否在编辑用户的时候修改了密码，
+				// 如果是则md5Flag标志位为0，则需要进行加密操作
+				if (elecUserForm.getMd5Flag() != null
+						&& "0".equals(elecUserForm.getMd5Flag())) {
+					elecUser.setLogonPwd(md5keyBean
+							.getkeyBeanofStr(elecUserForm.getLogonPwd()));
+				} else {
+					// 如果不是，则说明md5Flag标志位不为空，不需要再次加密
+					elecUser.setLogonPwd(elecUserForm.getLogonPwd());
+				}
+
+			}
 			elecUser.setSexID(elecUserForm.getSexID());
 			if (elecUserForm.getBirthday() != null
 					|| !"".equals(elecUserForm.getBirthday())) {
@@ -171,6 +188,39 @@ public class ElecUserServiceImpl implements IElecUserService {
 	public String checkLogonName(String logonName) {
 		List<ElecUser> elecUserList = elecUserDao.findByLogonName(logonName);
 		return elecUserList.size() > 0 ? "1" : "2";
+	}
+
+	// 通过用户名找到是否存在这个用户名的用户
+	@Override
+	public ElecUser findUserByName(String logonName) {
+		List<ElecUser> list = elecUserDao.findByLogonName(logonName);
+		ElecUser elecUser = null;
+		if (list != null && list.size() > 0) {
+			elecUser = list.get(0);
+		}
+		return elecUser;
+	}
+
+	// 通过登录名获得用户的权限
+	@Override
+	public String getPopedomByLogonName(String logonName) {
+		List<Object> list = elecUserDao.getPopedomByLogonName(logonName);
+		StringBuffer stringBuffer = new StringBuffer();
+		for (Object object : list) {
+			stringBuffer.append(object.toString());
+		}
+		return stringBuffer.toString();
+	}
+
+	// 通过登录名获得用户的角色
+	@Override
+	public HashMap<String, String> findUserRoles(String logonName) {
+		List<Object[]> list = elecUserDao.findUserRoles(logonName);
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (Object[] objects : list) {
+			map.put(objects[0].toString(), objects[1].toString());
+		}
+		return map;
 	}
 
 }
