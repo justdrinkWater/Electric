@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
@@ -14,6 +15,22 @@
 	out.println("可用内存: " + java.lang.Runtime.getRuntime().freeMemory()
 			/ 1024 / 1024 + "MB");
 %>
+<% 
+	String logonName = "";
+	String logonPwd = "";
+	String checked = "";
+	Cookie[] cookies = request.getCookies();
+	for(int i = 0;cookies != null && i < cookies.length ; i++){
+		Cookie cookie = cookies[i];
+		if(cookie != null && "logonName".equals(cookie.getName())){
+			logonName = URLDecoder.decode(cookie.getValue(), "UTF-8");
+			checked = "checked";
+		}
+		if(cookie != null && "logonPwd".equals(cookie.getName())){
+			logonPwd = cookie.getValue();
+		}
+	}	
+%>
 <LINK href="${pageContext.request.contextPath}/css/buttonstyle.css"
 	type="text/css" rel="stylesheet">
 <LINK href="${pageContext.request.contextPath}/css/MainPage.css"
@@ -22,7 +39,7 @@
 	src='${pageContext.request.contextPath}/script/pub.js'></script>
 <script type="text/javascript"
 	src='${pageContext.request.contextPath}/script/validate.js'></script>
-<SCRIPT type="text/javascript">
+<script type="text/javascript">
 	function ini() {
 		document.all.name.focus();
 	}
@@ -39,7 +56,10 @@
 			return false;
 		}
 	}
-</SCRIPT>
+	function changeImgage(image) {
+		image.src = "image.jsp?timetamp="+new Date().getTime();
+	}
+</script>
 <STYLE type=text/css>
 BODY {
 	margin: 0px;
@@ -76,7 +96,7 @@ FORM {
 								background="${pageContext.request.contextPath}/images/index.jpg">
 								<table border="0" width="98%" id="table3" height="412"
 									cellspacing="0" cellpadding="0">
-									<tr height=122>
+									<tr height="122">
 										<td colspan=2></td>
 									</tr>
 									<tr>
@@ -84,18 +104,16 @@ FORM {
 										<td height="99" width="27%">
 											<table border="0" width="70%" id="table4">
 												<tr>
-													<td colspan="2" width="200">
-														<font color="red" size="2">
-															<s:fielderror name="error"/>
-														</font>
-													</td>
+													<td colspan="2" width="200"><font color="red" size="2">
+															<s:fielderror name="error" />
+													</font></td>
 												</tr>
 												<tr>
 													<td width="100"><img border="0"
 														src="${pageContext.request.contextPath}/images/yonghu.gif"
 														width="84" height="20"></td>
 													<td><input type="text" name="name"
-														style="width: 100 px" value="" maxlength="25"></td>
+														style="width: 100 px" value="<%=logonName %>" maxlength="25"></td>
 
 												</tr>
 												<tr>
@@ -103,8 +121,33 @@ FORM {
 														src="${pageContext.request.contextPath}/images/mima.gif"
 														width="84" height="20"></td>
 													<td><input type="password" name="password"
-														style="width: 100 px" value="" maxlength="25"></td>
+														style="width: 100 px" value="<%=logonPwd %>" maxlength="25"></td>
 
+												</tr>
+												<tr>
+													<td width="100">
+														<img border="0" src="${pageContext.request.contextPath}/images/check.jpg" width="84" height="20">
+													</td>
+													<td>
+														<table>
+															<tr>
+																<td>
+																	<input type="text" name="checkNum" style="width: 20 px" value="" maxlength="4">
+																</td>
+																<td>
+																	<img style="cursor: hand" name="checkNumImage" height="20px" src="image.jsp" title="点击切换下一张图片" onclick="changeImgage(this)">
+																</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<img border="0"  src="${pageContext.request.contextPath}/images/remeber.jpg" width="84" height="20">
+													</td>
+													<td>
+														<input type="checkbox" name="remeber" id="remeber" value="yes" checked="<%=checked %>">
+													</td>
 												</tr>
 												<tr>
 													<td width="100"></td>
@@ -112,7 +155,6 @@ FORM {
 														class=btn_mouseout
 														onmouseover="this.className='btn_mouseover'"
 														onmouseout="this.className='btn_mouseout'" value="登录"></td>
-
 												</tr>
 											</table>
 										</td>

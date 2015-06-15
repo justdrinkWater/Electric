@@ -1,15 +1,15 @@
 package com.sw.elec.web.action;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sw.elec.container.ServiceProvider;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecCommonMsgService;
 import com.sw.elec.service.IElecUserService;
+import com.sw.elec.util.LogonUtils;
 import com.sw.elec.util.MD5keyBean;
 import com.sw.elec.web.form.ElecCommonMsgForm;
 import com.sw.elec.web.form.ElecMenuForm;
@@ -31,7 +31,12 @@ public class ElecMenuAction extends BaseAction implements
 		return elecMenuForm;
 	}
 
-	public String home() {
+	public String home() throws UnsupportedEncodingException {
+		// 添加验证码的功能
+		if (!LogonUtils.checkNum(request)) {
+			this.addFieldError("error", "验证码输入错误，请重新输入！");
+			return "error";
+		}
 		// 首先需要得到用户首页填写的用户名和密码
 		String logonName = elecMenuForm.getName();
 		String logonPw = elecMenuForm.getPassword();
@@ -63,6 +68,9 @@ public class ElecMenuAction extends BaseAction implements
 			HashMap<String, String> map = elecUserService
 					.findUserRoles(logonName);
 			this.request.getSession().setAttribute("globle_roles", map);
+
+			// 添加记住用户名密码的功能
+			LogonUtils.remeberUser(request,response);
 		}
 
 		// 有权限，则可以进入系统
@@ -110,8 +118,9 @@ public class ElecMenuAction extends BaseAction implements
 		this.request.setAttribute("comMsg", list);
 		return "alermZD";
 	}
-	public String logout(){
-		//退出的时候需要清空session
+
+	public String logout() {
+		// 退出的时候需要清空session
 		this.request.getSession().invalidate();
 		return "logout";
 	}
