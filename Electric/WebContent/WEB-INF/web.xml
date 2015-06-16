@@ -11,6 +11,20 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:beans.xml</param-value>
 	</context-param>
+	<!-- 过滤器,拦截所有的以jsp和do结尾的请求 -->
+	<filter>
+		<filter-name>LogonFilter</filter-name>
+		<filter-class>com.sw.elec.filter.LogonFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogonFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LogonFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -19,6 +33,7 @@
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 	<servlet>
 		<servlet-name>checkLogonName</servlet-name>
 		<servlet-class>com.sw.elec.servlet.CheckLogonName</servlet-class>
@@ -27,6 +42,11 @@
 		<servlet-name>checkLogonName</servlet-name>
 		<url-pattern>/checkLogonName</url-pattern>
 	</servlet-mapping>
+
+	<!-- 配置session的过期时间,一般都是半个小时 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
