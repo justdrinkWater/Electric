@@ -107,6 +107,16 @@
 				<param name="namespace">/system</param>
 			</result>
 		</action>
+		<!-- 日志管理 -->
+		<action name="elecLogAction_*" class="com.sw.elec.web.action.ElecLogAction" method="{1}">
+			<result name="home">
+				/WEB-INF/page/system/logIndex.jsp
+			</result>
+			<result name="list" type="redirectAction">
+				<param name="actionName">elecLogAction_home</param>
+				<param name="namespace">/system</param>
+			</result>
+		</action>
 		<!-- 测试用的 -->
 		<action name="elecTextAction_*" class="com.sw.elec.web.action.ElecTextAction"
 			method="{1}">

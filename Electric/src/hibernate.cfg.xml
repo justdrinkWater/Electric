@@ -35,5 +35,6 @@
 		<mapping resource="com/sw/elec/domain/ElecUser.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecRolePopedom.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecUserRole.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecLog.hbm.xml"></mapping>
 	</session-factory>
 </hibernate-configuration>	

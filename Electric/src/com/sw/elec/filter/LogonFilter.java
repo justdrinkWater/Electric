@@ -53,7 +53,7 @@ public class LogonFilter implements Filter {
 			chain.doFilter(servletRequest, servletResponse);
 			return;
 		} else {
-			servletResponse.sendRedirect(servletRequest.getContextPath() + "/");
+			servletResponse.sendRedirect("/Electric");
 		}
 	}
 

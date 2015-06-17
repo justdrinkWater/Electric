@@ -8,6 +8,7 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sw.elec.container.ServiceProvider;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecCommonMsgService;
+import com.sw.elec.service.IElecLogService;
 import com.sw.elec.service.IElecUserService;
 import com.sw.elec.util.LogonUtils;
 import com.sw.elec.util.MD5keyBean;
@@ -23,6 +24,9 @@ public class ElecMenuAction extends BaseAction implements
 
 	private IElecUserService elecUserService = (IElecUserService) ServiceProvider
 			.getService(IElecUserService.SERVICE_NAME);
+
+	private IElecLogService elecLogService = (IElecLogService) ServiceProvider
+			.getService(IElecLogService.SERVICE_NAME);
 
 	private ElecMenuForm elecMenuForm = new ElecMenuForm();
 
@@ -70,7 +74,10 @@ public class ElecMenuAction extends BaseAction implements
 			this.request.getSession().setAttribute("globle_roles", map);
 
 			// 添加记住用户名密码的功能
-			LogonUtils.remeberUser(request,response);
+			LogonUtils.remeberUser(request, response);
+			
+			//增加日志的功能
+			elecLogService.addLog(request,"登录了本系统");
 		}
 
 		// 有权限，则可以进入系统
