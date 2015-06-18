@@ -1,14 +1,18 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@page import="com.sw.elec.util.PageBean"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<script language="javascript">
+<script type="text/javascript">
+	
 </script>
 <HTML>
 <HEAD>
 <title>用户管理</title>
 <LINK href="${pageContext.request.contextPath }/css/Style.css"
 	type="text/css" rel="stylesheet">
-<script language="javascript"
+<script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/function.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/script/page.js"></script>
 </HEAD>
 
 <body>
@@ -119,6 +123,66 @@
 									</tr>
 								</s:iterator>
 							</s:if>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td width="100%" height="1" colspan="4">
+						<table border="0" width="100%" cellspacing="0" cellpadding="0">
+							<%
+								PageBean pagebean = (PageBean) request.getAttribute("page");
+							%>
+							<tr>
+								<td width="15%" align="left">总记录数：<%=pagebean.getTotalResult()%>条
+								</td>
+								<td width="14%" align="right"></td>
+								<%
+									if (pagebean.getFirstPage()) {
+								%>
+								<td width="8%" align="center">首页&nbsp;&nbsp;|</td>
+								<td width="10%" align="center">上一页&nbsp;&nbsp;&nbsp;|</td>
+								<%
+									} else {
+								%>
+								<td width="8%" align="center"><u><a href="#"
+										onClick="gotopage('system/elecUserAction_home.do','start')">首页&nbsp;&nbsp;|</a></u></td>
+								<td width="10%" align="center"><u><a href="#"
+										onClick="gotopage('system/elecUserAction_home.do','prev')">上一页&nbsp;&nbsp;&nbsp;|</a></u></td>
+								<%
+									}
+								%>
+								<%
+									if (pagebean.getLastPage()) {
+								%>
+								<td width="10%" align="center">下一页&nbsp;&nbsp;&nbsp;|</td>
+								<td width="8%" align="center">末页</td>
+								<%
+									} else {
+								%>
+								<td width="10%" align="center"><u><a href="#"
+										onClick="gotopage('system/elecUserAction_home.do','next')">下一页&nbsp;&nbsp;&nbsp;|</a></u></td>
+								<td width="8%" align="center"><u><a href="#"
+										onClick="gotopage('system/elecUserAction_home.do','end')">末页</a></u></td>
+								<%
+									}
+								%>
+								<td width="6%" align="center">第<%=pagebean.getPageNo()%>页
+								</td>
+								<td width="6%" align="center">共<%=pagebean.getSumPage()%>页
+								</td>
+								<td width="21%" align="right">至第<input size="1" type="text"
+									name="goPage">页 <u><a href="#"
+										onClick="gotopage('system/elecUserAction_home.do','go')">确定</a></u></td>
+								<td><input type="hidden" name="pageNO"
+									value="<%=pagebean.getPageNo()%>"></td>
+								<td><input type="hidden" name="prevpageNO"
+									value="<%=(pagebean.getPageNo() - 1)%>"></td>
+								<td><input type="hidden" name="nextpageNO"
+									value="<%=(pagebean.getPageNo() + 1)%>"></td>
+								<td><input type="hidden" name="sumPage"
+									value="<%=pagebean.getSumPage()%>"></td>
+								<td><input type="hidden" name="pageSize" value=""></td>
+							</tr>
 						</table>
 					</td>
 				</tr>
