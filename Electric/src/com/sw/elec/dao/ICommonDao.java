@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.sw.elec.util.PageInfo;
+
 public interface ICommonDao<T> {
 	public void save(T entity);
 
@@ -19,5 +21,9 @@ public interface ICommonDao<T> {
 			Object[] params, LinkedHashMap<String, String> orderBy);
 
 	public void saveObjectsByCollection(List<T> entities);
+
+	List<T> findCollectionByConditionWithPage(String hqlWhere,
+			Object[] params, LinkedHashMap<String, String> orderBy,
+			PageInfo pageInfo);
 
 }

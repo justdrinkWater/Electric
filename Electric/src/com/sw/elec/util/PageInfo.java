@@ -31,13 +31,11 @@ public class PageInfo {
 		this.currentPageNo = req.getParameter("pageNO") != null
 				&& !req.getParameter("pageNO").equals("") ? new Integer(
 				req.getParameter("pageNO")).intValue() : 1;
-		this.pageSize = req.getParameter("pagesize") != null
-				&& !req.getParameter("pagesize").equals("") ? new Integer(
-				req.getParameter("pagesize")).intValue() : 10;
+		this.pageSize = req.getParameter("pageSize") != null
+				&& !req.getParameter("pageSize").equals("") ? new Integer(
+				req.getParameter("pageSize")).intValue() : 10;
 		if (this.pageSize <= 0) {
-
 			this.pageSize = 10;
-
 		}
 		this.req = req;
 	}
@@ -143,6 +141,7 @@ public class PageInfo {
 	public int getBeginResult() {
 
 		if (totalPage != 1) {
+			//判断当前页是否大于总共多少页
 			if (currentPageNo >= totalPage) {
 				currentPageNo = totalPage;
 				beginResult = (currentPageNo - 1) * pageSize;

@@ -28,8 +28,13 @@ public class ElecUserAction extends BaseAction implements
 	}
 
 	public String home() {
-		List<ElecUserForm> list = elecUserService.findUsers(elecUserForm);
+		//List<ElecUserForm> list = elecUserService.findUsers(elecUserForm);
+		List<ElecUserForm> list = elecUserService.findUsersWithPage(elecUserForm,request);
 		this.request.setAttribute("userList", list);
+		String homeflag = this.request.getParameter("homeflag");
+		if(homeflag != null && "1".equals(homeflag)){
+			return "userList";
+		}
 		return "home";
 	}
 

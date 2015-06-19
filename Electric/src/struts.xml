@@ -92,6 +92,9 @@
 			<result name="edit">
 				/WEB-INF/page/system/userEdit.jsp
 			</result>
+			<result name="userList">
+				/WEB-INF/page/system/userList.jsp
+			</result>
 		</action>
 		<!-- 权限管理 -->
 		<action name="elecUserRoleAction_*" class="com.sw.elec.web.action.ElecUserRoleAction"

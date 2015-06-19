@@ -13,5 +13,4 @@ public interface IElecUserDao extends ICommonDao<ElecUser> {
 
 	List<Object[]> findUserRoles(String logonName);
 
-
 }

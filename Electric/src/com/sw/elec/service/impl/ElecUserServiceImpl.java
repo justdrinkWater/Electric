@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import com.sw.elec.dao.IElecUserDao;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecUserService;
 import com.sw.elec.util.MD5keyBean;
+import com.sw.elec.util.PageBean;
+import com.sw.elec.util.PageInfo;
 import com.sw.elec.util.StringHelper;
 import com.sw.elec.web.form.ElecUserForm;
 
@@ -221,6 +224,35 @@ public class ElecUserServiceImpl implements IElecUserService {
 			map.put(objects[0].toString(), objects[1].toString());
 		}
 		return map;
+	}
+
+	// 查找用户分页形式
+	/**
+	 * 现在需要考虑两种情况 1、带关键字的条件的查找 2、不带关键字的查找，就是查找所有的用户
+	 */
+	@Override
+	public List<ElecUserForm> findUsersWithPage(ElecUserForm elecUserForm,
+			HttpServletRequest request) {
+		String userName = elecUserForm.getUserName();
+		PageInfo pageInfo = new PageInfo(request);
+		List<ElecUserForm> listUserForm = new ArrayList<ElecUserForm>();
+		String hqlWhere = "";
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
+		orderBy.put(" o.userID", "desc");
+		List<ElecUser> listUser = null;
+		// 现在考虑不带关键字的查找
+		if (elecUserForm != null && userName != null) {
+			hqlWhere = " and o.userName like ?";
+			Object[] params = { "%" + userName + "%" };
+			listUser = elecUserDao.findCollectionByConditionWithPage(hqlWhere,
+					params, orderBy, pageInfo);
+		} else {
+			listUser = elecUserDao.findCollectionByConditionWithPage(hqlWhere,
+					null, orderBy, pageInfo);
+		}
+		listUserForm = this.convertPoToVoList(listUser);
+		request.setAttribute("page", pageInfo.getPageBean());
+		return listUserForm;
 	}
 
 }

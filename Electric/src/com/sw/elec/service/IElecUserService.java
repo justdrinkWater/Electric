@@ -3,6 +3,8 @@ package com.sw.elec.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.web.form.ElecUserForm;
 
@@ -25,5 +27,8 @@ public interface IElecUserService {
 	String getPopedomByLogonName(String logonName);
 
 	HashMap<String, String> findUserRoles(String logonName);
+
+	List<ElecUserForm> findUsersWithPage(ElecUserForm elecUserForm,
+			HttpServletRequest request);
 
 }

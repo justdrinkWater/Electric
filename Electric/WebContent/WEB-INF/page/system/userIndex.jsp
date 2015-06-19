@@ -11,8 +11,10 @@
 	type="text/css" rel="stylesheet">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/function.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/script/pub.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/page.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/script/validate.js"></script>
 </HEAD>
 
 <body>
@@ -34,6 +36,9 @@
 						name="userName" /> <font face="宋体" color="red"></font></td>
 			</tr>
 		</table>
+		<input type="hidden" id="pageNO" name="pageNO" value="">
+		<input type="hidden" id="pageSize" name="pageSize" value="">
+		<input type="hidden" id="homeflag" name="homeflag" value="1">
 	</s:form>
 
 	<s:form id="Form2" name="Form2" method="post">
@@ -58,7 +63,7 @@
 					</td>
 					<td class="ta_01" align="right"><input
 						style="font-size: 12px; color: black;" id="BT_Add" type="button"
-						value="查询" name="BT_find" onclick="document.forms[0].submit()">&nbsp;&nbsp;
+						value="查询" name="BT_find" onclick="gotoquery('system/elecUserAction_home.do')">&nbsp;&nbsp;
 						<input style="font-size: 12px; color: black;" id="BT_Add"
 						type="button" value="添加用户" name="BT_Add"
 						onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_add.do','700','400')"></td>

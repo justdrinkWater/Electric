@@ -16,7 +16,9 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sw.elec.dao.ICommonDao;
+import com.sw.elec.domain.ElecUser;
 import com.sw.elec.util.GenericSuperClass;
+import com.sw.elec.util.PageInfo;
 
 public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 		ICommonDao<T> {
@@ -112,5 +114,34 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 		for (T t : entities) {
 			this.getHibernateTemplate().save(t);
 		}
+	}
+
+	//含分页的查找
+	@Override
+	public List<T> findCollectionByConditionWithPage(String hqlWhere,
+			Object[] params, LinkedHashMap<String, String> orderBy,
+			PageInfo pageInfo) {
+		String hql = "from " + entity.getSimpleName() + " o where 1=1";
+
+		String hqlOrderBy = this.orderByCondition(orderBy);
+		hql = hql + hqlWhere + hqlOrderBy;
+		final String finalHql = hql;
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		List<T> list = (List<T>) this.getHibernateTemplate().execute(
+				new HibernateCallback() {
+
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException {
+						Query query = session.createQuery(finalHql);
+						setParameters(params, query);
+						pageInfo.setTotalResult(query.list().size());
+						query.setFirstResult(pageInfo.getBeginResult());
+						query.setMaxResults(pageInfo.getPageSize());
+						return query.list();
+					}
+
+				});
+		return list;
 	}
 }

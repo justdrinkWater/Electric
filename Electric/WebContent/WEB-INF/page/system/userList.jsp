@@ -36,14 +36,6 @@
 				<%
 					}
 				%></td>
-			<td class="ta_01" align="right"><input
-				style="font-size: 12px; color: black;" id="BT_Export" type="button"
-				value="导出Excel" name="BT_Export" onclick="exportExcel()"></td>
-			<td class="ta_01" align="right"><input
-				style="font-size: 12px; color: black;" id="BT_Import" type="button"
-				value="导入Excel" name="BT_Import"
-				onclick="openWindow('system/elecUserAction_importpage.do','700','400')">
-			</td>
 		</tr>
 		<tr>
 			<td class="ta_01" align="center" bgColor="#f5fafe" colspan="4">
@@ -157,7 +149,7 @@
 						<td width="8%" align="center"><u><a href="#"
 								onClick="gotopage('system/elecUserAction_home.do','end')">末页</a></u></td>
 						<%
-							}
+							} 
 						%>
 						<td width="6%" align="center">第<%=pagebean.getPageNo()%>页
 						</td>
