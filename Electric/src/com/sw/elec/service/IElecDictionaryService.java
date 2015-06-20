@@ -12,4 +12,5 @@ public interface IElecDictionaryService {
 	List<ElecDictionaryForm> findDDlNameByKeyword(String keyword);
 
 	void saveDictionary(ElecDictionaryForm elecDictionaryForm);
+
 }

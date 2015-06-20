@@ -1,5 +1,6 @@
 package com.sw.elec.web.form;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -32,6 +33,26 @@ public class ElecUserForm implements Serializable {
 	private String md5Flag;// 表示是否需要对这个密码进行加密，因为在编辑用户的时候不需要再次进行加密
 
 	private String roleflag;// 用于判断当前的用户是否是系统管理员或者是高级管理员,当为1时，表示不是，为空则是
+
+	private File file;// 导入excel的文件
+
+	private String fileExtension;// 文件的扩展名，struct2上传文件会只会将文件变成文件输入流，所以无法获得文件的后缀名
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
 
 	public String getUserID() {
 		return userID;

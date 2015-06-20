@@ -36,6 +36,14 @@
 				<%
 					}
 				%></td>
+			<td class="ta_01" align="right"><input
+				style="font-size: 12px; color: black;" id="BT_Export" type="button"
+				value="导出Excel" name="BT_Export" onclick="exportExcel()"></td>
+			<td class="ta_01" align="right"><input
+				style="font-size: 12px; color: black;" id="BT_Import" type="button"
+				value="导入Excel" name="BT_Import"
+				onclick="openWindow('system/elecUserAction_importpage.do','700','400')">
+			</td>
 		</tr>
 		<tr>
 			<td class="ta_01" align="center" bgColor="#f5fafe" colspan="4">

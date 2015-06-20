@@ -2,8 +2,13 @@
 <%@page import="com.sw.elec.util.PageBean"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <script type="text/javascript">
-	
+function exportExcel(){
+    var userName = document.getElementById("userName").value;
+    var path = '${pageContext.request.contextPath }/system/elecUserAction_exportExcel.do?userName='+'张';
+  	openWindow(path,'700','400');
+  }
 </script>
+<%String popedom = (String)request.getSession().getAttribute("globle_popedom"); %>
 <HTML>
 <HEAD>
 <title>用户管理</title>
@@ -32,8 +37,9 @@
 			<tr>
 				<td class="ta_01" align="center" bgcolor="#f5fafe" height="22">
 					姓名：</td>
-				<td class="ta_01"><s:textfield id="userName" size="21"
-						name="userName" /> <font face="宋体" color="red"></font></td>
+				<td class="ta_01">
+					<s:textfield id="userName" size="21" name="userName" /> 
+				</td>
 			</tr>
 		</table>
 		<input type="hidden" id="pageNO" name="pageNO" value="">
@@ -64,13 +70,24 @@
 					<td class="ta_01" align="right"><input
 						style="font-size: 12px; color: black;" id="BT_Add" type="button"
 						value="查询" name="BT_find" onclick="gotoquery('system/elecUserAction_home.do')">&nbsp;&nbsp;
+						<%if(popedom.contains("l")){ %>
 						<input style="font-size: 12px; color: black;" id="BT_Add"
 						type="button" value="添加用户" name="BT_Add"
-						onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_add.do','700','400')"></td>
+						onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_add.do','700','400')">
+						<%} %>
+					</td>
+					<td class="ta_01" align="right">
+					    <input style="font-size:12px; color:black; height=20;width=80" id="BT_Export" type="button" value="导出Excel" name="BT_Export" 
+						 onclick="exportExcel()">
+					</td>
+					<td class="ta_01" align="right">
+					    <input style="font-size:12px; color:black; height=20;width=80" id="BT_Import" type="button" value="导入Excel" name="BT_Import" 
+						 onclick="openWindow('system/elecUserAction_importpage.do','700','400')">
+					</td>
 				</tr>
 
 				<tr>
-					<td class="ta_01" align="center" bgColor="#f5fafe" colspan=3>
+					<td class="ta_01" align="center" bgColor="#f5fafe" colspan=4>
 						<table cellspacing="0" cellpadding="1" rules="all"
 							bordercolor="gray" border="1" id="DataGrid1"
 							style="BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; WIDTH: 100%; WORD-BREAK: break-all; BORDER-BOTTOM: gray 1px solid; BORDER-COLLAPSE: collapse; BACKGROUND-COLOR: #f5fafe; WORD-WRAP: break-word">
@@ -111,20 +128,28 @@
 										<td style="HEIGHT: 22px" align="center" width="10%"><s:property
 												value="%{#user.isDuty}" /></td>
 										<td align="center" style="HEIGHT: 22px" align="center"
-											width="10%"><a href="#"
+											width="10%">
+											<%if(popedom.contains("n")){ %>
+											<a href="#"
 											onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_edit.do?userID=<s:property value="%{#user.userID}"/>','700','400');">
 												<img
 												src="${pageContext.request.contextPath }/images/edit.gif"
 												border="0" style="CURSOR: hand">
-										</a></td>
+										</a>
+											<%} %>
+										</td>
 										<td align="center" style="HEIGHT: 22px" align="center"
-											width="10%"><a
+											width="10%">
+											<%if(popedom.contains("m")){ %>
+											<a
 											href="${pageContext.request.contextPath }/system/elecUserAction_delete.do?userID=<s:property value="%{#user.userID}"/>"
 											onclick="return confirm('你确定要删除  <s:property value="%{#user.userName}"/>？')">
 												<img
 												src="${pageContext.request.contextPath }/images/delete.gif"
 												width="16" height="16" border="0" style="CURSOR: hand">
-										</a></td>
+										</a>
+										<%} %>
+										</td>
 									</tr>
 								</s:iterator>
 							</s:if>

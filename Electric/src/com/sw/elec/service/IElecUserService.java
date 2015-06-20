@@ -1,5 +1,6 @@
 package com.sw.elec.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,5 +31,11 @@ public interface IElecUserService {
 
 	List<ElecUserForm> findUsersWithPage(ElecUserForm elecUserForm,
 			HttpServletRequest request);
+
+	void saveUserByFile(ElecUserForm elecUserForm);
+
+	List<String> getFiledNamesWhenExportExcel(ElecUserForm elecUserForm);
+
+	ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(ElecUserForm elecUserForm);
 
 }

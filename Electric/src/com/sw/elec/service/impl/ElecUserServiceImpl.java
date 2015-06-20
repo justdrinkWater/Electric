@@ -1,5 +1,7 @@
 package com.sw.elec.service.impl;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -15,8 +17,8 @@ import com.sw.elec.dao.IElecDictionaryDao;
 import com.sw.elec.dao.IElecUserDao;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecUserService;
+import com.sw.elec.util.ImportExecl;
 import com.sw.elec.util.MD5keyBean;
-import com.sw.elec.util.PageBean;
 import com.sw.elec.util.PageInfo;
 import com.sw.elec.util.StringHelper;
 import com.sw.elec.web.form.ElecUserForm;
@@ -254,5 +256,74 @@ public class ElecUserServiceImpl implements IElecUserService {
 		request.setAttribute("page", pageInfo.getPageBean());
 		return listUserForm;
 	}
+	//从excel中得到sql语句，在进行往数据库存储
+	@Override
+	public void saveUserByFile(ElecUserForm elecUserForm) {
+		File file = elecUserForm.getFile();
+		String filePath = file.getAbsolutePath();
+		List<Object[]> list = ImportExecl.read(filePath,elecUserForm.getFileExtension());
+		List<ElecUser> userList = new ArrayList<ElecUser>();
+		ElecUser user = null;
+		//取出各个Object数组的值组成User对象
+		for (Object[] objects : list) {
+			user = new ElecUser();
+			user.setLogonName(objects[0].toString());
+			user.setLogonPwd(objects[1].toString());
+			user.setUserName(objects[2].toString());
+			user.setSexID(objects[3].toString());
+			user.setJctID(objects[4].toString());
+			user.setContactTel(objects[5].toString());
+			user.setIsDuty(objects[6].toString());
+			userList.add(user);
+		}
+		//存入数据库中
+		elecUserDao.saveObjectsByCollection(userList);
+	}
 
+	//得到导出excel时的属性名称
+	@Override
+	public ArrayList<String> getFiledNamesWhenExportExcel(ElecUserForm elecUserForm) {
+		//就是在界面上显示的属性：登录名 用户姓名 性别 联系电话 是否在职
+		//当然这里写死了，可以写成从配置文件中读取需要哪些属性
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("登录名");
+		list.add("用户姓名");
+		list.add("性别");
+		list.add("联系电话");
+		list.add("是否在职");
+		return list;
+	}
+	//得到导出excel的数据，需要从数据库中查出来
+	@Override
+	public ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
+			ElecUserForm elecUserForm) {
+		//得到从数据库中查到的user列表
+		String userName = "";
+		try {
+			userName = new String(elecUserForm.getUserName().getBytes("ISO-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		List<ElecUser> list = new ArrayList<ElecUser>();
+		if (elecUserForm != null && userName != null) {
+			list = this.findUserByKeyword(userName);
+		} else {
+			list = this.findAllUser();
+		}
+		//再将需要导出到excel的属性挑出来
+		ArrayList<String> fieldList = null;
+		ArrayList<ArrayList<String>> fieldLists = new ArrayList<ArrayList<String>>();
+		List<ElecUserForm> listForm = this.convertPoToVoList(list);
+		for (ElecUserForm elecUserF : listForm) {
+			fieldList = new ArrayList<String>();
+			fieldList.add(elecUserF.getLogonName());
+			fieldList.add(elecUserF.getUserName());
+			fieldList.add(elecUserF.getSexID());
+			fieldList.add(elecUserF.getContactTel());
+			fieldList.add(elecUserF.getIsDuty());
+			fieldLists.add(fieldList);
+		}
+		return fieldLists;
+	}
+	
 }

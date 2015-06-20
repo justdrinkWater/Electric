@@ -9,6 +9,8 @@
 	<constant name="struts.devMode" value="true"></constant>
 	<!-- 配置Struts的简单模式 -->
 	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<constant name="struts.i18n.encodeing" value="UTF-8"/>
 
 	<package name="system" namespace="/system" extends="struts-default">
 		<!-- 首页登录 -->
@@ -94,6 +96,17 @@
 			</result>
 			<result name="userList">
 				/WEB-INF/page/system/userList.jsp
+			</result>
+			<!-- 导入excel -->
+			<result name="importpage">
+				/WEB-INF/page/system/userImport.jsp
+			</result>
+			<result name="importdata">
+				/WEB-INF/page/system/userImport.jsp
+			</result>
+			<!-- 从数据库中到处数据 -->
+			<result name="export">
+				/WEB-INF/page/system/userIndex.jsp
 			</result>
 		</action>
 		<!-- 权限管理 -->
