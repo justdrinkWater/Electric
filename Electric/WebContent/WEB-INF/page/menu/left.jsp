@@ -174,7 +174,7 @@ TH {
 										onmouseover="backgroundColorChange(this,'white');"
 										onmouseout="backgroundColorChange(this,'');"><A
 										class="cl_01" onclick="linkcolorchange(this)"
-										href="${pageContext.request.contextPath }/equapment/equapmentIndex.jsp"
+										href="${pageContext.request.contextPath }/equapment/elecDeviceAction_home.do"
 										target="mainFrame">仪器设备管理</A></TD>
 								</TR>
 								<%}if(popedom.contains("b")){ %>

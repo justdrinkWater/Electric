@@ -242,7 +242,7 @@ public class ElecUserServiceImpl implements IElecUserService {
 		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
 		orderBy.put(" o.userID", "desc");
 		List<ElecUser> listUser = null;
-		// 现在考虑不带关键字的查找
+		// 现在考虑带关键字的查找
 		if (elecUserForm != null && userName != null) {
 			hqlWhere = " and o.userName like ?";
 			Object[] params = { "%" + userName + "%" };

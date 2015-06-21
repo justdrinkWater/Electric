@@ -9,8 +9,8 @@
 	<constant name="struts.devMode" value="true"></constant>
 	<!-- 配置Struts的简单模式 -->
 	<constant name="struts.ui.theme" value="simple"></constant>
-	
-	<constant name="struts.i18n.encodeing" value="UTF-8"/>
+
+	<constant name="struts.i18n.encodeing" value="UTF-8" />
 
 	<package name="system" namespace="/system" extends="struts-default">
 		<!-- 首页登录 -->
@@ -124,7 +124,8 @@
 			</result>
 		</action>
 		<!-- 日志管理 -->
-		<action name="elecLogAction_*" class="com.sw.elec.web.action.ElecLogAction" method="{1}">
+		<action name="elecLogAction_*" class="com.sw.elec.web.action.ElecLogAction"
+			method="{1}">
 			<result name="home">
 				/WEB-INF/page/system/logIndex.jsp
 			</result>
@@ -138,6 +139,22 @@
 			method="{1}">
 			<result name="save">
 				/system/textAdd.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 技术设施维护管理 -->
+	<package name="equapment" namespace="/equapment" extends="struts-default">
+	<!-- 仪器设备管理 -->
+		<action name="elecDeviceAction_*" class="com.sw.elec.web.action.ElecDeviceAction"
+			method="{1}">
+			<result name="home">
+				/WEB-INF/page/equapment/equapmentIndex.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/page/equapment/equapmentEdit.jsp
+			</result>
+			<result name="equapmentList">
+				/WEB-INF/page/equapment/equapmentList.jsp
 			</result>
 		</action>
 	</package>

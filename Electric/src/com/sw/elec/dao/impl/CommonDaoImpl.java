@@ -16,7 +16,6 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sw.elec.dao.ICommonDao;
-import com.sw.elec.domain.ElecUser;
 import com.sw.elec.util.GenericSuperClass;
 import com.sw.elec.util.PageInfo;
 
@@ -122,7 +121,6 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 			Object[] params, LinkedHashMap<String, String> orderBy,
 			PageInfo pageInfo) {
 		String hql = "from " + entity.getSimpleName() + " o where 1=1";
-
 		String hqlOrderBy = this.orderByCondition(orderBy);
 		hql = hql + hqlWhere + hqlOrderBy;
 		final String finalHql = hql;

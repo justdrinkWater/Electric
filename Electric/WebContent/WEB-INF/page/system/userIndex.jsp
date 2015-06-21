@@ -16,10 +16,12 @@ function exportExcel(){
 	type="text/css" rel="stylesheet">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/function.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/script/pub.js"></script>
+<script type="text/javascript" 
+	src="${pageContext.request.contextPath }/script/pub.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/page.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/script/validate.js"></script>
+<script type="text/javascript" 
+	src="${pageContext.request.contextPath }/script/validate.js"></script>
 </HEAD>
 
 <body>

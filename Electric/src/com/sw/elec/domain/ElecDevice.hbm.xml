@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sw.elec.domain.ElecDevice" table="Elec_Device">
+		<id name="devID" type="string">
+			<column name="devID" not-null="true"></column>
+			<generator class="uuid"></generator>
+		</id>
+		<property name="devPlanID" type="string">
+			<column name="devPlanID"></column>
+		</property>
+		<property name="jctID" type="string">
+			<column name="jctID"></column>
+		</property>
+		<property name="devName" type="string">
+			<column name="devName"></column>
+		</property>
+		<property name="devType" type="string">
+			<column name="devType"></column>
+		</property>
+		<property name="trademark" type="string">
+			<column name="trademark"></column>
+		</property>
+		<property name="specType" type="string">
+			<column name="specType"></column>
+		</property>
+		<property name="produceHome" type="string">
+			<column name="produceHome"></column>
+		</property>
+		<property name="produceArea" type="string">
+			<column name="produceArea"></column>
+		</property>
+		<property name="useness" type="string">
+			<column name="useness"></column>
+		</property>
+		<property name="quality" type="string">
+			<column name="quality"></column>
+		</property>
+		<property name="useUnit" type="string">
+			<column name="useUnit"></column>
+		</property>
+		<property name="devExpense" type="double">
+			<column name="devExpense" sql-type="decimal(20,2)"></column>
+		</property>
+		<property name="adjustPeriod" type="string">
+			<column name="adjustPeriod"></column>
+		</property>
+		<property name="overhaulPeriod" type="string">
+			<column name="overhaulPeriod"></column>
+		</property>
+		<property name="configure" type="string">
+			<column name="configure"></column>
+		</property>
+		<property name="devState" type="string">
+			<column name="devState"></column>
+		</property>
+		<property name="runDescribe" type="string">
+			<column name="runDescribe"></column>
+		</property>
+		<property name="comment" type="string">
+			<column name="comment"></column>
+		</property>
+		<property name="useDate" type="date">
+			<column name="useDate" length="50"></column>
+		</property>
+		<property name="isDelete" type="string">
+			<column name="isDelete"></column>
+		</property>
+		<property name="createEmpID" type="string">
+			<column name="createEmpID"></column>
+		</property>
+		<property name="createDate" type="date">
+			<column name="createDate" length="50"></column>
+		</property>
+		<property name="lastEmpID" type="string">
+			<column name="lastEmpID"></column>
+		</property>
+		<property name="lastDate" type="date">
+			<column name="lastDate" length="50"></column>
+		</property>
+		<property name="qunit" type="string">
+			<column name="qunit"></column>
+		</property>
+		<property name="apUnit" type="string">
+			<column name="apUnit"></column>
+		</property>
+		<property name="opUnit" type="string">
+			<column name="opUnit"></column>
+		</property>
+		<property name="apState" type="string">
+			<column name="apState"></column>
+		</property>
+		<property name="opState" type="string">
+			<column name="opState"></column>
+		</property>
+	</class>
+</hibernate-mapping>
