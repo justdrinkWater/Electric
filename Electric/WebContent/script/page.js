@@ -1,5 +1,4 @@
 ﻿function gotopage(path, where) {
-	alert("1");
 	var page = document.Form2.pageNO;
 	if (where == "next") {
 		page.value = document.Form2.nextpageNO.value;

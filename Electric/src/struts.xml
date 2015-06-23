@@ -156,6 +156,13 @@
 			<result name="equapmentList">
 				/WEB-INF/page/equapment/equapmentList.jsp
 			</result>
+			<result name="add">
+				/WEB-INF/page/equapment/equapmentAdd.jsp
+			</result>
+			<result name="list" type="redirectAction">
+				<param name="actionName">elecDeviceAction_home</param>
+				<param name="namespace">/equapment</param>
+			</result>
 		</action>
 	</package>
 </struts>

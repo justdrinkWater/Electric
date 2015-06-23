@@ -72,7 +72,7 @@
 	        	window.close();
 	        },
 	        error:function(){
-	        	alert("编辑失败");
+	        	alert("添加失败");
 	        }
 	    }); 
 	}
@@ -129,7 +129,12 @@
 	} 
 </script>
 <title>
+	<s:if test="#request.addflag == '1'">
+		添加新的仪器设备
+	</s:if> 
+	<s:else>
 		仪器设备信息编辑
+	</s:else>
 </title>
 </head>
 
@@ -144,11 +149,15 @@
 					background="${pageContext.request.contextPath }/images/b-info.gif">
 					<font face="宋体" size="2">
 					<strong>
+						<s:if test="#request.addflag == '1'">
+							添加新的仪器设备
+						</s:if> 
+						<s:else>
 							仪器设备信息编辑
+						</s:else>
 					</strong></font>
 				</td>
 			</tr>
-				<s:hidden name="devID" id="devID"/>
 			<tr>
 				<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">设备名称：</td>
 				<td class="ta_01" bgColor="#ffffff">
@@ -219,7 +228,7 @@
 					<s:if test="#request.devStates != null">
 						<s:select list="%{#request.devStates}" name="devState" id="devState" cssClass="bg"
 								headerKey="0" headerValue=""
-								listKey="ddlCode" listValue="ddlName" value="devState">
+								listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>
 				</td>
@@ -256,7 +265,7 @@
 					<s:if test="#request.opUnits != null">
 						<s:select list="%{#request.opUnits}" name="opUnit" id="opUnit"
 									headerKey="" headerValue=""
-									listKey="ddlCode" listValue="ddlName" value="opUnit">
+									listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>
 					&nbsp;
@@ -273,7 +282,7 @@
 					 <s:if test="#request.apUnits != null">
 						<s:select list="%{#request.apUnits}" name="apUnit" id="apUnit"
 									headerKey="" headerValue=""
-									listKey="ddlCode" listValue="ddlName" value="apUnit">
+									listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>
 					 &nbsp;
@@ -284,7 +293,6 @@
 				<td class="ta_01" bgColor="#ffffff" colSpan="3">
 					<s:textarea name="runDescribe" id="runDescribe" cssStyle="WIDTH: 96%" rows="3"/>
 				</td>
-					
 			</tr>
 			<tr>
 				<td class="ta_01" align="center" bgColor="#f5fafe">
@@ -295,6 +303,7 @@
 			</tr>
 			<tr>
 				<td class="ta_01" style="width: 100%" align="center" bgColor="#f5fafe" colSpan="4">
+					<input type="hidden" name="devID"> 
 					<input type="button" name="BT_Submit" value="保存" id="BT_Submit" style="font-size: 12px; color: black;" onclick="check()">
 					<font face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font> 
 					<input style="font-size: 12px; color: black;" type="reset" value="关闭" ID="Reset1" NAME="Reset1" onClick="window.close();"> 

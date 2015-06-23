@@ -13,4 +13,8 @@ public interface IElecDeviceService {
 	List<ElecDeviceForm> findDevicesWithPage(ElecDeviceForm elecDeviceForm,
 			HttpServletRequest request);
 
+	void saveDevice(ElecDeviceForm elecDeviceForm,HttpServletRequest request);
+
+	ElecDeviceForm findDevice(String devID);
+
 }

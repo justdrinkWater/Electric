@@ -153,16 +153,21 @@
 				<TD class="DropShadow"
 					background="${pageContext.request.contextPath }/images/cotNavGround.gif"
 					width="80">设备信息列表</TD>
-				<td align="right" class="ta_01"><INPUT name="BT_Search"
-					type="button" id="BT_Search" value="查询"
-					style="font-size: 12px; color: black;" onclick="gotoquery('equapment/elecDeviceAction_home.do')">
+				<td align="right" class="ta_01">
+					<INPUT name="BT_Add"
+						type="button" id="BT_Add" value="添加"
+						style="font-size: 12px; color: black;" onclick="openWindow('elecDeviceAction_add.do','800','450')">
+					<INPUT name="BT_Search"
+						type="button" id="BT_Search" value="查询"
+						style="font-size: 12px; color: black;" onclick="gotoquery('elecDeviceAction_home.do')">
 					<input name="BT_export" type="button" " id="BT_export" value="导出"
-					style="font-size: 12px; color: black;"
-					onClick="openWindow('exportSarDevice.do','600','400')"> <input
-					type="button" name="setexcelExport"
-					style="font-size: 12px; color: black;" value="导出设置"
-					id="setexcelExport"
-					onClick="openWindow('equapmentExport.jsp','600','400')"></td>
+						style="font-size: 12px; color: black;"
+						onClick="openWindow('exportSarDevice.do','600','400')"> 
+					<input type="button" name="setexcelExport"
+						style="font-size: 12px; color: black;" value="导出设置"
+						id="setexcelExport"
+						onClick="openWindow('equapmentExport.jsp','600','400')">
+					</td>
 			</TR>
 		</TABLE>
 		<table cellpadding="0" cellspacing="0" border="0" width="90%"
@@ -195,10 +200,10 @@
 
 						</tr>
 						<s:if test="#request.listDevice != null">
-							<s:iterator value="%{#request.listDevice}" var="device">
+							<s:iterator value="%{#request.listDevice}" var="device" >
 								<tr onmouseover="this.style.backgroundColor = 'white'" onmouseout="this.style.backgroundColor = '#F5FAFE';">
 									<td align="center">
-										<s:property value="%{#device.devID}"/>
+										<s:property value="%{#device.num}"/>
 									</td>
 									<td align="center">
 										<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?editflag=0&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');" class="cl_01"> 
@@ -221,15 +226,15 @@
 										<s:property value="%{#device.jctID}"/>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
-										<a href="javascript:;"
-										onClick="openWindow('elecDeviceAction_edit.do?editflag=1&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');">
+										<a href="#"
+										onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>',800,450,'设备详细信息');">
 											<img src="${pageContext.request.contextPath }/images/edit.gif"
 											style="CURSOR: hand" border="0">
 										</a>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
-										<a href="javascript:Pub.submitActionWithForm('Form2','delDevice.do?devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=','Form1')"
-											onclick="return confirm('确认要删除吗？')"> 
+										<a href="javascript:Pub.submitActionWithForm('Form2','elecDeviceAction_delete.do?devId=<s:property value="%{#device.devID}"/>','Form1')"
+											onclick="return confirm('确认要删除<s:property value="%{#device.devName}"/>吗？')"> 
 												<img src="${pageContext.request.contextPath }/images/delete.gif"
 													style="CURSOR: hand" border="0">
 										</a>
