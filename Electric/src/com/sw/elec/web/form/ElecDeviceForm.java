@@ -49,7 +49,13 @@ public class ElecDeviceForm implements Serializable {
 
 	private String searchFlag;// 表示是否是查询，为1表示是查询
 
-	private String num;
+	private String viewflag;// 表示是否是查看(1)还是编辑
+
+	private String num;// 序号
+
+	private String names;// 需要导出的属性
+
+	private String fields;// 选择需要导出的id
 
 	public String getDevID() {
 		return devID;
@@ -305,6 +311,30 @@ public class ElecDeviceForm implements Serializable {
 
 	public void setNum(String num) {
 		this.num = num;
+	}
+
+	public String getNames() {
+		return names;
+	}
+
+	public void setNames(String names) {
+		this.names = names;
+	}
+
+	public String getFields() {
+		return fields;
+	}
+
+	public void setFields(String fields) {
+		this.fields = fields;
+	}
+
+	public String getViewflag() {
+		return viewflag;
+	}
+
+	public void setViewflag(String viewflag) {
+		this.viewflag = viewflag;
 	}
 
 }

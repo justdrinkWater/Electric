@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sw.elec.dao.ICommonDao;
 import com.sw.elec.util.GenericSuperClass;
 import com.sw.elec.util.PageInfo;
+import com.sw.elec.web.form.ElecDeviceForm;
 
 public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 		ICommonDao<T> {
@@ -142,4 +143,5 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 				});
 		return list;
 	}
+
 }

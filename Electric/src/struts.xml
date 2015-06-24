@@ -163,6 +163,9 @@
 				<param name="actionName">elecDeviceAction_home</param>
 				<param name="namespace">/equapment</param>
 			</result>
+			<result name="exportSet">
+				/WEB-INF/page/equapment/equapmentExport.jsp
+			</result>
 		</action>
 	</package>
 </struts>

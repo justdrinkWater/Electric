@@ -129,7 +129,12 @@
 	} 
 </script>
 <title>
-		仪器设备信息编辑
+	<s:if test="#request.viewflag == ''">
+			仪器设备信息编辑
+	</s:if>
+	<s:else>
+			仪器设备信息查看
+	</s:else>
 </title>
 </head>
 
@@ -144,7 +149,12 @@
 					background="${pageContext.request.contextPath }/images/b-info.gif">
 					<font face="宋体" size="2">
 					<strong>
-							仪器设备信息编辑
+						<s:if test="#request.viewflag == ''">
+								仪器设备信息编辑
+						</s:if>
+						<s:else>
+								仪器设备信息查看
+						</s:else>
 					</strong></font>
 				</td>
 			</tr>
@@ -295,7 +305,9 @@
 			</tr>
 			<tr>
 				<td class="ta_01" style="width: 100%" align="center" bgColor="#f5fafe" colSpan="4">
-					<input type="button" name="BT_Submit" value="保存" id="BT_Submit" style="font-size: 12px; color: black;" onclick="check()">
+					<s:if test="#request.viewflag == ''">
+						<input type="button" name="BT_Submit" value="保存" id="BT_Submit" style="font-size: 12px; color: black;" onclick="check()">
+					</s:if>
 					<font face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font> 
 					<input style="font-size: 12px; color: black;" type="reset" value="关闭" ID="Reset1" NAME="Reset1" onClick="window.close();"> 
 					<span id="Label1"></span>

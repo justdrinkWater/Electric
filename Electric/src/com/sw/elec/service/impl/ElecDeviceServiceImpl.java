@@ -1,9 +1,13 @@
 package com.sw.elec.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +70,7 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 					params[i] = paramsList.get(i);
 				}
 			}
-			if (hqlWhere != null) {
+			if (hqlWhere != null && !"".equals(hqlWhere)) {
 				listDevice = elecDeviceDao.findCollectionByConditionWithPage(
 						hqlWhere, params, orderBy, pageInfo);
 			} else {
@@ -74,17 +78,28 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 						hqlWhere, null, orderBy, pageInfo);
 			}
 		}
-		listDeviceForm = this.convertPoToVoList(listDevice);
+		listDeviceForm = this.convertPoToVoList(listDevice, pageInfo);
 		request.setAttribute("page", pageInfo.getPageBean());
 		return listDeviceForm;
 	}
 
 	// 将PO对象序列转化为VO对象序列
-	private List<ElecDeviceForm> convertPoToVoList(List<ElecDevice> listDevice) {
+	private List<ElecDeviceForm> convertPoToVoList(List<ElecDevice> listDevice,
+			PageInfo pageInfo) {
 		ElecDeviceForm elecDeviceForm = null;
+		int currentFist = 0;
+		if (pageInfo != null) {
+			if (pageInfo.getPageSize() < 10) {
+				currentFist = pageInfo.getTotalResult()
+						- pageInfo.getPageSize() + 1;
+			} else {
+				currentFist = pageInfo.getBeginResult() + 1;
+			}
+		}
 		List<ElecDeviceForm> listDeviceForm = new ArrayList<ElecDeviceForm>();
 		for (ElecDevice elecDevice : listDevice) {
 			elecDeviceForm = convertPoToVo(elecDevice);
+			elecDeviceForm.setNum(String.valueOf(currentFist++));
 			listDeviceForm.add(elecDeviceForm);
 		}
 		return listDeviceForm;
@@ -223,5 +238,94 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 		ElecDevice elecDevice = elecDeviceDao.findObjectByID(devID);
 		ElecDeviceForm deviceForm = this.convertPoToVo(elecDevice);
 		return deviceForm;
+	}
+
+	// 添加所有可以导出的属性名
+	@Override
+	public Map<String, String> getAllFiledNamesWhenExportExcel(
+			ElecDeviceForm elecDeviceForm) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("createEmpID", "创建人");
+		fields.put("createDate", "创建时间");
+		fields.put("lastEmpID", "修改人");
+		fields.put("lastDate", "修改时间");
+		fields.put("apState", "是否校准");
+		fields.put("opState", "是否检修");
+		fields.put("devName", "设备名称");
+		fields.put("jctID", "所属单位");
+		fields.put("devType", "设备类型");
+		fields.put("quality", "数量");
+		fields.put("qunit", "数量单位");
+		fields.put("devExpense", "金额");
+		fields.put("configure", "配置");
+		fields.put("specType", "规格型号");
+		fields.put("trademark", "品牌");
+		fields.put("devState", "状态");
+		fields.put("produceHome", "厂家");
+		fields.put("produceArea", "产地");
+		fields.put("useness", "用途");
+		fields.put("useUnit", "使用单位");
+		fields.put("overhaulPeriod", "检修周期");
+		fields.put("opUnit", "检修周期单位");
+		fields.put("useDate", "使用日期");
+		fields.put("adjustPeriod", "校准周期");
+		fields.put("apUnit", "校准周期单位");
+		fields.put("runDescribe", "运行情况描述");
+		fields.put("comment", "备注");
+		return fields;
+	}
+
+	@Override
+	public ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
+			ElecDeviceForm elecDeviceForm, ArrayList<String> fields) {
+		// 从数据库中得到所有的device
+		List<ElecDevice> list = this.findAllDevice();
+		ArrayList<String> fieldList = null;
+		ArrayList<ArrayList<String>> fieldLists = new ArrayList<ArrayList<String>>();
+		// 将PO转成VO对象
+		List<ElecDeviceForm> listForm = this.convertPoToVoList(list, null);
+
+		Class clazz = elecDeviceForm.getClass();
+		Method getMethod = null;
+		ArrayList<String> methodList = new ArrayList<String>();
+		// 需要拼出方法
+		for (String string : fields) {
+			String getMethodStr = "";
+			getMethodStr = "get" + string.substring(0, 1).toUpperCase()
+					+ string.substring(1);
+			methodList.add(getMethodStr);
+		}
+		for (ElecDeviceForm elecDForm : listForm) {
+			fieldList = new ArrayList<String>();
+			for (String string : methodList) {
+				try {
+					getMethod = clazz.getMethod(string, null);
+					try {
+						fieldList.add((String) getMethod.invoke(elecDForm, null));
+					} catch (IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+			fieldLists.add(fieldList);
+
+		}
+		return fieldLists;
+	}
+
+	// 找出所有的device
+	private List<ElecDevice> findAllDevice() {
+		String hqlWhere = "";
+		Object[] params = {};
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
+		orderBy.put(" o.createDate", " desc ");
+		List<ElecDevice> list = elecDeviceDao.findCollectionByConditionNoPage(
+				hqlWhere, params, orderBy);
+		return list;
 	}
 }

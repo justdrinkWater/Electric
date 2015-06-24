@@ -59,7 +59,6 @@
 		<input type="hidden" name="searchFlag" value="1">
 		<input type="hidden" name="pageNO" value=""> 
 		<input type="hidden" name="pageSize" value="">
-		<input type="hidden" name="sumPage"	value="">
 
 		<table cellspacing="1" cellpadding="0" width="90%" align="center"
 			bgcolor="#f5fafe" border="0">
@@ -162,11 +161,11 @@
 						style="font-size: 12px; color: black;" onclick="gotoquery('elecDeviceAction_home.do')">
 					<input name="BT_export" type="button" " id="BT_export" value="导出"
 						style="font-size: 12px; color: black;"
-						onClick="openWindow('exportSarDevice.do','600','400')"> 
+						onClick="openWindow('elecDeviceAction_export.do','600','400')"> 
 					<input type="button" name="setexcelExport"
 						style="font-size: 12px; color: black;" value="导出设置"
 						id="setexcelExport"
-						onClick="openWindow('equapmentExport.jsp','600','400')">
+						onClick="openWindow('elecDeviceAction_exportSet.do','600','400')">
 					</td>
 			</TR>
 		</TABLE>
@@ -206,7 +205,7 @@
 										<s:property value="%{#device.num}"/>
 									</td>
 									<td align="center">
-										<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?editflag=0&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');" class="cl_01"> 
+										<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>&viewflag=1',800,450,'设备详细信息');" class="cl_01"> 
 											<s:property value="%{#device.devName}"/>
 										</a>
 									</td>
@@ -257,14 +256,14 @@
 							<%
 								if(pagebean.getFirstPage()){
 							%>
-							<td width="5%" align="center">首页&nbsp;&nbsp;|</td>
+							<td width="5%" align="center">首&nbsp;页&nbsp;|</td>
 							<td width="7%" align="center">上一页&nbsp|</td>
 							<%
 								}else{
 							%>
 							<td width="5%" align="center">
 								<u>
-									<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首页&nbsp;&nbsp;|</a>
+									<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
 								</u>
 								
 							</td>
@@ -306,8 +305,7 @@
 									value="<%=(pagebean.getPageNo() + 1)%>"></td>
 								<td><input type="hidden" name="sumPage"
 									value="<%=pagebean.getSumPage()%>"></td>
-								<td><input type="hidden" name="pageSize" value=""></td>
-							<td>
+								<td><input type="hidden" name="pageSize" value="">
 							</td>
 						</tr>
 					</table>

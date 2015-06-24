@@ -1,15 +1,19 @@
 package com.sw.elec.web.action;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sw.elec.container.ServiceProvider;
 import com.sw.elec.service.IElecDeviceService;
 import com.sw.elec.service.IElecDictionaryService;
+import com.sw.elec.util.ExcelFileGenerator;
 import com.sw.elec.web.form.ElecDeviceForm;
 import com.sw.elec.web.form.ElecDictionaryForm;
-import com.sw.elec.web.form.ElecUserForm;
 
 @SuppressWarnings("serial")
 public class ElecDeviceAction extends BaseAction implements
@@ -47,7 +51,7 @@ public class ElecDeviceAction extends BaseAction implements
 		List<ElecDictionaryForm> devStates = elecDictionaryService
 				.findDDlNameByKeyword("设备状态");
 		List<ElecDictionaryForm> opUnits = elecDictionaryService
-				.findDDlNameByKeyword("检修周期单位");		
+				.findDDlNameByKeyword("检修周期单位");
 		List<ElecDictionaryForm> apUnits = elecDictionaryService
 				.findDDlNameByKeyword("校准周期单位");
 		this.request.setAttribute("jctIDs", jctIDs);
@@ -56,8 +60,8 @@ public class ElecDeviceAction extends BaseAction implements
 		this.request.setAttribute("opUnits", opUnits);
 		this.request.setAttribute("apUnits", apUnits);
 	}
-	
-	public String add(){
+
+	public String add() {
 		this.initDictionary();
 		this.request.setAttribute("addflag", "1");
 		return "add";
@@ -65,13 +69,74 @@ public class ElecDeviceAction extends BaseAction implements
 
 	public String edit() {
 		this.initDictionary();
-		ElecDeviceForm elecDevice = elecDeviceService.findDevice(elecDeviceForm.getDevID());
-		ActionContext.getContext().getValueStack().push(elecDevice);
+		ElecDeviceForm elecDeviceF = elecDeviceService.findDevice(elecDeviceForm
+				.getDevID());
+		if("1".equals(elecDeviceForm.getViewflag())){
+			this.request.setAttribute("viewflag", "1");
+		}
+		ActionContext.getContext().getValueStack().push(elecDeviceF);
 		return "edit";
 	}
-	
-	public String save(){
-		elecDeviceService.saveDevice(elecDeviceForm,request);
+
+	public String save() {
+		elecDeviceService.saveDevice(elecDeviceForm, request);
 		return "list";
+	}
+
+	public String exportSet() {
+		Map<String, String> fields = elecDeviceService
+				.getAllFiledNamesWhenExportExcel(elecDeviceForm);
+		this.request.setAttribute("fields", fields);
+		return "exportSet";
+	}
+
+	public String setExportExcel(){
+		List<String> nams =getBySelected(elecDeviceForm.getNames());
+		List<String> fields = getBySelected(elecDeviceForm.getFields());
+		this.request.getSession().setAttribute("nams", nams);
+		this.request.getSession().setAttribute("fields", fields);
+		return null;
+	}
+
+	//将用户选择的需要导出的选项分割成list
+	private List<String> getBySelected(String names) {
+		String[] strs = names.trim().split("#");
+		List<String> result = new ArrayList<String>();
+		for (String string : strs) {
+			result.add(string.trim());
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String export(){
+		//导出的文件的名称
+		String fileName = "设备详情.xls";
+		// 首先需要得到导出的数据项名称
+		ArrayList<String> names =  (ArrayList<String>) this.request.getSession().getAttribute("nams");
+		ArrayList<String> fields = (ArrayList<String>) this.request.getSession().getAttribute("fields");
+		// 得到需要导出的数据
+		ArrayList<ArrayList<String>> dataList = elecDeviceService.getFiledDateWhenExportExcel(elecDeviceForm,fields);
+		try {
+			OutputStream outputStream = response.getOutputStream();
+			response.reset();
+			response.setContentType("application/msexcel;charset=GBK");
+			response.setHeader("Content-Disposition", "attachment;filename=\""
+		            + new String(fileName.getBytes(), "ISO8859-1") + "\"");
+			ExcelFileGenerator fileGenerator = new ExcelFileGenerator(
+					names, dataList);
+			try {
+				fileGenerator.expordExcel(outputStream);
+				//System.out.println(new PrintStream(outputStream));
+				//outputStream.flush();
+				if (outputStream != null)
+					outputStream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

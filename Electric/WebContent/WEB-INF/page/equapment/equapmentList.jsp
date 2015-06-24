@@ -14,7 +14,11 @@
 		<TD class="DropShadow"
 			background="${pageContext.request.contextPath }/images/cotNavGround.gif"
 			width="80">设备信息列表</TD>
-		<td align="right" class="ta_01"><INPUT name="BT_Search"
+		<td align="right" class="ta_01">
+			<INPUT name="BT_Add"
+				type="button" id="BT_Add" value="添加"
+				style="font-size: 12px; color: black;" onclick="openWindow('elecDeviceAction_add.do','800','450')">
+			<INPUT name="BT_Search"
 			type="button" id="BT_Search" value="查询"
 			style="font-size: 12px; color: black;" onclick="gotoquery('equapment/elecDeviceAction_home.do')">
 			<input name="BT_export" type="button" " id="BT_export" value="导出"
@@ -59,7 +63,7 @@
 					<s:iterator value="%{#request.listDevice}" var="device">
 						<tr onmouseover="this.style.backgroundColor = 'white'" onmouseout="this.style.backgroundColor = '#F5FAFE';">
 							<td align="center">
-								<s:property value="%{#device.devID}"/>
+								<s:property value="%{#device.num}"/>
 							</td>
 							<td align="center">
 								<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?editflag=0&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');" class="cl_01"> 
@@ -113,14 +117,14 @@
 					<%
 						if(pagebean.getFirstPage()){
 					%>
-					<td width="5%" align="center">首页&nbsp;&nbsp;|</td>
+					<td width="5%" align="center">首&nbsp;页&nbsp;&nbsp;|</td>
 					<td width="7%" align="center">上一页&nbsp|</td>
 					<%
 						}else{
 					%>
 					<td width="5%" align="center">
 						<u>
-							<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首页&nbsp;&nbsp;|</a>
+							<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
 						</u>
 						
 					</td>
@@ -162,14 +166,6 @@
 						<td><input type="hidden" name="sumPage"
 							value="<%=pagebean.getSumPage()%>"></td>
 						<td><input type="hidden" name="pageSize" value=""></td>
-					<td>
-						<input type="hidden" name="typeView" value="设备查询">
-						<input type="hidden" name="direction" value="">
-						<input type="hidden" name="pageNo" value="1">
-						<input type="hidden" name="sumPage" value="13">
-						<input type="hidden" name="lastRecordIndex" value="124">
-						<input type="hidden" name="changeFlag" value="receive">
-					</td>
 				</tr>
 			</table>
 		</td>

@@ -1,6 +1,8 @@
 package com.sw.elec.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,5 +18,11 @@ public interface IElecDeviceService {
 	void saveDevice(ElecDeviceForm elecDeviceForm,HttpServletRequest request);
 
 	ElecDeviceForm findDevice(String devID);
+
+	Map<String,String> getAllFiledNamesWhenExportExcel(
+			ElecDeviceForm elecDeviceForm);
+
+	ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
+			ElecDeviceForm elecDeviceForm,ArrayList<String> fields);
 
 }
