@@ -33,11 +33,11 @@ public class ElecDeviceAction extends BaseAction implements
 
 	public String home() {
 		this.initDictionary();
-		String searchFlag = elecDeviceForm.getSearchFlag();
 		List<ElecDeviceForm> list = elecDeviceService.findDevicesWithPage(
 				elecDeviceForm, request);
 		this.request.setAttribute("listDevice", list);
-		if ("1".equals(searchFlag))
+		String searchFlag = elecDeviceForm.getSearchFlag();
+		if (searchFlag != null && "1".equals(searchFlag))
 			return "equapmentList";
 		return "home";
 	}
@@ -63,17 +63,17 @@ public class ElecDeviceAction extends BaseAction implements
 
 	public String add() {
 		this.initDictionary();
-		this.request.setAttribute("addflag", "1");
 		return "add";
 	}
 
 	public String edit() {
 		this.initDictionary();
-		ElecDeviceForm elecDeviceF = elecDeviceService.findDevice(elecDeviceForm
-				.getDevID());
-		if("1".equals(elecDeviceForm.getViewflag())){
+		ElecDeviceForm elecDeviceF = elecDeviceService
+				.findDevice(elecDeviceForm.getDevID());
+		if ("1".equals(elecDeviceForm.getViewflag())) {
 			this.request.setAttribute("viewflag", "1");
 		}
+		this.request.setAttribute("viewflag", "");
 		ActionContext.getContext().getValueStack().push(elecDeviceF);
 		return "edit";
 	}
@@ -90,15 +90,15 @@ public class ElecDeviceAction extends BaseAction implements
 		return "exportSet";
 	}
 
-	public String setExportExcel(){
-		List<String> nams =getBySelected(elecDeviceForm.getNames());
+	public String setExportExcel() {
+		List<String> nams = getBySelected(elecDeviceForm.getNames());
 		List<String> fields = getBySelected(elecDeviceForm.getFields());
 		this.request.getSession().setAttribute("nams", nams);
 		this.request.getSession().setAttribute("fields", fields);
 		return null;
 	}
 
-	//将用户选择的需要导出的选项分割成list
+	// 将用户选择的需要导出的选项分割成list
 	private List<String> getBySelected(String names) {
 		String[] strs = names.trim().split("#");
 		List<String> result = new ArrayList<String>();
@@ -107,28 +107,29 @@ public class ElecDeviceAction extends BaseAction implements
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public String export(){
-		//导出的文件的名称
+	public String export() {
+		// 导出的文件的名称
 		String fileName = "设备详情.xls";
 		// 首先需要得到导出的数据项名称
-		ArrayList<String> names =  (ArrayList<String>) this.request.getSession().getAttribute("nams");
-		ArrayList<String> fields = (ArrayList<String>) this.request.getSession().getAttribute("fields");
+		ArrayList<String> names = (ArrayList<String>) this.request.getSession()
+				.getAttribute("nams");
+		ArrayList<String> fields = (ArrayList<String>) this.request
+				.getSession().getAttribute("fields");
 		// 得到需要导出的数据
-		ArrayList<ArrayList<String>> dataList = elecDeviceService.getFiledDateWhenExportExcel(elecDeviceForm,fields);
+		ArrayList<ArrayList<String>> dataList = elecDeviceService
+				.getFiledDateWhenExportExcel(elecDeviceForm, fields);
 		try {
 			OutputStream outputStream = response.getOutputStream();
 			response.reset();
 			response.setContentType("application/msexcel;charset=GBK");
 			response.setHeader("Content-Disposition", "attachment;filename=\""
-		            + new String(fileName.getBytes(), "ISO8859-1") + "\"");
-			ExcelFileGenerator fileGenerator = new ExcelFileGenerator(
-					names, dataList);
+					+ new String(fileName.getBytes(), "ISO8859-1") + "\"");
+			ExcelFileGenerator fileGenerator = new ExcelFileGenerator(names,
+					dataList);
 			try {
 				fileGenerator.expordExcel(outputStream);
-				//System.out.println(new PrintStream(outputStream));
-				//outputStream.flush();
 				if (outputStream != null)
 					outputStream.close();
 			} catch (Exception e) {
@@ -138,5 +139,10 @@ public class ElecDeviceAction extends BaseAction implements
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String delete() {
+		elecDeviceService.delete(elecDeviceForm);
+		return "list";
 	}
 }

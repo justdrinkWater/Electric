@@ -57,6 +57,10 @@ public class ElecDeviceForm implements Serializable {
 
 	private String fields;// 选择需要导出的id
 
+	private String useDatef;// 使用时间的上界限
+
+	private String useDatet;// 下界限
+
 	public String getDevID() {
 		return devID;
 	}
@@ -335,6 +339,22 @@ public class ElecDeviceForm implements Serializable {
 
 	public void setViewflag(String viewflag) {
 		this.viewflag = viewflag;
+	}
+
+	public String getUseDatef() {
+		return useDatef;
+	}
+
+	public void setUseDatef(String useDatef) {
+		this.useDatef = useDatef;
+	}
+
+	public String getUseDatet() {
+		return useDatet;
+	}
+
+	public void setUseDatet(String useDatet) {
+		this.useDatet = useDatet;
 	}
 
 }

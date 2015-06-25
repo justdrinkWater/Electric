@@ -25,4 +25,6 @@ public interface IElecDeviceService {
 	ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
 			ElecDeviceForm elecDeviceForm,ArrayList<String> fields);
 
+	void delete(ElecDeviceForm elecDeviceForm);
+
 }

@@ -18,6 +18,7 @@
 		src="${pageContext.request.contextPath }/script/validate.js"></script>
 <script type="text/javascript"
 		src="${pageContext.request.contextPath }/script/page.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <SCRIPT type="text/javascript">
 	function JctSelectChange(mySelect)
 	{
@@ -40,7 +41,7 @@
 	}
 	
 	function upload(fn){
-		var jctId=document.Form1.jctId.value;
+		var jctId = document.Form1.jctId.value;
 		if(jctId==0){
          		alert("请先选择所属单位");
          	return;
@@ -49,6 +50,17 @@
 					+ "&jctId=" + jctId + "&projid=" + document.Form1.jctId.selectedIndex + "-" + document.Form1.devType.selectedIndex;
 		OpenWindow('uploadInit',str,800,450);
 	}	
+	function check(){
+		var time1 = document.getElementById("useDatef").value;
+		var time2 = document.getElementById("useDatet").value;
+		
+		if(time1 == ""|| time1 == null && time2 != null){
+			alert("请选择使用时间的开始时间");
+		}
+		if(time1 != null && time2 == null || time2 == ""){
+			alert("请选择使用时间的截止时间");
+		}
+	}
 
 </SCRIPT>
 </head>
@@ -56,7 +68,8 @@
 <body>
 	<s:form name="Form1" method="post" id="Form1" cssStyle="margin: 0px;">
 	
-		<input type="hidden" name="searchFlag" value="1">
+		<s:hidden name="searchFlag" id="searchFlag" value="1"/>
+		
 		<input type="hidden" name="pageNO" value=""> 
 		<input type="hidden" name="pageSize" value="">
 
@@ -109,8 +122,10 @@
 								使用日期：
 							</td>
 							<td class="ta_01" width="247">
-								<input name="useDatef" type="date" id="useDatef" size="10"> ~ 
-								<input name="useDatet" type="date" id="useDatet" size="10">
+								<input name="useDatef" type="date" id="useDatef" size="10" onblur="check()">
+								
+								 ~ 
+								<input name="useDatet" type="date" id="useDatet" size="10" onblur="check()">
 							</td>
 						</tr>
 						<tr>
@@ -205,12 +220,12 @@
 										<s:property value="%{#device.num}"/>
 									</td>
 									<td align="center">
-										<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>&viewflag=1',800,450,'设备详细信息');" class="cl_01"> 
+										<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>&viewflag=1',800,450);" class="cl_01"> 
 											<s:property value="%{#device.devName}"/>
 										</a>
 									</td>
 									<td align="left">
-										<s:property value="%{#device.devName}"/>
+										<s:property value="%{#device.specType}"/>
 									</td>
 									<td align="center" width="8%">
 										<s:property value="%{#device.devState}"/>
@@ -226,14 +241,14 @@
 									</td>
 									<td align="center" style="HEIGHT: 22px">
 										<a href="#"
-										onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>',800,450,'设备详细信息');">
+										onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>',800,450,'');">
 											<img src="${pageContext.request.contextPath }/images/edit.gif"
 											style="CURSOR: hand" border="0">
 										</a>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
-										<a href="javascript:Pub.submitActionWithForm('Form2','elecDeviceAction_delete.do?devId=<s:property value="%{#device.devID}"/>','Form1')"
-											onclick="return confirm('确认要删除<s:property value="%{#device.devName}"/>吗？')"> 
+										<a href="elecDeviceAction_delete.do?devID=<s:property value="%{#device.devID}"/>"
+											onclick="return confirm('确认要删除[<s:property value="%{#device.devName}"/>]吗？')"> 
 												<img src="${pageContext.request.contextPath }/images/delete.gif"
 													style="CURSOR: hand" border="0">
 										</a>

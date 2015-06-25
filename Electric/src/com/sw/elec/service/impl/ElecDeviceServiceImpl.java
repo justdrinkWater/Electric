@@ -39,48 +39,83 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 			ElecDeviceForm elecDeviceForm, HttpServletRequest request) {
 		PageInfo pageInfo = new PageInfo(request);
 		List<ElecDeviceForm> listDeviceForm = new ArrayList<ElecDeviceForm>();
-		String hqlWhere = "";
-		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
-		orderBy.put(" o.createDate", "desc");
 		List<ElecDevice> listDevice = null;
-		List<String> paramsList = new ArrayList<String>();
 		// 拼凑查询语句
-		StringBuffer stringBuffer = new StringBuffer();
 		if (elecDeviceForm != null) {
-			if (elecDeviceForm.getJctID() != null
-					&& !"".equals(elecDeviceForm.getJctID())) {
-				stringBuffer.append(" and o.jctID = ? ");
-				paramsList.add(elecDeviceForm.getJctID());
-			}
-			if (elecDeviceForm.getDevType() != null
-					&& !"".equals(elecDeviceForm.getDevType())) {
-				stringBuffer.append(" and o.devType = ? ");
-				paramsList.add(elecDeviceForm.getDevType());
-			}
-			if (elecDeviceForm.getDevState() != null
-					&& !"".equals(elecDeviceForm.getDevState())) {
-				stringBuffer.append("and o.devState = ? ");
-				paramsList.add(elecDeviceForm.getDevState());
-			}
-			hqlWhere = stringBuffer.toString();
-			Object[] params = null;
-			if (paramsList.size() != 0) {
-				params = new Object[paramsList.size()];
-				for (int i = 0; i < paramsList.size(); i++) {
-					params[i] = paramsList.get(i);
-				}
-			}
-			if (hqlWhere != null && !"".equals(hqlWhere)) {
-				listDevice = elecDeviceDao.findCollectionByConditionWithPage(
-						hqlWhere, params, orderBy, pageInfo);
-			} else {
-				listDevice = elecDeviceDao.findCollectionByConditionWithPage(
-						hqlWhere, null, orderBy, pageInfo);
-			}
+			listDevice = getDevices(elecDeviceForm, pageInfo);
 		}
 		listDeviceForm = this.convertPoToVoList(listDevice, pageInfo);
 		request.setAttribute("page", pageInfo.getPageBean());
 		return listDeviceForm;
+	}
+
+	// 拼凑hql语句
+	private List<ElecDevice> getDevices(ElecDeviceForm elecDeviceForm,
+			PageInfo pageInfo) {
+		List<ElecDevice> listDevice;
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
+		orderBy.put(" o.createDate", "desc");
+		List<Object> paramsList = new ArrayList<Object>();
+		StringBuffer stringBuffer = new StringBuffer();
+		if (elecDeviceForm.getJctID() != null
+				&& !"".equals(elecDeviceForm.getJctID())) {
+			stringBuffer.append(" and o.jctID = ? ");
+			paramsList.add(elecDeviceForm.getJctID());
+		}
+		if (elecDeviceForm.getDevType() != null
+				&& !"".equals(elecDeviceForm.getDevType())) {
+			stringBuffer.append(" and o.devType = ? ");
+			paramsList.add(elecDeviceForm.getDevType());
+		}
+		if (elecDeviceForm.getDevState() != null
+				&& !"".equals(elecDeviceForm.getDevState())) {
+			stringBuffer.append(" and o.devState = ? ");
+			paramsList.add(elecDeviceForm.getDevState());
+		}
+		if (elecDeviceForm.getDevName() != null
+				&& !"".equals(elecDeviceForm.getDevName())) {
+			stringBuffer.append(" and o.devName like ?");
+			paramsList.add("%" + elecDeviceForm.getDevName() + "%");
+		}
+		// o.`UseDate` > '2015-06-09' 
+		// o.`UseDate` < '2015-06-11'
+		// 需要拼凑时间段的条件,已经通过js使得两端都有时间的值
+		if (elecDeviceForm.getUseDatef() != null
+				&& !"".equals(elecDeviceForm.getUseDatef())
+				|| elecDeviceForm.getUseDatet() != null
+				&& !"".equals(elecDeviceForm.getUseDatet())) {
+			stringBuffer.append(" and o.useDate > ? ");
+			stringBuffer.append(" and o.useDate < ? ");
+			paramsList.add(StringHelper.stringConvertDate(elecDeviceForm.getUseDatef()));
+			paramsList.add(StringHelper.stringConvertDate(elecDeviceForm.getUseDatet()));
+		}
+		listDevice = getDeviceList(pageInfo, orderBy, paramsList, stringBuffer);
+		return listDevice;
+	}
+
+	// 从数据库中查找得到elecDeviceList
+	private List<ElecDevice> getDeviceList(PageInfo pageInfo,
+			LinkedHashMap<String, String> orderBy, List<Object> paramsList,
+			StringBuffer stringBuffer) {
+		List<ElecDevice> listDevice;
+		String hqlWhere = stringBuffer.toString();
+		Object[] params = null;
+		if (paramsList.size() != 0) {
+			params = new Object[paramsList.size()];
+			for (int i = 0; i < paramsList.size(); i++) {
+				params[i] = paramsList.get(i);
+			}
+		}
+		if (hqlWhere != null && !"".equals(hqlWhere)) {
+			hqlWhere += " and o.isDelete = '0' ";
+			listDevice = elecDeviceDao.findCollectionByConditionWithPage(
+					hqlWhere, params, orderBy, pageInfo);
+		} else {
+			hqlWhere += " and o.isDelete = '0' ";
+			listDevice = elecDeviceDao.findCollectionByConditionWithPage(
+					hqlWhere, null, orderBy, pageInfo);
+		}
+		return listDevice;
 	}
 
 	// 将PO对象序列转化为VO对象序列
@@ -167,7 +202,7 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 			elecDeviceDao.deleteObjectByIDs(deviceID);
 			// 在保存
 			elecDevice = this.convertVoToPo(elecDeviceForm);
-			elecDevice.setDevID(elecDeviceForm.getDevID());
+			// elecDevice.setDevID(elecDeviceForm.getDevID());
 			// 需要进行sava操作
 		} else {
 			elecDevice = this.convertVoToPo(elecDeviceForm);
@@ -188,6 +223,10 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 	// VO对象转PO对象
 	private ElecDevice convertVoToPo(ElecDeviceForm elecDeviceForm) {
 		ElecDevice elecDevice = new ElecDevice();
+		if (elecDeviceForm != null && elecDeviceForm.getDevID() != null
+				&& !"".equals(elecDeviceForm.getDevID())) {
+			elecDevice.setDevID(elecDeviceForm.getDevID());
+		}
 		// 表单中的属性
 		elecDevice.setDevName(elecDeviceForm.getDevName());
 		elecDevice.setJctID(elecDeviceForm.getJctID());
@@ -301,7 +340,8 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 				try {
 					getMethod = clazz.getMethod(string, null);
 					try {
-						fieldList.add((String) getMethod.invoke(elecDForm, null));
+						fieldList.add((String) getMethod
+								.invoke(elecDForm, null));
 					} catch (IllegalAccessException | IllegalArgumentException
 							| InvocationTargetException e) {
 						e.printStackTrace();
@@ -327,5 +367,13 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 		List<ElecDevice> list = elecDeviceDao.findCollectionByConditionNoPage(
 				hqlWhere, params, orderBy);
 		return list;
+	}
+
+	// “删除”指定ID的设备，这里并不是真正的删除，只是将指定ID的设备的isDelete字段，置为1
+	@Override
+	public void delete(ElecDeviceForm elecDeviceForm) {
+		ElecDevice entity = this.convertVoToPo(elecDeviceForm);
+		entity.setIsDelete("1");
+		elecDeviceDao.update(entity);
 	}
 }

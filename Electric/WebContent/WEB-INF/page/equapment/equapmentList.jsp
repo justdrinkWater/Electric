@@ -66,7 +66,7 @@
 								<s:property value="%{#device.num}"/>
 							</td>
 							<td align="center">
-								<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?editflag=0&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');" class="cl_01"> 
+								<a href="javascript:;" onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>&viewflag=1',800,450);" class="cl_01"> 
 									<s:property value="%{#device.devName}"/>
 								</a>
 							</td>
@@ -87,14 +87,14 @@
 							</td>
 							<td align="center" style="HEIGHT: 22px">
 								<a href="javascript:;"
-								onClick="openWindow('elecDeviceAction_edit.do?editflag=1&devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=',800,450,'设备详细信息');">
+								onClick="openWindow('elecDeviceAction_edit.do?devID=<s:property value="%{#device.devID}"/>',800,450);">
 									<img src="${pageContext.request.contextPath }/images/edit.gif"
 									style="CURSOR: hand" border="0">
 								</a>
 							</td>
 							<td align="center" style="HEIGHT: 22px">
-								<a href="javascript:Pub.submitActionWithForm('Form1','delDevice.do?devId=ab15b1290c004d53af24bd2ce8845fa4&typeView=设备查询&pageNo=1&sumPage=13&lastRecordIndex=124&changeFlag=receive&direction=','F1')"
-									onclick="return confirm('确认要删除吗？')"> 
+								<a href="elecDeviceAction_delete.do?devID=<s:property value="%{#device.devID}"/>"
+									onclick="return confirm('确认要删除[<s:property value="%{#device.devName}"/>]吗？')"> 
 										<img src="${pageContext.request.contextPath }/images/delete.gif"
 											style="CURSOR: hand" border="0">
 								</a>

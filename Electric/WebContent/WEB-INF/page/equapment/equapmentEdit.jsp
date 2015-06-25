@@ -133,7 +133,7 @@
 			仪器设备信息编辑
 	</s:if>
 	<s:else>
-			仪器设备信息查看
+			仪器设备详细信息
 	</s:else>
 </title>
 </head>
@@ -149,12 +149,12 @@
 					background="${pageContext.request.contextPath }/images/b-info.gif">
 					<font face="宋体" size="2">
 					<strong>
-						<s:if test="#request.viewflag == ''">
-								仪器设备信息编辑
-						</s:if>
-						<s:else>
-								仪器设备信息查看
-						</s:else>
+							<s:if test="#request.viewflag == ''">
+									仪器设备信息编辑
+							</s:if>
+							<s:else>
+									仪器设备详细信息
+							</s:else>
 					</strong></font>
 				</td>
 			</tr>

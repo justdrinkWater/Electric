@@ -113,12 +113,12 @@
 			<tr>
 				<td class="ta_01" align="center" colSpan="4"
 					background="${pageContext.request.contextPath }/images/b-info.gif">
-					<font face="宋体" size="2"> <strong> <s:if
-								test="%{#request.viewflag} == null">
-								编辑用户
-							</s:if> <s:else>
-								查看明细
-							</s:else>
+					<font face="宋体" size="2"> <strong> 
+					<s:if test="#request.viewflag == ''">
+						编辑用户
+					</s:if> <s:else>
+						查看明细
+					</s:else>
 					</strong>
 				</font>
 				</td>

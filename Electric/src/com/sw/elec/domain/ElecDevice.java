@@ -35,7 +35,7 @@ public class ElecDevice implements Serializable {
 	private String runDescribe;// 运行情况描述
 	private String comment; // 备注
 	private Date useDate; // 使用时间
-	private String isDelete; // 是否删除
+	private String isDelete; // 是否删除,1表示删除，0表示没有删除，正常的
 	private String createEmpID; //
 	private Date createDate; //
 	private String lastEmpID; //

@@ -129,12 +129,7 @@
 	} 
 </script>
 <title>
-	<s:if test="#request.addflag == '1'">
 		添加新的仪器设备
-	</s:if> 
-	<s:else>
-		仪器设备信息编辑
-	</s:else>
 </title>
 </head>
 
@@ -149,12 +144,7 @@
 					background="${pageContext.request.contextPath }/images/b-info.gif">
 					<font face="宋体" size="2">
 					<strong>
-						<s:if test="#request.addflag == '1'">
 							添加新的仪器设备
-						</s:if> 
-						<s:else>
-							仪器设备信息编辑
-						</s:else>
 					</strong></font>
 				</td>
 			</tr>
