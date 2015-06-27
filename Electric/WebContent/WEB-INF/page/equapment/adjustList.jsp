@@ -1,118 +1,7 @@
 <%@page import="com.sw.elec.util.PageBean"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<HTML>
-<HEAD>
-<title>设备校准管理</title>
-<link href="${pageContext.request.contextPath }/css/Style.css"
-	type="text/css" rel="stylesheet" />
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/script/function.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/script/pub.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/script/page.js"></script>
-<script type="text/javascript">
-  function shareOnChange(mySelect)
-  {
-    var theForm = document.forms[0];
-    if (document.Form1.apstate.value==1)
-    { 
-       PPassword.style.display = ""
-    }
-    else{
-      PPassword.style.display = "none"
-    }
- }
- function changeformvalue(){
-	document.Form1.pageNo.value=document.Form2.pageNo.value;
-	document.Form1.changeFlag.value=document.Form2.changeFlag.value;
-	document.Form1.sumPage.value=document.Form2.sumPage.value;
- }
- 
-</script>
-</HEAD>
-<body>
-	<s:form name="Form1" method="post" id="Form1" cssStyle="margin: 0px;">
-		<s:hidden name="searchFlag" id="searchFlag" value="1"/>
-		
-		<input type="hidden" name="pageNO" value=""> 
-		<input type="hidden" name="pageSize" value="">
-		<table cellSpacing="0" cellPadding="0" width="90%" align="center"
-			bgColor="#f5fafe" border="0">
-			<tr>
-				<td class="ta_01" align="center"
-					background="${pageContext.request.contextPath }/images/b-info.gif">
-					&nbsp;<a href="adjustIndex.jsp" class="cl_01"><font face="宋体"
-						size="2"><strong>校准管理</strong></font></a> |<a href="repairIndex.jsp"
-					class="cl_01"><font face="宋体" size="2">检修管理</font></a>
-				</td>
-			</tr>
-			<TR height=10>
-				<td></td>
-			</TR>
-
-			<tr>
-				<td colspan="2">
-					<table cellpadding="0" cellspacing="0" border="0" width="100%">
-						<tr>
-							<td width=15% class="ta_01" align="center" bgColor="#f5fafe"
-								height="22">所属单位：</td>
-							<td width=35% class="ta_01">
-								<s:if test="#request.jctIDs != null">
-									<s:select list="%{#request.jctIDs}" cssClass="bg" name="jctID" id="jctID" 
-												headerKey="" headerValue="全部"
-												listKey="ddlCode" listValue="ddlName">
-									</s:select>
-								</s:if>
-							</td>
-							<td width=15% class="ta_01" align="center" bgColor="#f5fafe"
-								height="22">设备名称：</td>
-							<td width=35% class="ta_01"><input name="devName"
-								type="text" id="devName" size="19" value=""></td>
-						</tr>
-						<tr>
-							<td width=15% class="ta_01" align="center" bgColor="#f5fafe"
-								height="22">校准状态：</td>
-							<td width=35% class="ta_01">
-								<s:if test="#request.idAdjusts != null">
-									<s:select list="%{#request.idAdjusts}" id="apstate" name="apstate" cssClass="bg"
-												headerKey="" headerValue="全部"
-												listKey="ddlCode" listValue="ddlName"
-												onChange="shareOnChange(this)">
-									</s:select>
-								</s:if>
-							</td>
-							<td width=15% class="ta_01" align="center" bgcolor="#f5fafe"
-								height="22">设备类型：</td>
-							<td class="ta_01">
-								<s:if test="#request.devTypes != null">
-									<s:select list="%{#request.devTypes}" id="devType" name="devType" cssClass="bg"
-												headerKey="" headerValue="全部"
-												listKey="ddlCode" listValue="ddlName">
-									</s:select>
-								</s:if>
-							</td>
-						</tr>
-						<tr id=PPassword style="DISPLAY: none">
-							<td width=15% class="ta_01" align="center" bgColor="#f5fafe"
-								height="22">校准日期：</td>
-							<td width=35% class="ta_01">
-								<input name="startDatef" type="date" id="startDatef" size="10" value="">
-									 ~ 
-								<input name="startDatet" type="date" id="startDatet" size="10" value="">
-							</td>
-							<td width=15% class="ta_01" align="center" height="22"></td>
-							<td class="ta_01"></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</s:form>
-	<br>
-	<form name="Form2" method="post" id="Form2" style="margin: 0px;">
-		<table cellSpacing="0" cellPadding="0" width="90%" align="center"
+<table cellSpacing="0" cellPadding="0" width="90%" align="center"
 			bgColor="#f5fafe" border="0">
 			<TR>
 				<TD align="center"
@@ -173,7 +62,7 @@
 										<s:property value="#adjust.num"/>
 									</td>
 									<td align="center">
-										<a href="javascript:;"onClick="openWindow('elecAdjustAction_edit?devID=<s:property value="#adjust.devID"/>&viewflag=1',800,450);" class="cl_01"> 
+										<a href="javascript:;"onClick="openWindow('adjustEdit.jsp',800,450);"class="cl_01"> 
 											<s:property value="#adjust.devName"/>
 										</a>
 									</td>
@@ -194,7 +83,7 @@
 									</td>
 									<td align="center" style="HEIGHT: 22px">
 									<a href="javascript:;" onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">修改</a> 
-									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')" class="cl_01">删除</a> 
+									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')"class="cl_01">删除</a> 
 									<a href="javascript:;" onClick="openWindow('adjustQuery.jsp?');" class="cl_01">查看</a>
 									</td>
 								</tr>
@@ -244,18 +133,10 @@
 							<%
 								}else{ 
 							%>
-							<td width="7%" align="center">
-								<u><a href="#" onclick="gotopage('equapment/elecAdjustAction_home.do','next')">
-									下一页&nbsp;|
-									</a>
-								</u>
-							</td>
-							<td width="5%" align="center">
-								<u><a href="#" onclick="gotopage('equapment/elecAdjustAction_home.do','end')">
-									末页
-									</a>
-								</u>
-							</td>
+							<td width="7%" align="center"><u><a
+									href="#" onclick="gotopage('equapment/elecAdjustAction_home.do','next')">下一页&nbsp;|</a></u></td>
+							<td width="5%" align="center"><u><a
+									href="#" onclick="gotopage('equapment/elecAdjustAction_home.do','end')">末页</a></u></td>
 							<%} %>
 							<td width="6%" align="center">第<%=pagebean.getPageNo() %>页</td>
 							<td width="6%" align="center">共<%=pagebean.getSumPage() %>页</td>
@@ -279,6 +160,3 @@
 				</td>
 			</tr>
 		</table>
-	</form>
-</body>
-</HTML>

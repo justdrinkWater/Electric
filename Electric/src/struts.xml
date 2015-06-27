@@ -167,5 +167,25 @@
 				/WEB-INF/page/equapment/equapmentExport.jsp
 			</result>
 		</action>
+		<!-- 设备校准管理 -->
+		<action name="elecAdjustAction_*" class="com.sw.elec.web.action.ElecAdjustAction" method="{1}">
+			<result name="home">
+				/WEB-INF/page/equapment/adjustIndex.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/page/equapment/adjustEdit.jsp
+			</result>
+			<result name="adjustList">
+				/WEB-INF/page/equapment/adjustList.jsp
+			</result>
+			<result name="add">
+				/WEB-INF/page/equapment/adjustList.jsp
+			</result>
+			<result name="list" type="redirectAction">
+				<param name="actionName">elecAdjustAction_*</param>
+				<param name="namespace">/equapment</param>
+			</result>
+			
+		</action>
 	</package>
 </struts>

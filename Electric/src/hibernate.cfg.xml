@@ -37,5 +37,6 @@
 		<mapping resource="com/sw/elec/domain/ElecUserRole.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecLog.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecDevice.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecAdjust.hbm.xml"></mapping>
 	</session-factory>
 </hibernate-configuration>	

@@ -27,7 +27,7 @@ public class ElecDeviceForm implements Serializable {
 	// 这是编辑和添加页面需要的属性
 	private String devName; // 设备名称
 	private String jctID; // 所属单位（数据字典）
-	private String devType; // 设备类型（数据字典）
+	private String devType; // 设备类型（数据字典）specType
 	private String quality; // 数量
 	private String qunit; // 数量单位
 	private String devExpense; // 金额

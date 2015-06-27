@@ -15,13 +15,13 @@ public class ElecDevice implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String devID; // ID
-	private String devPlanID; // 计划ID
+	private String devID; // 主键ID
+	private String devPlanID; // 外键ID，计划ID
 	private String jctID; // 所属单位（数据字典）
 	private String devName; // 名称
 	private String devType; // 类型（数据字典）
 	private String trademark; // 品牌
-	private String specType; // 特殊状态
+	private String specType; // 规格型号
 	private String produceHome; // 厂家
 	private String produceArea;// 产地
 	private String useness; // 用途
@@ -36,15 +36,15 @@ public class ElecDevice implements Serializable {
 	private String comment; // 备注
 	private Date useDate; // 使用时间
 	private String isDelete; // 是否删除,1表示删除，0表示没有删除，正常的
-	private String createEmpID; //
-	private Date createDate; //
-	private String lastEmpID; //
-	private Date lastDate; //
+	private String createEmpID; // 创建人
+	private Date createDate; // 创建时间
+	private String lastEmpID; // 修改人
+	private Date lastDate; // 修改时间
 	private String qunit; // 数量单位
 	private String apUnit; // 校准周期单位
 	private String opUnit; // 检修周期单位
-	private String apState; // 校准周期状态
-	private String opState; // 检修周期状态
+	private String apState; // 是否检修
+	private String opState; // 是否维修
 
 	public String getDevID() {
 		return devID;

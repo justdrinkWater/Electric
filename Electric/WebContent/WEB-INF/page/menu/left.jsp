@@ -184,7 +184,7 @@ TH {
 										onmouseover="backgroundColorChange(this,'white');"
 										onmouseout="backgroundColorChange(this,'');"><A
 										class="cl_01" onclick="linkcolorchange(this)"
-										href="${pageContext.request.contextPath }/equapment/adjustIndex.jsp"
+										href="${pageContext.request.contextPath }/equapment/elecAdjustAction_home.do"
 										target="mainFrame">设备校准检修</A></TD>
 								</TR>
 								<%}if(popedom.contains("c")){ %>
