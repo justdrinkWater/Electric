@@ -43,7 +43,7 @@ public class ElecDevice implements Serializable {
 	private String qunit; // 数量单位
 	private String apUnit; // 校准周期单位
 	private String opUnit; // 检修周期单位
-	private String apState; // 是否检修
+	private String apState; // 是否校准
 	private String opState; // 是否维修
 
 	public String getDevID() {

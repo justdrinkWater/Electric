@@ -19,7 +19,7 @@ public class ElecAdjustForm implements Serializable {
 	private String isAdjust; // 是否校准，0未校准，1已校准
 	private String adjustDate; // 校准日期
 	private String overhaulDate; // 检修日期
-	private String isHaving; // 是否检修，0位检修，1已检修
+	private String isHaving; // 是否有记录，0没有记录，1有记录
 	private String record; // 记录描述
 	private String comment; // 备注
 	private String isDelete; // 是否删除，0为未删除

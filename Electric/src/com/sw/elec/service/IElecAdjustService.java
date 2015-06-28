@@ -12,4 +12,8 @@ public interface IElecAdjustService {
 	List<ElecAdjustForm> findAllDeviceAdjustWithPage(
 			ElecAdjustForm elecAdjustForm, HttpServletRequest request);
 
+	ElecAdjustForm findAdjustFormByDevID(ElecAdjustForm elecAdjustForm);
+
+	void save(ElecAdjustForm elecAdjustForm,HttpServletRequest request);
+
 }

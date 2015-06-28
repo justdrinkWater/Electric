@@ -19,6 +19,7 @@ import com.sw.elec.dao.ICommonDao;
 import com.sw.elec.util.GenericSuperClass;
 import com.sw.elec.util.PageInfo;
 
+@Transactional
 public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 		ICommonDao<T> {
 

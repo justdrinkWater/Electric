@@ -8,11 +8,9 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/function.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/script/calendar.js"
-	charset="gb2312"></script>
-<script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/changePageBackUp.js"></script>
-<script type="text/javascript"><!--
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>	
+<script type="text/javascript">
 function shareOnChange(mySelect)
 {
 if (mySelect.selectedIndex == 0)
@@ -30,8 +28,7 @@ function ini(){
    PPassword.style.display = ""
 }
 function check(){
-     
-     var theForm = document.forms[0];
+    var theForm = document.forms[0];
    	if (theForm.comment.value.length >250)
 		{
 		    alert("备注不能超过250个汉字！");
@@ -44,15 +41,19 @@ function check(){
 		    theForm.record.focus();
 		    return false;
 		}
-	 if(window.opener)
-	{
-		document.Form1.action="updateDeviceX.do";
-		document.Form1.submit();
-		alert("保存成功！");
-	    //window.opener.Pub.submitActionWithForm('Form1','toDeviceX.do','F1');   
-	  
-	}
-	window.close();
+		$.ajax({  
+	        type : "POST",  
+	        url : "equapement/elecAdjustAction_save.do",  
+	        data : $("#Form1").serialize(),  
+	        success : function(msg) {
+	        	alert("编辑成功!");
+	        	window.opener.location.reload();
+	        	window.close();
+	        },
+	        error:function(){
+	        	alert("sorry,编辑失败!");
+	        }
+	    }); 
 }
 </script>
 <SCRIPT type="text/javascript">
@@ -62,9 +63,8 @@ function submitrequest(action){
 
 </script>
 </head>
-<body onload="shareOnChange(document.Form1.isHaving)"
-	onunload="submitrequest('clearSession.do?action=X')">
-	<form name="Form1" method="post" action="#">
+<body>
+	<s:form name="Form1" method="post" id="Form1">
 		<br>
 		<table cellSpacing="1" cellPadding="5" width="680" align="center"
 			bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
@@ -82,117 +82,119 @@ function submitrequest(action){
 								<tr>
 									<td width="153" class="ta_01" align="center" bgColor="#f5fafe"
 										height="22">所属单位：</td>
-									<td class="ta_01" bgColor="#ffffff"><select name="jctId"
-										id="jctId" class="bg" disabled>
-											<option value=""></option>
-											<option value="1" selected>540</option>
-											<option value="2">560</option>
-											<option value="3">成都台</option>
-											<option value="4">厦门台</option>
-											<option value="5">553台</option>
-											<option value="6">201台</option>
-											<option value="7">202台</option>
-											<option value="8">203台</option>
-											<option value="9">哈尔滨台</option>
-											<option value="10">西安台</option>
-											<option value="11">中心</option>
-											<option value="12">北京台</option>
-											<option value="13">海南台</option>
-										</select>
+									<td class="ta_01" bgColor="#ffffff">
+									<s:if test="#request.jctIDs!=null">
+										<s:select list="%{#request.jctIDs}" name="jctID" id="jctID" cssClass="bg" disabled="true"
+													listKey="ddlCode" listValue="ddlName"
+													value="jctID"
+													>
+										</s:select>
+									</s:if>
 									</td>
 									<td width="100" class="ta_01" align="center" bgColor="#f5fafe"
 										height="22">设备名称：</td>
 									<td class="ta_01" bgColor="#ffffff"><font face="宋体"
-										color="red"> <input name="devName" type="text"
-											id="devName" size="19" value="UPS6666" disabled></font></td>
+										color="red"> 
+										<s:textfield name="devName" type="text" id="devName" size="19" disabled="true" />
+										</font>
+									</td>
 								</tr>
 								<tr>
-
 									<td width="153" class="ta_01" align="center" bgColor="#f5fafe"
-										height="22">校准周期：</td>
-									<td class="ta_01" bgColor="#ffffff" width="224"><input
-										name="seqId" type="hidden" id="seqId" size="19" value="7313">
-										<input name="devId" type="hidden" id="devId" size="19"
-										value="e11c8381ec0f436b992ba0e44dd33cb0"> <input
-										name="apunit" type="hidden" id="apunit" size="19" value="月">
-										<input name="deviceobject" type="hidden" id="deviceobject"
-										size="19" value="1"> <input name="TB_timeW"
-										type="text" id="TB_timeW" size="19" value="1月" disabled></td>
-									<td width="100" class="ta_01" align="center" bgColor="#f5fafe"
-										height="22">使用日期：</td>
-									<td class="ta_01" bgColor="#ffffff"><font face="宋体"
-										color="red"> <input name="useDate" type="text"
-											id="useDate" size="19" value="2007-05-27" disabled></font></td>
+										height="22">校准周期：
+									</td>
+									<td class="ta_01" bgColor="#ffffff" width="224">
+										<s:hidden name="devID" id="devID" />
+										<s:hidden name="seqID" id="seqID"/>
+										<s:textfield name="adjustPeriod" type="text" id="adjustPeriod" size="19" disabled="true"/>
+									</td>
+									<td width="100" class="ta_01" align="center" bgColor="#f5fafe" height="22">
+										使用日期：
+									</td>
+									<td class="ta_01" bgColor="#ffffff"><font face="宋体" color="red">
+										<s:textfield name="useDate" type="text" id="useDate" size="19"  disabled="true"/>
+										</font>
+									</td>
 								</tr>
 								<tr>
-									<td width="153" class="ta_01" align="center" bgcolor="#f5fafe"
-										height="22">设备类型：</td>
-									<td class="ta_01" bgcolor="#ffffff" width="247"><font
-										face="宋体" color="red"> <select name="devType"
-											id="devType" class="bg" disabled>
-												<option value="1" selected>电力设备dd</option>
-												<option value="1">电力设备dd</option>
-												<option value="2">天线设备</option>
-												<option value="3">通讯设备</option>
-												<option value="4">防雷设备</option>
-												<option value="5">办公设备</option>
-												<option value="6">电视机房设备</option>
-												<option value="7">发电机房设备</option>
-											</select>
-									</font></td>
-									<td width="100" class="ta_01" align="center" bgColor="#f5fafe"
-										height="22">校准状态：</td>
-									<td class="ta_01" bgColor="#ffffff" width="224"><select
-										name="apstate" id="apstate" class="bg" disabled>
-											<option value="0" selected>未校准</option>
-											<option value="1">已校准</option>
-									</select></td>
+									<td width="153" class="ta_01" align="center" bgcolor="#f5fafe" height="22">
+										设备类型：
+									</td>
+									<td class="ta_01" bgcolor="#ffffff" width="247">
+										<font face="宋体" color="red"> 
+										<s:if test="#request.devTypes!=null">
+											<s:select list="%{#request.devTypes}"
+														name="devType" id="devType" cssClass="bg" disabled="true"
+														listKey="ddlCode" listValue="ddlName"
+														value="devType">
+											</s:select>
+										</s:if>
+										</font>
+									</td>
+									<td width="100" class="ta_01" align="center" bgColor="#f5fafe" height="22">
+										校准状态：
+									</td>
+									<td class="ta_01" bgColor="#ffffff" width="224">
+									<s:if test="#request.idAdjusts!=null">
+										<s:select list="%{#request.idAdjusts}" name="isAdjust" id="isAdjust" cssClass="bg" disabled="true"
+													headerKey="0" headerValue=""
+													listKey="ddlCode" listValue="ddlName"
+													>
+										</s:select>
+									</s:if>
+									</td>
 								</tr>
 								<tr>
 									<td class="ta_01" align="center" bgcolor="#f5fafe" height="22">
-										校准日期：</td>
-									<td class="ta_01" bgcolor="#ffffff"><font face="宋体"
-										color="red"> <input disabled name="startDate"
-											type="text" size="19" id="startDate" disabled
-											value="2007-06-05"></font>&nbsp;<font color="#FF0000">*</font></td>
+										校准日期：
+									</td>
+									<td class="ta_01" bgcolor="#ffffff">
+										<font face="宋体" color="red">
+										<s:textfield  name="adjustDate" type="text" size="19" id="adjustDate" disabled="true"/>
+										</font>&nbsp;<font color="#FF0000">*</font>
+									</td>
 									<td class="ta_01" align="center" bgcolor="#ffffff" height="22"></td>
 									<td class="ta_01" bgcolor="#ffffff"></td>
 								</tr>
-								<TR>
-									<TD class="ta_01" align="center" bgColor="#f5fafe">校准记录：</TD>
-									<TD class="ta_01" bgColor="#ffffff" colSpan="3"><select
-										name="isHaving" id="isHaving" class="bg" style="width: 50"
-										onChange=shareOnChange(this)>
-											<option value="0">无</option>
-											<option value="1" selected>有</option>
-									</select> &nbsp;&nbsp;&nbsp;&nbsp; <span id=PPassword
-										style="DISPLAY: none"> <input
-											style="font-size: 12px; color: black;" id="BT_Add"
-											type="button" value="详细" name="BT_Add"
-											onClick="openWindowWithName('ECCUpload.do?ZhengRi1=1&devId=e11c8381ec0f436b992ba0e44dd33cb0&projId=7313',800,450,'ECC');" />
-									</span></TD>
-								</TR>
-
-								<TR>
-									<TD class="ta_01" align="center" bgColor="#f5fafe">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</TD>
-									<TD class="ta_01" bgColor="#ffffff" colSpan="3"><textarea
-											name="comment" id="comment" style="WIDTH: 96%" rows="3"></textarea></TD>
-								</TR>
 								<tr>
-									<td class="ta_01" align="center" bgColor="#f5fafe" height="22">记录描述：</td>
-									<td height="22" colspan="3" bgColor="#FFFFFF" class="ta_01"><font
-										face="宋体" color="red"> </font> <textarea name="record"
-											id="record" style="WIDTH: 96%" rows="3"></textarea></td>
+									<td class="ta_01" align="center" bgColor="#f5fafe">校准记录：</TD>
+									<td class="ta_01" bgColor="#ffffff" colSpan="3">
+										<s:if test="#request.isOrNot!=null">
+											<s:select list="%{#request.isOrNot}" name="isHaveRecord" id="isHaveRecord" class="bg" cssStyle="width: 50"
+													onChange="shareOnChange(this)"
+													listKey="ddlCode" listValue="ddlName"
+													>
+											</s:select>
+										</s:if>
+										 &nbsp;&nbsp;&nbsp;&nbsp; 
+										 <span id=PPassword  style="DISPLAY: none"> 
+										 <input	style="font-size: 12px; color: black;" id="BT_Add" type="button" value="详细" name="BT_Add"
+											onClick="openWindow('elecAdjustAction_upload.do?devID=<s:property value="#adjust.devID"/>',800,450);" />
+										</span>
+									</td>
 								</tr>
 								<tr>
-									<td class="ta_01" style="WIDTH: 100%" align="center"
-										bgColor="#f5fafe" colSpan="4"><input type="button"
-										name="BT_Submit" value="修改" id="BT_Submit"
-										style="font-size: 12px; color: black;"
-										onclick="return check();" /> <FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
-										<INPUT style="font-size: 12px; color: black;" type="reset"
-										value="关闭" ID="Reset1" NAME="Reset1" onClick="window.close();" />
-										<span id="Label1"></span></td>
+									<td class="ta_01" align="center" bgColor="#f5fafe">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</td>
+									<td class="ta_01" bgColor="#ffffff" colSpan="3">
+										<s:textarea name="comment" id="comment" cssStyle="WIDTH: 96%" rows="3"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="ta_01" align="center" bgColor="#f5fafe" height="22">
+										记录描述：
+									</td>
+									<td height="22" colspan="3" bgColor="#FFFFFF" class="ta_01">
+										<font face="宋体" color="red"> </font>
+										<s:textarea name="record" id="record" cssStyle="WIDTH: 96%" rows="3"/> 
+									</td>
+								</tr>
+								<tr>
+									<td class="ta_01" style="WIDTH: 100%" align="center" bgColor="#f5fafe" colSpan="4">
+										<input type="button" name="BT_Submit" value="修改" id="BT_Submit" style="font-size: 12px; color: black;" onclick="return check();" /> 
+										<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
+										<INPUT style="font-size: 12px; color: black;" type="reset" value="关闭" ID="Reset1" NAME="Reset1" onClick="window.close();" />
+										<span id="Label1"></span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -200,6 +202,6 @@ function submitrequest(action){
 				</tr>
 			</TBODY>
 		</table>
-	</form>
+	</s:form>
 </body>
 </HTML>

@@ -82,6 +82,7 @@
 										<s:property value="adjust.jctID"/>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
+									<a href="javascript:;" onClick="openWindow('elecAdjustAction_add.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">添加</a>
 									<a href="javascript:;" onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">修改</a> 
 									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')"class="cl_01">删除</a> 
 									<a href="javascript:;" onClick="openWindow('adjustQuery.jsp?');" class="cl_01">查看</a>

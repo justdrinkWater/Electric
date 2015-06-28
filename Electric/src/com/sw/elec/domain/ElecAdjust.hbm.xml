@@ -4,9 +4,9 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.sw.elec.domain.ElecAdjust" table="Elec_Adjust">
-		<id name="seqID" type="integer">
-			<column name="seqID" not-null="true"></column>
-			<generator class="increment"></generator>
+		<id name="sqlID" type="string">
+			<column name="sqlID" not-null="true"></column>
+			<generator class="uuid" ></generator>
 		</id>
 		<property name="devID" type="string">
 			<column name="devID"></column>

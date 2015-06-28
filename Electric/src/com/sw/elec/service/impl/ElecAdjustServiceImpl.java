@@ -1,6 +1,7 @@
 package com.sw.elec.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -13,9 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sw.elec.dao.IElecAdjustDao;
 import com.sw.elec.dao.IElecDeviceDao;
 import com.sw.elec.dao.IElecDictionaryDao;
+import com.sw.elec.domain.ElecAdjust;
 import com.sw.elec.domain.ElecDevice;
+import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecAdjustService;
 import com.sw.elec.util.PageInfo;
+import com.sw.elec.util.StringHelper;
 import com.sw.elec.web.form.ElecAdjustForm;
 
 @Transactional
@@ -52,10 +56,10 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 			deviceList = elecDeviceDao.findCollectionByConditionWithPage(
 					hqlWhere, null, orderBy, pageInfo);
 		}
-		List<ElecAdjustForm> adjustList = this.convertdeviceLIstToadjustList(
-				deviceList, pageInfo);
+		List<ElecAdjustForm> adjustFormList = this
+				.convertdeviceLIstToadjustList(deviceList, pageInfo);
 		request.setAttribute("page", pageInfo.getPageBean());
-		return adjustList;
+		return adjustFormList;
 	}
 
 	// 将deviceList取得其他的device，然后将其他需要的值放入adjustFrom中，再组成链表
@@ -92,11 +96,15 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 		if (adjustList != null && adjustList.size() > 0) {
 			lastAdjust = adjustList.get(0);// 按照校准时间取得最迟的数据
 		}
+		adjustForm.setDevID(elecDevice.getDevID());
 		adjustForm.setDevName(elecDevice.getDevName() != null ? elecDevice
 				.getDevName() : "");
-		adjustForm
-				.setAdjustPeriod(elecDevice.getAdjustPeriod() != null ? elecDevice
-						.getAdjustPeriod() : "");
+		adjustForm.setAdjustPeriod(elecDevice.getAdjustPeriod() != null
+				&& elecDevice.getApUnit() != null ? elecDevice
+				.getAdjustPeriod()
+				+ elecDictionaryDao
+						.findDictionaryName("校准周期单位", elecDevice.getApUnit())
+						.get(0).toString() : "");
 		adjustForm
 				.setUseDate(String.valueOf(elecDevice.getUseDate() != null ? elecDevice
 						.getUseDate() : ""));
@@ -110,6 +118,11 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 		adjustForm.setJctID(elecDevice.getJctID() != null
 				&& !"".equals(elecDevice.getJctID()) ? elecDictionaryDao
 				.findDictionaryName("所属单位", elecDevice.getJctID()).get(0)
+				.toString() : "");
+		// 设置adjustForm的设备类型属性，在修改页面需要
+		adjustForm.setDevType(elecDevice.getDevType() != null
+				&& !"".equals(elecDevice.getDevType()) ? elecDictionaryDao
+				.findDictionaryName("设备类型", elecDevice.getDevType()).get(0)
 				.toString() : "");
 		return adjustForm;
 	}
@@ -127,23 +140,23 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 			if (elecAdjustForm.getDevName() != null
 					&& !"".equals(elecAdjustForm.getDevName())) {
 				stringBuffer.append(" and o.devName like ?");
-				paramList.add("%"+elecAdjustForm.getDevName()+"%");
+				paramList.add("%" + elecAdjustForm.getDevName() + "%");
 			}
 			if (elecAdjustForm.getIsAdjust() != null
 					&& !"".equals(elecAdjustForm.getIsAdjust())) {
 				stringBuffer.append(" and o.isAdjust = ? ");
 				paramList.add(elecAdjustForm.getIsAdjust());
-				//校准时间段
-/*				if (elecAdjustForm.getStartDatef() != null
-						&& !"".equals(elecAdjustForm.getStartDatef())) {
-					stringBuffer.append(" and o. > ?");
-					paramList.add(elecAdjustForm.getStartDatef());
-				}
-				if (elecAdjustForm.getStartDatet() != null
-						&& !"".equals(elecAdjustForm.getStartDatet())) {
-					stringBuffer.append(" and o. < ?");
-					paramList.add(elecAdjustForm.getStartDatet());
-				}*/
+				// 校准时间段
+				/*
+				 * if (elecAdjustForm.getStartDatef() != null &&
+				 * !"".equals(elecAdjustForm.getStartDatef())) {
+				 * stringBuffer.append(" and o. > ?");
+				 * paramList.add(elecAdjustForm.getStartDatef()); } if
+				 * (elecAdjustForm.getStartDatet() != null &&
+				 * !"".equals(elecAdjustForm.getStartDatet())) {
+				 * stringBuffer.append(" and o. < ?");
+				 * paramList.add(elecAdjustForm.getStartDatet()); }
+				 */
 			}
 			if (elecAdjustForm.getDevType() != null
 					&& !"".equals(elecAdjustForm.getDevType())) {
@@ -164,4 +177,85 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 		hqlWhereAndParams.add(params);
 		return hqlWhereAndParams;
 	}
+
+	// 通过devID找到Dev返回需要的信息
+	@Override
+	public ElecAdjustForm findAdjustFormByDevID(ElecAdjustForm elecAdjustForm) {
+		String devID = elecAdjustForm.getDevID();
+		List<Object[]> adjustList = elecAdjustDao
+				.findAdjustsByDevIDOrderByAdjustDate(devID);
+		ElecDevice elecDevice = elecDeviceDao.findObjectByID(devID);
+		ElecAdjustForm adjustForm = convertDeviceToAdjustForm(elecDevice);
+		// 在接着设置adjustForm的其他属性
+		if (adjustList != null && adjustList.size() != 0) {
+			adjustForm = this.setOtherFieldsWithAdjust(adjustForm, adjustList);
+		}
+		return adjustForm;
+	}
+
+	// 通过得到的设备的adjustList设置域
+	private ElecAdjustForm setOtherFieldsWithAdjust(ElecAdjustForm adjustForm,
+			List<Object[]> adjustList) {
+		Object[] adjust = adjustList.get(0);
+		adjustForm.setSeqID(adjust[0].toString());
+		adjustForm.setDevID(adjust[1].toString());
+		adjustForm.setIsAdjust(adjust[2].toString());
+		adjustForm.setAdjustDate(adjust[3].toString());
+		adjustForm.setIsHaveRecord("2");
+		adjustForm.setRecord(adjust[6].toString());
+		adjustForm.setComment(adjust[7].toString());
+		return adjustForm;
+	}
+
+	// 保存校准记录
+	@Override
+	public void save(ElecAdjustForm elecAdjustForm, HttpServletRequest request) {
+		if (elecAdjustForm != null) {
+			// 从session中得到当前的用户
+			ElecUser elecUser = (ElecUser) request.getSession().getAttribute(
+					"globle_user");
+			ElecAdjust adjust = convertAdjustFromToAdjust(elecAdjustForm,
+					elecUser);
+			if (elecAdjustForm.getSeqID() != null
+					&& !"".equals(elecAdjustForm.getSeqID())) {
+				// 如果更新,取出数据，更新数据，在更新实体
+				adjust = elecAdjustDao
+						.findObjectByID(elecAdjustForm.getSeqID());
+				adjust = this.updateFields(elecAdjustForm, elecUser, adjust);
+				elecAdjustDao.update(adjust);
+				return;
+			}
+			elecAdjustDao.save(adjust);
+		}
+	}
+
+	private ElecAdjust updateFields(ElecAdjustForm elecAdjustForm,
+			ElecUser elecUser, ElecAdjust adjust) {
+		adjust.setComment(elecAdjustForm.getComment());
+		adjust.setRecord(elecAdjustForm.getRecord());
+		adjust.setLastDate(new Date());
+		adjust.setLastEmpID(elecUser.getUserID());
+		return adjust;
+	}
+
+	private ElecAdjust convertAdjustFromToAdjust(ElecAdjustForm elecAdjustForm,
+			ElecUser elecUser) {
+		ElecAdjust adjust = new ElecAdjust();
+		adjust.setDevID(elecAdjustForm.getDevID());
+		adjust.setIsAdjust("1");
+		adjust.setAdjustDate(new Date());
+		adjust.setRecord(elecAdjustForm.getRecord());
+		adjust.setComment(elecAdjustForm.getComment());
+		adjust.setIsDelete("0");
+		adjust.setCreateEmpID(elecUser.getUserID());
+		adjust.setCreateDate(new Date());
+		adjust.setLastEmpID(elecUser.getUserID());
+		if (elecAdjustForm.getLastDate() != null
+				&& !"".equals(elecAdjustForm.getLastDate())) {
+			adjust.setLastDate(StringHelper.stringConvertDate(elecAdjustForm
+					.getLastDate()));
+		}
+		return adjust;
+	}
+
 }

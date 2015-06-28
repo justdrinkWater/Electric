@@ -179,13 +179,15 @@
 				/WEB-INF/page/equapment/adjustList.jsp
 			</result>
 			<result name="add">
-				/WEB-INF/page/equapment/adjustList.jsp
+				/WEB-INF/page/equapment/adjustAdd.jsp
 			</result>
 			<result name="list" type="redirectAction">
-				<param name="actionName">elecAdjustAction_*</param>
+				<param name="actionName">elecAdjustAction_home</param>
 				<param name="namespace">/equapment</param>
 			</result>
-			
+			<result name="upload">
+				/WEB-INF/page/equapment/adjustList.jsp
+			</result>
 		</action>
 	</package>
 </struts>

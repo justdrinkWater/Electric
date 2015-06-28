@@ -15,7 +15,7 @@ public class ElecAdjust implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int seqID; // 仪器校准，主键ID
+	private String sqlID; // 仪器校准，主键ID
 	private String devID; // 设备ID
 	private String isAdjust; // 是否校准，0未校准，1已校准
 	private Date adjustDate; // 校准日期
@@ -29,12 +29,12 @@ public class ElecAdjust implements Serializable {
 	private String lastEmpID; // 修改人
 	private Date lastDate; // 修改日期
 
-	public int getSeqID() {
-		return seqID;
+	public String getSqlID() {
+		return sqlID;
 	}
 
-	public void setSeqID(int seqID) {
-		this.seqID = seqID;
+	public void setSqlID(String sqlID) {
+		this.sqlID = sqlID;
 	}
 
 	public String getDevID() {
