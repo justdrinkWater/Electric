@@ -2,7 +2,14 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
 <head>
-<title>设备校准记录编辑</title>
+<title>
+	<s:if test="#request.viewflag == ''">
+		设备校准记录编辑
+	</s:if>
+	<s:else>
+		设备校准记录详细信息
+	</s:else>
+</title>
 <link href="${pageContext.request.contextPath }/css/Style.css"
 	type="text/css" rel="stylesheet" />
 <script type="text/javascript"
@@ -11,14 +18,13 @@
 	src="${pageContext.request.contextPath }/script/changePageBackUp.js"></script>
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>	
 <script type="text/javascript">
-function shareOnChange(mySelect)
-{
-if (mySelect.selectedIndex == 0)
-    {
-    PPassword.style.display = "none"
-    }
-else
-    PPassword.style.display = ""
+function shareOnChange(mySelect){
+	if (mySelect.selectedIndex == 0){
+	    PPassword.style.display = "none"
+	 }
+	else{
+	    PPassword.style.display = ""
+	}
 }
 
 </script>
@@ -72,7 +78,15 @@ function submitrequest(action){
 				<tr>
 					<td class="ta_01" align="center"
 						background="${pageContext.request.contextPath }/images/b-info.gif">
-						<font face="宋体" size="2"><strong>设备校准记录编辑</strong></font>
+						<font face="宋体" size="2">
+						<strong>
+							<s:if test="#request.viewflag == ''">
+								设备校准记录编辑
+							</s:if>
+							<s:else>
+								设备校准记录详细信息
+							</s:else>
+						</strong></font>
 					</td>
 				</tr>
 				<tr>
@@ -190,7 +204,9 @@ function submitrequest(action){
 								</tr>
 								<tr>
 									<td class="ta_01" style="WIDTH: 100%" align="center" bgColor="#f5fafe" colSpan="4">
-										<input type="button" name="BT_Submit" value="修改" id="BT_Submit" style="font-size: 12px; color: black;" onclick="return check();" /> 
+											<s:if test="#request.viewflag == ''">
+												<input type="button" name="BT_Submit" value="修改" id="BT_Submit" style="font-size: 12px; color: black;" onclick="return check();" /> 
+											</s:if>
 										<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
 										<INPUT style="font-size: 12px; color: black;" type="reset" value="关闭" ID="Reset1" NAME="Reset1" onClick="window.close();" />
 										<span id="Label1"></span>

@@ -131,11 +131,11 @@
 						onClick="openWindow('exportXJDevice.do?XorJ=X','600','400');">
 					<input name="BT_Add" type="button"
 						style="font-size: 12px; color: black;" id="BT_Add"
-						onClick="openWindow('adjustMoreAdd.jsp',800,450,'添加');"
+						onClick="openWindow('elecAdjustAction_moreAdd.do',800,450,'添加');"
 						value="批量添加" /> 
 					<input type="button" name="BT_Search" value="导出设置"
 						id="BT_Search" style="font-size: 12px; color: black;"
-						onClick="openWindow('adjustExport.jsp?XorJ=X','600','400');">
+						onClick="openWindow('elecAdjustAction_export.do','600','400');">
 
 				</td>
 			</TR>
@@ -195,8 +195,9 @@
 									<td align="center" style="HEIGHT: 22px">
 									<a href="javascript:;" onClick="openWindow('elecAdjustAction_add.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">添加</a>
 									<a href="javascript:;" onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">修改</a> 
-									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')" class="cl_01">删除</a> 
-									<a href="javascript:;" onClick="openWindow('adjustQuery.jsp?');" class="cl_01">查看</a>
+									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" 
+										href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')" class="cl_01">删除</a> 
+									<a href="javascript:;" onClick="openWindow('elecAdjustAction_query.do?devID=<s:property value="#adjust.devID"/>');" class="cl_01">查看</a>
 									</td>
 								</tr>
 							</s:iterator>

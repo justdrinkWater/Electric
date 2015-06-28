@@ -129,60 +129,8 @@ function CheckAll(form)
                 <td class="ta_01" bgColor="#F5FAFE">UPSaaa</td>
                 <td class="ta_01" bgColor="#F5FAFE">540</td>
               </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="feb787e55063498286b265bcc3f2a80d" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">UPSbbb</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="3ab65799250542dd95bf6750e929818d" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">大头鬼</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="7ad11c5f9d9a47d9984c0e8bfc0bdb34" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">短波天线123-1</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="98d9d475173a4946926315946ea5273b" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">短波天线123-10</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="e4ee1fa474a2416a8ddd26f3f3436297" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">短波天线123-11</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
-             
-					
-              <tr>
-                <td width="47" align="center" bgColor="#F5FAFE" class="ta_01"><span style="CURSOR:hand; HEIGHT:22px">
-                  <input type="checkbox" name="devId" value="6f89665a03444a54a0bf6fb7e235333c" />
-                </span></td>
-                <td class="ta_01" bgColor="#F5FAFE">短波天线123-12</td>
-                <td class="ta_01" bgColor="#F5FAFE">540</td>
-              </tr>
+  
+  
              
 					
               <tr>

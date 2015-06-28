@@ -54,29 +54,53 @@ public class ElecAdjustAction extends BaseAction implements
 		this.request.setAttribute("isOrNot", isOrNot);
 	}
 
-	public String add(){
+	public String add() {
 		this.initDictionary();
 		ElecAdjustForm adjustForm = elecAdjustService
 				.findAdjustFormByDevID(elecAdjustForm);
 		ActionContext.getContext().getValueStack().push(adjustForm);
 		return "add";
 	}
-	
+
 	public String edit() {
 		this.initDictionary();
 		ElecAdjustForm adjustForm = elecAdjustService
 				.findAdjustFormByDevID(elecAdjustForm);
 		ActionContext.getContext().getValueStack().push(adjustForm);
 		this.request.setAttribute("adjustForm", adjustForm);
+		String viewflag = elecAdjustForm.getViewflag() != null
+				&& !"".equals(elecAdjustForm.getViewflag()) ? elecAdjustForm
+				.getViewflag() : "";
+		this.request.setAttribute("viewflag", viewflag);
 		return "edit";
 	}
-	
-	public String save(){
-		elecAdjustService.save(elecAdjustForm,request);
+
+	public String save() {
+		elecAdjustService.save(elecAdjustForm, request);
 		return "list";
 	}
-	
-	public String upload(){
+
+	public String query() {
+		List<ElecAdjustForm> aFlist = elecAdjustService
+				.findAllDeviceAdjustWithdevID(elecAdjustForm);
+		this.request.setAttribute("aFlist", aFlist);
+		return "query";
+	}
+
+	public String moreAdd() {
+		this.initDictionary();
+		return "moreAdd";
+	}
+
+	public String export() {
+		return "export";
+	}
+
+	public String moreAddList() {
+		return "moreAddList";
+	}
+
+	public String upload() {
 		return "upload";
 	}
 }

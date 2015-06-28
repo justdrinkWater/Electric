@@ -185,8 +185,20 @@
 				<param name="actionName">elecAdjustAction_home</param>
 				<param name="namespace">/equapment</param>
 			</result>
+			<result name="query">
+				/WEB-INF/page/equapment/adjustQuery.jsp
+			</result>
 			<result name="upload">
 				/WEB-INF/page/equapment/adjustList.jsp
+			</result>
+			<result name="moreAdd">
+				/WEB-INF/page/equapment/adjustMoreAdd.jsp
+			</result>
+			<result name="export">
+				/WEB-INF/page/equapment/adjustExport.jsp
+			</result>
+			<result name="moreAddList">
+				/WEB-INF/page/equapment/adjustMoreAddList.jsp
 			</result>
 		</action>
 	</package>

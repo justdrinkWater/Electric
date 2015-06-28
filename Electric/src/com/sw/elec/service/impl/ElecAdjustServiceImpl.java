@@ -258,4 +258,37 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 		return adjust;
 	}
 
+	// 通过devID找到所有的校准记录
+	@Override
+	public List<ElecAdjustForm> findAllDeviceAdjustWithdevID(
+			ElecAdjustForm elecAdjustForm) {
+		String devID = elecAdjustForm.getDevID();
+		List<Object[]> objectList = elecAdjustDao
+				.findAdjustsByDevIDOrderByAdjustDate(devID);
+		ElecDevice device = elecDeviceDao.findObjectByID(devID);
+		List<ElecAdjustForm> adjustFormList = this
+				.convertObjectListToAdjustFormListWithDevice(objectList, device);
+		return adjustFormList;
+	}
+
+	// 将从数据库根据devID查到的Object数组转成AdjustForm
+	private List<ElecAdjustForm> convertObjectListToAdjustFormListWithDevice(
+			List<Object[]> objectList, ElecDevice device) {
+		List<ElecAdjustForm> adjustFormList = new ArrayList<ElecAdjustForm>();
+		ElecAdjustForm adjustForm = null;
+		String jctID = device.getJctID() != null ? elecDictionaryDao
+				.findDictionaryName("所属单位", device.getJctID()).get(0).toString()
+				: "";
+		for (Object[] objects : objectList) {
+			adjustForm = new ElecAdjustForm();
+			adjustForm.setDevID(device.getDevID());
+			adjustForm.setSeqID(objects[0].toString());
+			adjustForm.setDevName(device.getDevName());
+			adjustForm.setJctID(jctID);
+			adjustForm.setAdjustDate(objects[3].toString());
+			adjustFormList.add(adjustForm);
+		}
+		return adjustFormList;
+	}
+
 }
