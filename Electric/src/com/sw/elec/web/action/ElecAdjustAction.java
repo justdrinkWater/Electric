@@ -103,21 +103,16 @@ public class ElecAdjustAction extends BaseAction implements
 	}
 
 	public String moreAddList() {
-		List<ElecDeviceForm> deviceList = elecDeviceService.findAllDevices();
-		this.request.setAttribute("deviceList", deviceList);
-		return "moreAddList";
-	}
-
-	//工具
-	public String util(){
+		List<ElecDeviceForm> deviceList = null;
 		String findflag = this.request.getParameter("findflag");
 		String devType = this.request.getParameter("devType");
-		List<ElecDeviceForm> deviceList=null;
-		if("1".equals(findflag)){
+		if("1".equals(findflag)&&!"0".equals(devType)){
 			deviceList = elecDeviceService.findDeviceByDevType(devType);
+		}else{
+			deviceList = elecDeviceService.findAllDevices();
 		}
 		this.request.setAttribute("deviceList", deviceList);
-		return null;
+		return "moreAddList";
 	}
 	
 	public String upload() {

@@ -91,7 +91,7 @@ function CheckAll(form)
 		}
 	}
 	  function getdevTypeChange(dt){
-	      document.all.dtype.src="elecAdjustAction_util.do?findflag=1&devType="+dt.value;
+	      document.all.dtype.src="elecAdjustAction_moreAddList.do?findflag=1&devType="+dt.value;
 	  }
 </SCRIPT>
 </head>
@@ -119,6 +119,7 @@ function CheckAll(form)
 									<s:if test="#request.devTypes!=null">
 										<s:select list="%{#request.devTypes}"
 													name="devType" id="devType" cssClass="bg" onchange="getdevTypeChange(this)"
+													headerKey="0" headerValue="全部"
 													listKey="ddlCode" listValue="ddlName"
 													value="devType">
 										</s:select>
@@ -138,8 +139,8 @@ function CheckAll(form)
 							</tr>
 							<tr>
 								<td colspan="2">
-									<IFRAME src="elecAdjustAction_moreAddList.do" name="dtype" id="dtype" frameBorder=0 width="335" scrolling=auto
-										height="235">
+									<IFRAME src="elecAdjustAction_moreAddList.do" name="dtype" id="dtype" frameBorder=0 
+										width="335" scrolling=auto	height="235">
 									</IFRAME>
 								</td>
 							</tr>
@@ -154,7 +155,7 @@ function CheckAll(form)
 							<td align="center" bgcolor="#f5fafe" class="ta_01">校准时间：</td>
 							<td bgColor="#f5fafe" class="ta_01">
 								<font color="#FF0000">*</font>&nbsp;
-								<s:textfield name="startDate" type="date" class="bg" id="startDate" size="10"/>
+								<s:textfield name="adjustDate" type="date" class="bg" id="adjustDate" size="10"/>
 							</td>
 						</tr>
 						<tr>
