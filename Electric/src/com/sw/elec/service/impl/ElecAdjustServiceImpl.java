@@ -214,8 +214,11 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 			// 从session中得到当前的用户
 			ElecUser elecUser = (ElecUser) request.getSession().getAttribute(
 					"globle_user");
-			ElecAdjust adjust = convertAdjustFromToAdjust(elecAdjustForm,
-					elecUser);
+			String devIDs = elecAdjustForm.getDevID().trim();
+			String[] ids = devIDs.split(",");
+			ElecAdjust adjust = null;
+			List<ElecAdjust> adjustList = new ArrayList<ElecAdjust>();
+			// 如果seqID不为空，表示是更新，不是插入
 			if (elecAdjustForm.getSeqID() != null
 					&& !"".equals(elecAdjustForm.getSeqID())) {
 				// 如果更新,取出数据，更新数据，在更新实体
@@ -225,7 +228,12 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 				elecAdjustDao.update(adjust);
 				return;
 			}
-			elecAdjustDao.save(adjust);
+			for (String string : ids) {
+				adjust = convertAdjustFromToAdjust(elecAdjustForm, elecUser);
+				adjust.setDevID(string);
+				adjustList.add(adjust);
+			}
+			elecAdjustDao.saveObjectsByCollection(adjustList);
 		}
 	}
 
@@ -277,8 +285,8 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 		List<ElecAdjustForm> adjustFormList = new ArrayList<ElecAdjustForm>();
 		ElecAdjustForm adjustForm = null;
 		String jctID = device.getJctID() != null ? elecDictionaryDao
-				.findDictionaryName("所属单位", device.getJctID()).get(0).toString()
-				: "";
+				.findDictionaryName("所属单位", device.getJctID()).get(0)
+				.toString() : "";
 		for (Object[] objects : objectList) {
 			adjustForm = new ElecAdjustForm();
 			adjustForm.setDevID(device.getDevID());

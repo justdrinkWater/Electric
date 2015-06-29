@@ -121,7 +121,6 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 	// 将PO对象序列转化为VO对象序列
 	private List<ElecDeviceForm> convertPoToVoList(List<ElecDevice> listDevice,
 			PageInfo pageInfo) {
-		ElecDeviceForm elecDeviceForm = null;
 		int currentFist = 0;
 		if (pageInfo != null) {
 			if (pageInfo.getPageSize() < 10) {
@@ -131,6 +130,14 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 				currentFist = pageInfo.getBeginResult() + 1;
 			}
 		}
+		List<ElecDeviceForm> listDeviceForm = convertPoToVoList(listDevice,
+				currentFist);
+		return listDeviceForm;
+	}
+
+	private List<ElecDeviceForm> convertPoToVoList(List<ElecDevice> listDevice,
+			int currentFist) {
+		ElecDeviceForm elecDeviceForm = null;
 		List<ElecDeviceForm> listDeviceForm = new ArrayList<ElecDeviceForm>();
 		for (ElecDevice elecDevice : listDevice) {
 			elecDeviceForm = convertPoToVo(elecDevice);
@@ -375,5 +382,22 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 		ElecDevice entity = this.convertVoToPo(elecDeviceForm);
 		entity.setIsDelete("1");
 		elecDeviceDao.update(entity);
+	}
+
+	@Override
+	public List<ElecDeviceForm> findAllDevices() {
+		List<ElecDevice> deviceList = this.findAllDevice();
+		List<ElecDeviceForm> formList = this.convertPoToVoList(deviceList, 0);
+		return formList;
+	}
+
+	//通过设备的类型得到设备
+	@Override
+	public List<ElecDeviceForm> findDeviceByDevType(String devType) {
+		String hqlWhere = " and o.devType = ? ";
+		Object[] params = {devType};
+		List<ElecDevice> list = elecDeviceDao.findCollectionByConditionNoPage(hqlWhere, params, null);
+		List<ElecDeviceForm> formList = this.convertPoToVoList(list, 0);
+		return formList;
 	}
 }

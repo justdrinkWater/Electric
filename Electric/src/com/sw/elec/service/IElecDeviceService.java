@@ -27,4 +27,8 @@ public interface IElecDeviceService {
 
 	void delete(ElecDeviceForm elecDeviceForm);
 
+	List<ElecDeviceForm> findAllDevices();
+
+	List<ElecDeviceForm> findDeviceByDevType(String devType);
+
 }

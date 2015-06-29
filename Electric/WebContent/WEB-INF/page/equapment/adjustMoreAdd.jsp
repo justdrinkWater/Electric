@@ -8,69 +8,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/function.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/script/calendar.js"
-	charset="gb2312"></script>
-<script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/changePageBackUp.js"></script>
-<style type="text/css">
-<!--
-body {
-	background-color: #FFFFFF;
-	margin-left: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-}
-
-td, select {
-	font-size: 12px;
-}
-
-.STYLE1 {
-	color: #FFFFFF
-}
-
-.STYLE2 {
-	margin: 1px;
-	padding: 2px 4px 2px 10px;
-	border: 1px solid #8AA2CC;
-	background-attachment: fixed;
-	background-image:
-		url(${pageContext.request.contextPath }/images/button_view.gif);
-	background-repeat: no-repeat;
-	background-position: left center;
-	cursor: hand;
-	text-align: right;
-	left: 10px;
-	top: 10px;
-	right: 0px;
-	bottom: 10px;
-	clip: rect(10px, 10px, 10px, 10px);
-	height: 20px;
-	background-color: #DAE6FF;
-}
-
-.STYLE3 {
-	margin: 1px;
-	padding: 2px 4px 2px 10px;
-	border: 1px solid #8AA2CC;
-	background-attachment: fixed;
-	background-image:
-		url(${pageContext.request.contextPath }/images/button_add.gif);
-	background-repeat: no-repeat;
-	background-position: left center;
-	cursor: hand;
-	text-align: right;
-	left: 10px;
-	top: 10px;
-	right: 0px;
-	bottom: 10px;
-	clip: rect(10px, 10px, 10px, 10px);
-	height: 20px;
-	background-color: #DAE6FF;
-}
--->
-</style>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
 function shareOnChange(mySelect)
 {
@@ -83,15 +22,11 @@ else
 }
 </script>
 <script type="text/javascript">
-<!--
 function CheckOthers(form)
 {
-
 	for (var i=0;i<dtype.Form1.elements.length;i++)
 	{
-	
 		var e = dtype.Form1.elements[i];
-
 			if (e.checked==false)
 			{
 				e.checked = true;
@@ -103,7 +38,6 @@ function CheckOthers(form)
 			e.checked = false;
 	}
 }
-
 function CheckAll(form)
 {
 	for (var i=0;i<dtype.Form1.elements.length;i++)
@@ -112,62 +46,57 @@ function CheckAll(form)
 			e.checked = true;
 	}
 }
-
 </script>
 <script type="text/javascript">
-function check(){
+	function check(){
          var theForm = document.Form1;
           if(Trim(theForm.startDate.value)==""){
 	    	alert("请输入校准日期");
 			theForm.startDate.focus();
 			return false;
 	    }
-     var id="";
-	 for (var i=0;i<dtype.Form1.elements.length;i++)
-	{
-		var e = dtype.Form1.elements[i];
-	if (dtype.Form1.elements[i].checked==true)
-	{
-			id=id+dtype.Form1.elements[i].value+",";
+	     var id="";
+		 for (var i=0;i<dtype.Form1.elements.length;i++){
+			var e = dtype.Form1.elements[i];
+			if (dtype.Form1.elements[i].checked==true){
+				id=id+dtype.Form1.elements[i].value+",";
 			}
+		}
+		alert(id);
+	    document.Form1.devID.value=id; 
+	    if (theForm.record.value.length >250){
+		    alert("记录描述不能超过250个汉字！");
+		    theForm.record.focus();
+		    return false;
+		}
+		if (theForm.comment.value.length >250){
+		    alert("备注不能超过250个汉字！");
+		    theForm.comment.focus();
+		    return false;
+		}
+	    if(id!=""){
+			$.ajax({  
+		        type : "POST",  
+		        url : "equapement/elecAdjustAction_save.do",  
+		        data : $("#Form1").serialize(),  
+		        success : function(msg) {
+		        	alert("添加成功!");
+		        	window.opener.location.reload();
+		        	window.close();
+		        },
+		        error:function(){
+		        	alert("sorry,添加失败!");
+		        }
+		    }); 
+		}
 	}
-	
-    document.Form1.devId.value=id; 
-    if (theForm.record.value.length >250)
-	{
-	    alert("记录描述不能超过250个汉字！");
-	    theForm.record.focus();
-	    return false;
-	}
-	if (theForm.comment.value.length >250)
-	{
-	    alert("备注不能超过250个汉字！");
-	    theForm.comment.focus();
-	    return false;
-	}
-     
-    if(id!=""){
-     
-		document.Form1.action="moreUpdateDeviceX.do";
-		document.Form1.submit();
-		alert("保存成功！");
-	   window.opener.jsJumpToBeginX();//去第1页
-	}
-	window.close();
-}
-  function getdevTypeChange(dt){
-      document.all.dtype.src="typeDeviceX.do?findFlag=0&devType="+dt.value;
-  }
-
-</SCRIPT>
-<SCRIPT type="text/javascript">
-function submitrequest(action){
-  eval("document.location='"+action+"'");
-}
+	  function getdevTypeChange(dt){
+	      document.all.dtype.src="elecAdjustAction_util.do?findflag=1&devType="+dt.value;
+	  }
 </SCRIPT>
 </head>
 <body>
-	<form name="Form1" method="post">
+	<s:form name="Form1" id="Form1" method="post">
 		<s:hidden name="devID" id="devID"/>
 		<table cellSpacing="1" cellPadding="5" width="780" align="center"
 			bgColor="#f5fafe" style="border: 1px solid #8ba7e3" border="0">
@@ -224,23 +153,22 @@ function submitrequest(action){
 						<tr>
 							<td align="center" bgcolor="#f5fafe" class="ta_01">校准时间：</td>
 							<td bgColor="#f5fafe" class="ta_01">
-								<s:textfield name="startDate" type="date" class="bg" id="startDate" size="10" disabled="true"/>
-								&nbsp;
-								<font color="#FF0000">*</font>
-								</td>
+								<font color="#FF0000">*</font>&nbsp;
+								<s:textfield name="startDate" type="date" class="bg" id="startDate" size="10"/>
+							</td>
 						</tr>
 						<tr>
 							<td align="center" bgcolor="#f5fafe" class="ta_01">有无记录：</td>
 							<td bgColor="#f5fafe" class="ta_01">
-								<select name="isHaving"	id="isHaving" class="bg" style="width: 50" name=ifshare
-								onChange=shareOnChange(this)>
+								<select name="isHaving"	id="isHaving" class="bg" style="width: 50" name="ifshare" onChange="shareOnChange(this)">
 									<option value="1">有</option>
 									<option value="0" selected>无</option>
-							</select>&nbsp;&nbsp;&nbsp;&nbsp; <span id=PPassword style="DISPLAY: none">
+								</select>&nbsp;&nbsp;&nbsp;&nbsp; <span id=PPassword style="DISPLAY: none">
 									<input style="font-size: 12px; color: black;" id="BT_Add"
 									type="button" value="详细" name="BT_Add"
 									onClick="openWindowWithName('EUpload.jsp',800,450,'ECC');" />
-							</span></td>
+								</span>
+							</td>
 						</tr>
 						<tr>
 							<td align="center" bgcolor="#f5fafe" class="ta_01"></td>
@@ -249,14 +177,16 @@ function submitrequest(action){
 
 						<tr>
 							<td align="center" bgcolor="#f5fafe" class="ta_01">记录描述：</td>
-							<td bgColor="#f5fafe" class="ta_01"><textarea name="record"
-									id="record" style="WIDTH: 96%" rows="3" cols="20"></textarea></td>
+							<td bgColor="#f5fafe" class="ta_01">
+								<s:textarea name="record" id="record" cssStyle="WIDTH: 96%" rows="3" cols="20"/>
+							</td>
 						</tr>
 						<tr>
 							<td align="center" bgcolor="#f5fafe" class="ta_01">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								注：</td>
-							<td bgColor="#f5fafe" class="ta_01"><textarea name="comment"
-									id="comment" style="WIDTH: 96%" rows="3" cols="20"></textarea></td>
+							<td bgColor="#f5fafe" class="ta_01">
+								<s:textarea name="comment" id="comment" cssStyle="WIDTH: 96%" rows="3" cols="20"/>
+							</td>
 						</tr>
 					</table>
 				</td>
@@ -271,8 +201,7 @@ function submitrequest(action){
 					ID="Reset1" NAME="Reset1" onClick="window.close();" /></td>
 			</tr>
 		</table>
-
 		<br>
-	</form>
+	</s:form>
 </body>
 </html>

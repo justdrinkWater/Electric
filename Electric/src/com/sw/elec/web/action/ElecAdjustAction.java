@@ -5,9 +5,12 @@ import java.util.List;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sw.elec.container.ServiceProvider;
+import com.sw.elec.domain.ElecDevice;
 import com.sw.elec.service.IElecAdjustService;
+import com.sw.elec.service.IElecDeviceService;
 import com.sw.elec.service.IElecDictionaryService;
 import com.sw.elec.web.form.ElecAdjustForm;
+import com.sw.elec.web.form.ElecDeviceForm;
 import com.sw.elec.web.form.ElecDictionaryForm;
 
 @SuppressWarnings("serial")
@@ -19,6 +22,9 @@ public class ElecAdjustAction extends BaseAction implements
 
 	private IElecDictionaryService elecDictionaryService = (IElecDictionaryService) ServiceProvider
 			.getService(IElecDictionaryService.SERVICE_NAME);
+
+	private IElecDeviceService elecDeviceService = (IElecDeviceService) ServiceProvider
+			.getService(IElecDeviceService.SERVICE_NAME);
 
 	private ElecAdjustForm elecAdjustForm = new ElecAdjustForm();
 
@@ -97,9 +103,23 @@ public class ElecAdjustAction extends BaseAction implements
 	}
 
 	public String moreAddList() {
+		List<ElecDeviceForm> deviceList = elecDeviceService.findAllDevices();
+		this.request.setAttribute("deviceList", deviceList);
 		return "moreAddList";
 	}
 
+	//工具
+	public String util(){
+		String findflag = this.request.getParameter("findflag");
+		String devType = this.request.getParameter("devType");
+		List<ElecDeviceForm> deviceList=null;
+		if("1".equals(findflag)){
+			deviceList = elecDeviceService.findDeviceByDevType(devType);
+		}
+		this.request.setAttribute("deviceList", deviceList);
+		return null;
+	}
+	
 	public String upload() {
 		return "upload";
 	}
