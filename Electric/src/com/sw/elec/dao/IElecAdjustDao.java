@@ -9,5 +9,7 @@ public interface IElecAdjustDao extends ICommonDao<ElecAdjust> {
 
 	List<Object[]> findAdjustsByDevIDOrderByAdjustDate(String devID);
 
+	List<Object[]> findAllAdjustWithDevice();
+
 
 }

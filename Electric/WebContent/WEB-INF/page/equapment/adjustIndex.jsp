@@ -128,14 +128,14 @@
 						onclick="gotoquery('elecAdjustAction_home.do')" style="font-size: 12px; color: black;">
 					<input type="button" name="BT_Search" value="导出" id="BT_Search"
 						style="font-size: 12px; color: black;"
-						onClick="openWindow('exportXJDevice.do?XorJ=X','600','400');">
+						onClick="openWindow('elecAdjustAction_export.do','600','400');">
 					<input name="BT_Add" type="button"
 						style="font-size: 12px; color: black;" id="BT_Add"
 						onClick="openWindow('elecAdjustAction_moreAdd.do',800,450,'添加');"
 						value="批量添加" /> 
 					<input type="button" name="BT_Search" value="导出设置"
 						id="BT_Search" style="font-size: 12px; color: black;"
-						onClick="openWindow('elecAdjustAction_export.do','600','400');">
+						onClick="openWindow('elecAdjustAction_exportSet.do','600','400');">
 
 				</td>
 			</TR>

@@ -22,7 +22,7 @@ public interface IElecDeviceService {
 	Map<String,String> getAllFiledNamesWhenExportExcel(
 			ElecDeviceForm elecDeviceForm);
 
-	ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
+	ArrayList<ArrayList<String>> getFiledDataWhenExportExcel(
 			ElecDeviceForm elecDeviceForm,ArrayList<String> fields);
 
 	void delete(ElecDeviceForm elecDeviceForm);

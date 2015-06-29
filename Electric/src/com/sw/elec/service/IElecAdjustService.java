@@ -1,6 +1,8 @@
 package com.sw.elec.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,5 +20,11 @@ public interface IElecAdjustService {
 
 	List<ElecAdjustForm> findAllDeviceAdjustWithdevID(
 			ElecAdjustForm elecAdjustForm);
+
+	Map<String, String> getAllFieldNameWhenExportExcel(
+			ElecAdjustForm elecAdjustForm);
+
+	ArrayList<ArrayList<String>> getFiledDataWhenExportExcel(
+			ElecAdjustForm elecAdjustForm, ArrayList<String> fields);
 
 }

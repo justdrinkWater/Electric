@@ -322,7 +322,7 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 	}
 
 	@Override
-	public ArrayList<ArrayList<String>> getFiledDateWhenExportExcel(
+	public ArrayList<ArrayList<String>> getFiledDataWhenExportExcel(
 			ElecDeviceForm elecDeviceForm, ArrayList<String> fields) {
 		// 从数据库中得到所有的device
 		List<ElecDevice> list = this.findAllDevice();

@@ -1,9 +1,13 @@
 package com.sw.elec.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -297,6 +301,101 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 			adjustFormList.add(adjustForm);
 		}
 		return adjustFormList;
+	}
+
+	// 找到所有需要导出的字段
+	@Override
+	public Map<String, String> getAllFieldNameWhenExportExcel(
+			ElecAdjustForm elecAdjustForm) {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("record", "校准记录");
+		fields.put("devName", "设备名称");
+		fields.put("devType", "设备类型");
+		fields.put("adjustPeriod", "校准周期");
+		fields.put("useDate", "使用日期");
+		fields.put("jctID", "所属单位");
+		fields.put("adjustDate", "校准日期");
+		fields.put("comment", "备注");
+		return fields;
+	}
+
+	@Override
+	public ArrayList<ArrayList<String>> getFiledDataWhenExportExcel(
+			ElecAdjustForm elecAdjustForm, ArrayList<String> fields) {
+		List<Object[]> list = this.findAllAdjustWithDevice();
+		// 将得到的数组对象转成adjustFrom对象列表
+		ArrayList<String> fieldList = null;
+		ArrayList<ArrayList<String>> fieldLists = new ArrayList<ArrayList<String>>();
+		List<ElecAdjustForm> adjustFormList = this
+				.convertObjectListToAllAdjustFormList(list);
+
+		Class clazz = elecAdjustForm.getClass();
+		Method getMethod = null;
+		ArrayList<String> methodList = new ArrayList<String>();
+		// 拼方法
+		for (String string : fields) {
+			String getMethodStr = "";
+			getMethodStr = "get" + string.trim().substring(0, 1).toUpperCase()
+					+ string.trim().substring(1);
+			methodList.add(getMethodStr);
+		}
+		for (ElecAdjustForm adjustForm : adjustFormList) {
+			fieldList = new ArrayList<String>();
+			for (String string : methodList) {
+				try {
+					getMethod = clazz.getMethod(string, null);
+					try {
+						fieldList.add((String) getMethod.invoke(adjustForm,
+								null));
+					} catch (IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+			fieldLists.add(fieldList);
+		}
+		return fieldLists;
+	}
+
+	private List<ElecAdjustForm> convertObjectListToAllAdjustFormList(
+			List<Object[]> list) {
+		List<ElecAdjustForm> formList = new ArrayList<ElecAdjustForm>();
+		ElecAdjustForm adjustForm = null;
+		for (Object[] objects : list) {
+			adjustForm = new ElecAdjustForm();
+			adjustForm.setRecord(objects[0] != null ? objects[0].toString()
+					: "");
+			adjustForm.setDevName(objects[1] != null ? objects[1].toString()
+					: "");
+			adjustForm.setDevType(objects[2].toString() != null
+					&& !"".equals(objects[2].toString()) ? elecDictionaryDao
+					.findDictionaryName("设备类型", objects[2].toString()).get(0)
+					.toString() : "");
+			adjustForm.setAdjustPeriod(objects[3] != null ? objects[3]
+					.toString() : "" + objects[3] != null ? objects[3]
+					.toString() : "");
+			adjustForm.setUseDate(objects[4] != null ? objects[4].toString()
+					: "");
+			adjustForm.setJctID(objects[5].toString() != null
+					&& !"".equals(objects[5].toString()) ? elecDictionaryDao
+					.findDictionaryName("所属单位", objects[5].toString()).get(0)
+					.toString() : "");
+			adjustForm.setAdjustDate(objects[6] != null ? objects[6].toString()
+					: "");
+			adjustForm.setComment(objects[7] != null ? objects[7].toString()
+					: "");
+			formList.add(adjustForm);
+		}
+		return formList;
+	}
+
+	// 找到所有关联的adjust
+	private List<Object[]> findAllAdjustWithDevice() {
+		List<Object[]> list = elecAdjustDao.findAllAdjustWithDevice();
+		return list;
 	}
 
 }

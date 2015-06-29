@@ -194,7 +194,7 @@
 			<result name="moreAdd">
 				/WEB-INF/page/equapment/adjustMoreAdd.jsp
 			</result>
-			<result name="export">
+			<result name="exportSet">
 				/WEB-INF/page/equapment/adjustExport.jsp
 			</result>
 			<result name="moreAddList">

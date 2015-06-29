@@ -119,7 +119,7 @@ public class ElecDeviceAction extends BaseAction implements
 				.getSession().getAttribute("fields");
 		// 得到需要导出的数据
 		ArrayList<ArrayList<String>> dataList = elecDeviceService
-				.getFiledDateWhenExportExcel(elecDeviceForm, fields);
+				.getFiledDataWhenExportExcel(elecDeviceForm, fields);
 		try {
 			OutputStream outputStream = response.getOutputStream();
 			response.reset();

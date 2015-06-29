@@ -41,6 +41,9 @@ public class ElecAdjustForm implements Serializable {
 	private String devType; // 设备类型
 	private String isHaveRecord;
 
+	private String names;// 需要导出的属性
+	private String fields;// 选择需要导出的id
+
 	private String startDatef;// 校准时间的开始时间
 	private String startDatet;// 校准时间的截止时间
 
@@ -234,6 +237,22 @@ public class ElecAdjustForm implements Serializable {
 
 	public void setViewflag(String viewflag) {
 		this.viewflag = viewflag;
+	}
+
+	public String getNames() {
+		return names;
+	}
+
+	public void setNames(String names) {
+		this.names = names;
+	}
+
+	public String getFields() {
+		return fields;
+	}
+
+	public void setFields(String fields) {
+		this.fields = fields;
 	}
 
 }
