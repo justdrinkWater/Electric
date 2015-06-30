@@ -151,16 +151,18 @@ public class ElecAdjustServiceImpl implements IElecAdjustService {
 				stringBuffer.append(" and o.isAdjust = ? ");
 				paramList.add(elecAdjustForm.getIsAdjust());
 				// 校准时间段
-				/*
-				 * if (elecAdjustForm.getStartDatef() != null &&
-				 * !"".equals(elecAdjustForm.getStartDatef())) {
-				 * stringBuffer.append(" and o. > ?");
-				 * paramList.add(elecAdjustForm.getStartDatef()); } if
-				 * (elecAdjustForm.getStartDatet() != null &&
-				 * !"".equals(elecAdjustForm.getStartDatet())) {
-				 * stringBuffer.append(" and o. < ?");
-				 * paramList.add(elecAdjustForm.getStartDatet()); }
-				 */
+
+				/*if (elecAdjustForm.getStartDatef() != null
+						&& !"".equals(elecAdjustForm.getStartDatef())) {
+					stringBuffer.append(" and o. > ?");
+					paramList.add(elecAdjustForm.getStartDatef());
+				}
+				if (elecAdjustForm.getStartDatet() != null
+						&& !"".equals(elecAdjustForm.getStartDatet())) {
+					stringBuffer.append(" and o. < ?");
+					paramList.add(elecAdjustForm.getStartDatet());
+				}*/
+
 			}
 			if (elecAdjustForm.getDevType() != null
 					&& !"".equals(elecAdjustForm.getDevType())) {

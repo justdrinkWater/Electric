@@ -128,7 +128,6 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		List<T> list = (List<T>) this.getHibernateTemplate().execute(
 				new HibernateCallback() {
-
 					@Override
 					public Object doInHibernate(Session session)
 							throws HibernateException {
@@ -139,7 +138,6 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 						query.setMaxResults(pageInfo.getPageSize());
 						return query.list();
 					}
-
 				});
 		return list;
 	}

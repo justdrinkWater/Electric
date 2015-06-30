@@ -188,9 +188,6 @@
 			<result name="query">
 				/WEB-INF/page/equapment/adjustQuery.jsp
 			</result>
-			<result name="upload">
-				/WEB-INF/page/equapment/adjustList.jsp
-			</result>
 			<result name="moreAdd">
 				/WEB-INF/page/equapment/adjustMoreAdd.jsp
 			</result>
@@ -199,6 +196,22 @@
 			</result>
 			<result name="moreAddList">
 				/WEB-INF/page/equapment/adjustMoreAddList.jsp
+			</result>
+		</action>
+		<!-- 设备购置计划管理 -->
+		<action name="elecDevicePlanAction_*" class="com.sw.elec.web.action.ElecDevicePlanAction" method="{1}">
+			<result name="home">
+				/WEB-INF/page/equapment/planIndex.jsp			
+			</result>
+			<result name="planList">
+				/WEB-INF/page/equapment/planList.jsp
+			</result>
+			<result name="add">
+				/WEB-INF/page/equapment/planAdd.jsp
+			</result>
+			<result name="save" type="redirectAction">
+				<param name="actionName">elecDevicePlanAction_home</param>
+				<param name="namesapce">/equapment</param>
 			</result>
 		</action>
 	</package>

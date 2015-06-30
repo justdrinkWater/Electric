@@ -194,7 +194,7 @@ TH {
 										onmouseover="backgroundColorChange(this,'white');"
 										onmouseout="backgroundColorChange(this,'');"><A
 										class="cl_01" onclick="linkcolorchange(this)"
-										href="${pageContext.request.contextPath }/equapment/planIndex.jsp"
+										href="${pageContext.request.contextPath }/equapment/elecDevicePlanAction_home.do"
 										target="mainFrame">设备购置计划</A></TD>
 								</TR>
 								<%} %>

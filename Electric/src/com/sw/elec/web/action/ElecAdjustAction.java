@@ -115,10 +115,6 @@ public class ElecAdjustAction extends BaseAction implements
 		return "moreAddList";
 	}
 
-	public String upload() {
-		return "upload";
-	}
-
 	public String exportSet() {
 		Map<String, String> fields = elecAdjustService
 				.getAllFieldNameWhenExportExcel(elecAdjustForm);
