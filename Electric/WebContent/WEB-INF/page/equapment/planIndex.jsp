@@ -12,6 +12,7 @@
 	src="${pageContext.request.contextPath }/script/pub.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/script/page.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>	
 <script type="text/javascript">
 	function CheckOthers(form) {
 		for (var i = 0; i < form.elements.length; i++) {
@@ -31,19 +32,15 @@
 		}
 	}
 	function jsDPToD() {
-		document.Form1.direction.value = "";
-		document.Form1.goPage.value = "";
-		var devplan = document.Form2.devPlanId;
+		var devplan = document.Form2.devPlanID;
 		var devplanid = "";
 		var flag = 0;
 		if (typeof (devplan) == "undefined") {
 			return;
 		}
 		if (typeof (devplan.length) != "undefined") { //多个
-
 			for (var i = 0; i < devplan.length; i++) {
 				if (devplan[i].checked == true) {
-
 					devplanid += devplan[i].value + ",";
 					flag = 1;
 				}
@@ -55,8 +52,21 @@
 			}
 		}
 		document.Form1.plantodev.value = devplanid;
+		alert("1");
 		if (flag == 1) {
-			Pub.submitActionWithForm('Form2', 'devicePlanToDevice.do', 'Form1');
+			$.ajax({  
+		        type : "POST",  
+		        url : "equapement/elecDevicePlanAction_purchase.do",  
+		        data : $("#Form1").serialize(),  
+		        success : function(msg) {
+		        	alert("添加成功!");
+		        	window.location.reload();
+		        },
+		        error:function(){
+		        	alert("sorry,添加失败!");
+		        }
+		    });
+			//Pub.submitActionWithForm('Form2', 'elecDevicePlanAction_purchase.do', 'Form1');
 		}
 	}
 	function savewithopener(path) {
@@ -70,24 +80,25 @@
 
 </head>
 <body>
-	<table cellspacing="1" cellpadding="0" width="90%" align="center" bgcolor="#f5fafe" border="0">
-		<tr>
-			<td class="ta_01" align="center"
-				background="${pageContext.request.contextPath }/images/b-info.gif">
-				<font face="宋体" size="2"><strong>设备购置计划</strong></font>
-			</td>
-		</tr>
-		<TR height=10>
-			<td></td>
-		</TR>
-		<tr>
-			<td>
-				<s:form name="Form1" method="post" id="Form1" cssStyle="margin: 0px;">
-				
-				<s:hidden name="searchFlag" id="searchFlag" value="1"/>
-				<input type="hidden" name="pageNO" value=""> 
-				<input type="hidden" name="pageSize" value="">
-				
+	<s:form name="Form1" method="post" id="Form1" cssStyle="margin: 0px;">
+		<input type="hidden" name="plantodev" id="plantodev" value="">
+		
+		<s:hidden name="searchFlag" id="searchFlag" value="1"/>
+		<input type="hidden" name="pageNO" value=""> 
+		<input type="hidden" name="pageSize" value="">
+		<table cellspacing="1" cellpadding="0" width="90%" align="center" bgcolor="#f5fafe" border="0">
+			<tr>
+				<td class="ta_01" align="center"
+					background="${pageContext.request.contextPath }/images/b-info.gif">
+					<font face="宋体" size="2"><strong>设备购置计划</strong></font>
+				</td>
+			</tr>
+			<TR height=10>
+				<td>
+				</td>
+			</TR>
+			<tr>
+				<td>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%">
 						<tr>
 							<td width="100" class="ta_01" align="center" bgcolor="#f5fafe"
@@ -113,7 +124,7 @@
 								 <input
 								name="planDatet" type="date" id="planDatet" size="10" value="">
 							</td>
-
+	
 							<td width="100" class="ta_01" align="center" bgcolor="#f5fafe"
 								height="22">设备类型：</td>
 							<td class="ta_01" width="247">
@@ -126,11 +137,13 @@
 							</td>
 						</tr>
 					</table>
-				</s:form> <br>
+					</td>
+					</tr>
+				</table>
+				</s:form> 
 				<s:form name="Form2" id="Form2" cssStyle="margin: 0px;">
-
-					<table cellpadding="0" cellspacing="0" border="0" width="100%"
-						bgcolor="#f5fafe">
+					<table cellpadding="0" cellspacing="0" border="0" width="90%"
+						align="center" bgcolor="#f5fafe">
 						<TR>
 							<TD align="center"
 								background="${pageContext.request.contextPath }/images/cotNavGround.gif"
@@ -161,8 +174,8 @@
 						</TR>
 					</table>
 
-					<table cellpadding="0" cellspacing="0" border="0" width="100%"
-						bgcolor="#f5fafe">
+					<table cellpadding="0" cellspacing="0" border="0" width="90%"
+						bgcolor="#f5fafe" align="center">
 						<tr>
 							<td class="ta_01" align="center" bgcolor="#f5fafe">
 								<table cellspacing="0" cellpadding="1" rules="all"
@@ -196,38 +209,43 @@
 											<tr onMouseOver="this.style.backgroundColor = 'white'"
 												onMouseOut="this.style.backgroundColor = '#F5FAFE';">
 												<td style="CURSOR: hand; HEIGHT: 22px" align="center" width="5%">
-													<s:property value="#plan.num"/>
+													<s:property value="%{#plan.num}"/>
 												</td>
 												<td align="center" width="22%">
 													<a href="javascript:;" onClick="openWindow('planView.jsp',800,450);" class="cl_01">
-														<s:property value="#plan.devName"/>
+														<s:property value="%{#plan.devName}"/>
 													</a>
 												</td>
 												<td align="center" width="9%">
-													<s:property value="#plan.quality"/>
+													<s:property value="%{#plan.quality}"/>
 												</td>
 												<td align="center" width="9%">
-													<s:property value="#plan.devExpense"/>
+													<s:property value="%{#plan.devExpense}"/>
 												</td>
 												<td align="center" width="14%">
-													<s:property value="#plan.specType"/>
+													<s:property value="%{#plan.specType}"/>
 												</td>
 												<td align="center" width="9%">
-													<s:property value="#plan.useness"/>
+													<s:property value="%{#plan.useness}"/>
 												</td>
 												<td align="center" width="11%" style="HEIGHT: 22px">
-													<s:property value="#plan.useUnit"/>
+													<s:property value="%{#plan.useUnit}"/>
 												</td>
 												<td align="center">
-													<input type="checkbox" id="devPlanID" name="devPlanID" value="" />
+													<s:if test="#plan.purchaseState == 1">
+														<input type="checkbox" id="devPlanID" name="devPlanID"  value="<s:property value="%{#plan.devPlanID}"/>" checked="checked"/>
+													</s:if>
+													<s:else>
+														<input type="checkbox" id="devPlanID" name="devPlanID" value="<s:property value="%{#plan.devPlanID}"/>"  />
+													</s:else>
 												</td>
 												<td align="center">
-													<a href="javascript:;" onClick="openWindow('elecDevicePlanAction_edit.do?devPlanID=<s:property value="#plan.devPlanID"/>',800,450);">
+													<a href="javascript:;" onClick="openWindow('elecDevicePlanAction_edit.do?devPlanID=<s:property value="%{#plan.devPlanID}"/>',800,450);">
 														<img src="${pageContext.request.contextPath }/images/edit.gif"	style="CURSOR: hand" border="0">
 													</a>
 												</td>
 												<td align="center">
-													<a href="javascript:Pub.submitActionWithForm('Form2','elecDevicePlanAction_delete.do?devPlanID=<s:property value="#plan.devPlanID"/>','Form1')"
+													<a href="elecDevicePlanAction_delete.do?devPlanID=<s:property value="%{#plan.devPlanID}"/>"
 														onclick="return confirm('确认要删['<s:property value="#plan.devName"/>']除？')"> 
 													<img src="${pageContext.request.contextPath }/images/delete.gif"
 														style="CURSOR: hand" border="0">
@@ -258,13 +276,13 @@
 							%>
 							<td width="5%" align="center">
 								<u>
-									<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
+									<a href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
 								</u>
 								
 							</td>
 							<td width="7%" align="center">
 								<u>
-									<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','prev')">上一页&nbsp|</a>
+									<a href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','prev')">上一页&nbsp|</a>
 								</u>
 							</td>
 							<%} %>
@@ -281,15 +299,15 @@
 								}else{ 
 							%>
 							<td width="7%" align="center"><u><a
-									href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','next')">下一页&nbsp;|</a></u></td>
+									href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','next')">下一页&nbsp;|</a></u></td>
 							<td width="5%" align="center"><u><a
-									href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','end')">末页</a></u></td>
+									href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','end')">末页</a></u></td>
 							<%} %>
 							<td width="6%" align="center">第<%=pagebean.getPageNo() %>页</td>
 							<td width="6%" align="center">共<%=pagebean.getSumPage() %>页</td>
 							<td width="18%" align="right">至第<input type="text"
 								name="goPage" size="3" style="width: 50px">页 <u><a
-									href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','go')">确定</a></u></td>
+									href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','go')">确定</a></u></td>
 							<td width="3%"></td>
 							<td>
 								<input type="hidden" name="pageNO"

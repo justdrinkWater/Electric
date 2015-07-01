@@ -33,9 +33,9 @@ public class ElecDevicePlanForm implements Serializable {
 	private String createDate;// 创建时间
 	private String lastEmpID;// 修改人ID
 	private String lastDate;// 修改时间
-	private String qUnit;// 数量单位
-	private String aPUnit;// 校准周期单位
-	private String oPUnit;// 检修周期单位
+	private String qunit;// 数量单位
+	private String apUnit;// 校准周期单位
+	private String opUnit;// 检修周期单位
 
 	private String searchFlag;// 表示是否是查询进来的，1表示为是，0表示不是
 
@@ -43,6 +43,8 @@ public class ElecDevicePlanForm implements Serializable {
 	private String planDatet;// 结束时间
 
 	private String num;// 序号
+
+	private String plantodev;// 购置的设备计划DevPlanID
 
 	public String getDevPlanID() {
 		return devPlanID;
@@ -228,28 +230,28 @@ public class ElecDevicePlanForm implements Serializable {
 		this.lastDate = lastDate;
 	}
 
-	public String getqUnit() {
-		return qUnit;
+	public String getQunit() {
+		return qunit;
 	}
 
-	public void setqUnit(String qUnit) {
-		this.qUnit = qUnit;
+	public void setQunit(String qunit) {
+		this.qunit = qunit;
 	}
 
-	public String getaPUnit() {
-		return aPUnit;
+	public String getApUnit() {
+		return apUnit;
 	}
 
-	public void setaPUnit(String aPUnit) {
-		this.aPUnit = aPUnit;
+	public void setApUnit(String apUnit) {
+		this.apUnit = apUnit;
 	}
 
-	public String getoPUnit() {
-		return oPUnit;
+	public String getOpUnit() {
+		return opUnit;
 	}
 
-	public void setoPUnit(String oPUnit) {
-		this.oPUnit = oPUnit;
+	public void setOpUnit(String opUnit) {
+		this.opUnit = opUnit;
 	}
 
 	public String getSearchFlag() {
@@ -282,6 +284,14 @@ public class ElecDevicePlanForm implements Serializable {
 
 	public void setNum(String num) {
 		this.num = num;
+	}
+
+	public String getPlantodev() {
+		return plantodev;
+	}
+
+	public void setPlantodev(String plantodev) {
+		this.plantodev = plantodev;
 	}
 
 }

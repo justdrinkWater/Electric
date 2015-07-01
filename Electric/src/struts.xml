@@ -209,7 +209,7 @@
 			<result name="add">
 				/WEB-INF/page/equapment/planAdd.jsp
 			</result>
-			<result name="save" type="redirectAction">
+			<result name="list" type="redirectAction">
 				<param name="actionName">elecDevicePlanAction_home</param>
 				<param name="namesapce">/equapment</param>
 			</result>

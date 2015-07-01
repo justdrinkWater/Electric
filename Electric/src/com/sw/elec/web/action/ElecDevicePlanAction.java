@@ -64,4 +64,14 @@ public class ElecDevicePlanAction extends BaseAction implements
 		elecDevicePlanService.save(elecDevicePlanForm,request);
 		return "list";
 	}
+	
+	public String delete(){
+		elecDevicePlanService.delete(elecDevicePlanForm);
+		return "list";
+	}
+	
+	public String purchase(){
+		elecDevicePlanService.purchase(elecDevicePlanForm);
+		return "list";
+	}
 }

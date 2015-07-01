@@ -1,6 +1,7 @@
 package com.sw.elec.dao.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +140,15 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements
 						return query.list();
 					}
 				});
+		return list;
+	}
+
+	@Override
+	public List<T> findObjectByIDs(Serializable... ids) {
+		List<T>  list = new ArrayList<T>();
+		for (Serializable serializable : ids) {
+			list.add(findObjectByID(serializable));
+		}
 		return list;
 	}
 

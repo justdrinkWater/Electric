@@ -52,7 +52,7 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		elecDevicePlan.setSpecType(elecDevicePlanForm.getSpecType());
 		elecDevicePlan.setProduceHome(elecDevicePlanForm.getProduceHome());
 		elecDevicePlan.setQuality(elecDevicePlanForm.getQuality());
-		elecDevicePlan.setqUnit(elecDevicePlanForm.getqUnit());
+		elecDevicePlan.setqUnit(elecDevicePlanForm.getQunit());
 		elecDevicePlan.setUseness(elecDevicePlanForm.getUseness());
 		elecDevicePlan.setDevExpense(Double.valueOf(elecDevicePlanForm
 				.getDevExpense()));
@@ -65,18 +65,21 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 					.stringConvertDate(elecDevicePlanForm.getPlanDate()));
 		}
 		elecDevicePlan.setAdjustPeriod(elecDevicePlanForm.getAdjustPeriod());
-		elecDevicePlan.setaPUnit(elecDevicePlanForm.getaPUnit());
+		elecDevicePlan.setaPUnit(elecDevicePlanForm.getApUnit());
 		elecDevicePlan
 				.setOverhaulPeriod(elecDevicePlanForm.getOverhaulPeriod());
-		elecDevicePlan.setoPUnit(elecDevicePlanForm.getoPUnit());
+		elecDevicePlan.setoPUnit(elecDevicePlanForm.getOpUnit());
 		elecDevicePlan.setConfigure(elecDevicePlanForm.getConfigure());
 
 		// 不需要修改的数据，创建人和创建时间
-		elecDevicePlan.setCreateEmpID(user.getUserID());
 		elecDevicePlan.setCreateDate(new Date());
-
+		if (user != null) {
+			elecDevicePlan.setCreateEmpID(user.getUserID());
+			// 不需要修改的数据，创建人和创建时间
+			// 每次操作后可能需要改变的
+			elecDevicePlan.setLastEmpID(user.getUserID());
+		}
 		// 每次操作后可能需要改变的
-		elecDevicePlan.setLastEmpID(user.getUserID());
 		elecDevicePlan.setLastDate(new Date());
 		elecDevicePlan.setPurchaseState("0");
 		elecDevicePlan.setIsDelete("0");
@@ -149,6 +152,7 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		elecDevicePlanForm.setUseness(elecDevicePlan.getUseness());
 		elecDevicePlanForm.setUseUnit(elecDevicePlan.getUseUnit());
 		elecDevicePlanForm.setPurchaseState(elecDevicePlan.getPurchaseState());
+		elecDevicePlanForm.setDevPlanID(elecDevicePlan.getDevPlanID());
 		return elecDevicePlanForm;
 	}
 
@@ -173,17 +177,17 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 				stringBuffer.append(" and o.devType = ?");
 				paramList.add(elecDevicePlanForm.getDevType());
 			}
-			//时间比较，需要调整
-/*			if (elecDevicePlanForm.getPlanDatef() != null
-					&& !"".equals(elecDevicePlanForm.getPlanDatef())) {
-				stringBuffer.append(" and o. >:  ?");
-				paramList.add(elecDevicePlanForm.getPlanDatef());
-			}
-			if (elecDevicePlanForm.getPlanDatet() != null
-					&& !"".equals(elecDevicePlanForm.getPlanDatet())) {
-				stringBuffer.append(" and o. <:  ?");
-				paramList.add(elecDevicePlanForm.getPlanDatet());
-			}*/
+			// 时间比较，需要调整
+			/*
+			 * if (elecDevicePlanForm.getPlanDatef() != null &&
+			 * !"".equals(elecDevicePlanForm.getPlanDatef())) {
+			 * stringBuffer.append(" and o. >:  ?");
+			 * paramList.add(elecDevicePlanForm.getPlanDatef()); } if
+			 * (elecDevicePlanForm.getPlanDatet() != null &&
+			 * !"".equals(elecDevicePlanForm.getPlanDatet())) {
+			 * stringBuffer.append(" and o. <:  ?");
+			 * paramList.add(elecDevicePlanForm.getPlanDatet()); }
+			 */
 		}
 		String hqlWhere = stringBuffer.toString();
 		Object[] params = null;
@@ -197,6 +201,33 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		hqlWhereAndParams.add(hqlWhere);
 		hqlWhereAndParams.add(params);
 		return hqlWhereAndParams;
+	}
+
+	// “删除”指定ID的计划，并不是真正的删除，只是将指定ID的计划的isDelete字段置为1
+	@Override
+	public void delete(ElecDevicePlanForm elecDevicePlanForm) {
+		if (elecDevicePlanForm.getDevPlanID() != null
+				&& !"".equals(elecDevicePlanForm.getDevPlanID())) {
+			ElecDevicePlan entity = elecDevicePlanDao
+					.findObjectByID(elecDevicePlanForm.getDevPlanID());
+			entity.setIsDelete("1");
+			elecDevicePlanDao.update(entity);
+		}
+	}
+
+	// 设备购置，将前台传来的选中的设备购置计划ID解析出来，在进行操作数据库
+	@Override
+	public void purchase(ElecDevicePlanForm elecDevicePlanForm) {
+		String plantodevID = elecDevicePlanForm.getPlantodev();
+		String[] plantodevIDs = null;
+		if (plantodevID != null && !"".equals(plantodevID)) {
+			plantodevIDs = plantodevID.trim().split(",");
+		}
+		List<ElecDevicePlan> plans = elecDevicePlanDao.findObjectByIDs(plantodevIDs);
+		for (ElecDevicePlan elecDevicePlan : plans) {
+			elecDevicePlan.setPurchaseState("1");
+			elecDevicePlanDao.update(elecDevicePlan);
+		}
 	}
 
 }

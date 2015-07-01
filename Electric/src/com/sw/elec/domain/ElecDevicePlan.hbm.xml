@@ -27,7 +27,7 @@
 			<column name="produceHome"></column>
 		</property>
 		<property name="produceArea" type="string">
-			<column name="prodeuceArea"></column>
+			<column name="produceArea"></column>
 		</property>
 		<property name="useness" type="string">
 			<column name="useness"></column>

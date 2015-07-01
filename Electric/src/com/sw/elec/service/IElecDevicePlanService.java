@@ -13,4 +13,8 @@ public interface IElecDevicePlanService {
 
 	List<ElecDevicePlanForm> findAllDevicePlanWithPage(
 			ElecDevicePlanForm elecDevicePlanForm, HttpServletRequest request);
+
+	void delete(ElecDevicePlanForm elecDevicePlanForm);
+
+	void purchase(ElecDevicePlanForm elecDevicePlanForm);
 }

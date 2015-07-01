@@ -178,7 +178,7 @@
 				<td class="ta_01" bgColor="#ffffff">
 					<s:textfield name="quality" maxlength="10" cssStyle="text-align: left" id="quality"
 						onblur="checkNumber(this)"/>
-					<s:textfield name="qUnit" maxlength="5" id="qUnit" cssStyle="width:100" />
+					<s:textfield name="qunit" maxlength="5" id="qunit" cssStyle="width:100" />
 					&nbsp;<font color="#FF0000">*</font>
 				</td>
 			</tr>
@@ -221,7 +221,7 @@
 					<s:if test="#request.jctIDs != null">
 						<s:select list="%{#request.jctIDs}" cssClass="bg" name="jctID" id="jctID" 
 									listKey="ddlCode" listValue="ddlName"
-									value="jctID">
+									>
 						</s:select>
 					</s:if>					
 				&nbsp;<font color="#FF0000">*</font></td>
@@ -239,9 +239,9 @@
 					type="text" maxlength="4" id="adjustPeriod" size="12" value=""
 					onblur='checkNumber(this)'> 
 					 <s:if test="#request.apUnits != null">
-						<s:select list="%{#request.apUnits}" name="aPUnit" id="aPUnit"
-									listKey="ddlCode" listValue="ddlName"
-									value="aPUnit">
+						<s:select list="%{#request.apUnits}" name="apUnit" id="apUnit"
+									headerKey="" headerValue=""
+									listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>
 					&nbsp;
@@ -251,9 +251,9 @@
 					name="overhaulPeriod" type="text" maxlength="4" id="overhaulPeriod"
 					size="12" value="" onblur='checkNumber(this)'>
 					<s:if test="#request.opUnits != null">
-						<s:select list="%{#request.opUnits}" name="oPUnit" id="oPUnit"
-									listKey="ddlCode" listValue="ddlName"
-									value="oPUnit">
+						<s:select list="%{#request.opUnits}" name="opUnit" id="opUnit"
+									headerKey="" headerValue=""
+									listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>
 					&nbsp;

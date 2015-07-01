@@ -1,7 +1,7 @@
 <%@page import="com.sw.elec.util.PageBean"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5fafe">
+<table cellpadding="0" cellspacing="0" border="0" width="90%" bgcolor="#f5fafe" align="center">
 	<TR>
 		<TD align="center"
 			background="${pageContext.request.contextPath }/images/cotNavGround.gif"
@@ -32,8 +32,8 @@
 	</TR>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%"
-	bgcolor="#f5fafe">
+<table cellpadding="0" cellspacing="0" border="0" width="90%"
+	bgcolor="#f5fafe" align="center">
 	<tr>
 		<td class="ta_01" align="center" bgcolor="#f5fafe">
 			<table cellspacing="0" cellpadding="1" rules="all"
@@ -129,13 +129,13 @@
 					%>
 					<td width="5%" align="center">
 						<u>
-							<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
+							<a href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','start')">首&nbsp;页&nbsp;&nbsp;|</a>
 						</u>
 						
 					</td>
 					<td width="7%" align="center">
 						<u>
-							<a href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','prev')">上一页&nbsp|</a>
+							<a href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','prev')">上一页&nbsp|</a>
 						</u>
 					</td>
 					<%} %>
@@ -152,15 +152,15 @@
 						}else{ 
 					%>
 					<td width="7%" align="center"><u><a
-							href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','next')">下一页&nbsp;|</a></u></td>
+							href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','next')">下一页&nbsp;|</a></u></td>
 					<td width="5%" align="center"><u><a
-							href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','end')">末页</a></u></td>
+							href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','end')">末页</a></u></td>
 					<%} %>
 					<td width="6%" align="center">第<%=pagebean.getPageNo() %>页</td>
 					<td width="6%" align="center">共<%=pagebean.getSumPage() %>页</td>
 					<td width="18%" align="right">至第<input type="text"
 						name="goPage" size="3" style="width: 50px">页 <u><a
-							href="#" onclick="gotopage('equapment/elecDeviceAction_home.do','go')">确定</a></u></td>
+							href="#" onclick="gotopage('equapment/elecDevicePlanAction_home.do','go')">确定</a></u></td>
 					<td width="3%"></td>
 					<td>
 						<input type="hidden" name="pageNO"

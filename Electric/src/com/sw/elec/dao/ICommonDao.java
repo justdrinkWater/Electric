@@ -14,7 +14,7 @@ public interface ICommonDao<T> {
 	public T findObjectByID(Serializable id);
 
 	public void deleteObjectByIDs(Serializable... ids);
-
+	
 	public void deleteObjectByCollection(List<T> entities);
 
 	public List<T> findCollectionByConditionNoPage(String hqlWhere,
@@ -25,5 +25,7 @@ public interface ICommonDao<T> {
 	List<T> findCollectionByConditionWithPage(String hqlWhere,
 			Object[] params, LinkedHashMap<String, String> orderBy,
 			PageInfo pageInfo);
+	
+	public List<T> findObjectByIDs(Serializable... ids);
 
 }

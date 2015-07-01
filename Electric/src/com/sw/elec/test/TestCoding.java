@@ -11,6 +11,6 @@ public class TestCoding {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
 	}
+	
 }
