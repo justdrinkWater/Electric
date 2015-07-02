@@ -170,31 +170,31 @@
 							<s:iterator value="%{#request.adjustList}" var="adjust">
 								<tr onMouseOver="this.style.backgroundColor = 'white'" onMouseOut="this.style.backgroundColor = '#F5FAFE';">
 									<td align="center" width="5%">
-										<s:property value="#adjust.num"/>
+										<s:property value="%{#adjust.num}"/>
 									</td>
 									<td align="center">
-										<a href="javascript:;"onClick="openWindow('elecAdjustAction_edit?devID=<s:property value="#adjust.devID"/>&viewflag=1',800,450);" class="cl_01"> 
-											<s:property value="#adjust.devName"/>
+										<a href="javascript:;"onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="%{#adjust.devID}"/>&viewflag=1',800,450);" class="cl_01"> 
+											<s:property value="%{#adjust.devName}"/>
 										</a>
 									</td>
 									<td align="center">
-										<s:property value="#adjust.adjustPeriod"/>
+										<s:property value="%{#adjust.adjustPeriod}"/>
 									</td>
 									<td align="center">
-										<s:property value="#adjust.useDate"/>
+										<s:property value="%{#adjust.useDate}"/>
 									</td>
 									<td align="center">
-										<s:property value="#adjust.isAdjust"/>
+										<s:property value="%{#adjust.isAdjust}"/>
 									</td>
 									<td align="center" width="11%">
-										<s:property value="#adjust.adjustDate"/>
+										<s:property value="%{#adjust.adjustDate}"/>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
-										<s:property value="adjust.jctID"/>
+										<s:property value="%{adjust.jctID}"/>
 									</td>
 									<td align="center" style="HEIGHT: 22px">
-									<a href="javascript:;" onClick="openWindow('elecAdjustAction_add.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">添加</a>
-									<a href="javascript:;" onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="#adjust.devID"/>',800,450);" class="cl_01">修改</a> 
+									<a href="javascript:;" onClick="openWindow('elecAdjustAction_add.do?devID=<s:property value="%{#adjust.devID}"/>',800,450);" class="cl_01">添加</a>
+									<a href="javascript:;" onClick="openWindow('elecAdjustAction_edit.do?devID=<s:property value="%{#adjust.devID}"/>',800,450);" class="cl_01">修改</a> 
 									<a onclick="return confirm('确认要删除['<s:property value="#adjust.devName"/>']吗？')" 
 										href="javascript:Pub.submitActionWithForm('Form2','delDeviceX.do?','Form1')" class="cl_01">删除</a> 
 									<a href="javascript:;" onClick="openWindow('elecAdjustAction_query.do?devID=<s:property value="#adjust.devID"/>');" class="cl_01">查看</a>

@@ -33,7 +33,7 @@
 			theForm.quality.focus();
 			return false;
 		}
-		if (Trim(theForm.qUnit.value) == "") {
+		if (Trim(theForm.qunit.value) == "") {
 			alert("请输入数量单位");
 			theForm.qunit.focus();
 			return false;
@@ -123,6 +123,8 @@
 </head>
 <body>
 	<s:form name="Form1" method="post" id="Form1">
+	
+		<input type="hidden" id="devPlanID" name="devPlanID">
 		<br>
 		<table cellSpacing="1" cellPadding="5" width="700" align="center"
 			bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
@@ -176,9 +178,8 @@
 					数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：
 				</td>
 				<td class="ta_01" bgColor="#ffffff">
-					<s:textfield name="quality" maxlength="10" cssStyle="text-align: left" id="quality"
-						onblur="checkNumber(this)"/>
-					<s:textfield name="qunit" maxlength="5" id="qunit" cssStyle="width:100" />
+					<s:textfield name="quality" maxlength="10" cssStyle="text-align: left" id="quality"	onblur="checkNumber(this)"/>
+					<s:textfield name="qunit" id="qunit" cssStyle="width:100" />
 					&nbsp;<font color="#FF0000">*</font>
 				</td>
 			</tr>
@@ -220,8 +221,7 @@
 				<td class="ta_01" bgColor="#ffffff">
 					<s:if test="#request.jctIDs != null">
 						<s:select list="%{#request.jctIDs}" cssClass="bg" name="jctID" id="jctID" 
-									listKey="ddlCode" listValue="ddlName"
-									>
+									listKey="ddlCode" listValue="ddlName">
 						</s:select>
 					</s:if>					
 				&nbsp;<font color="#FF0000">*</font></td>

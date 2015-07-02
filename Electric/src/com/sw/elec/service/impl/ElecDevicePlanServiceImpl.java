@@ -38,6 +38,24 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 				.getAttribute("globle_user");
 		ElecDevicePlan devicePlan = this
 				.convertVOToPo(elecDevicePlanForm, user);
+		ElecDevicePlan devicePlan2 = null;
+		if (elecDevicePlanForm.getDevPlanID() != null
+				&& !"".equals(elecDevicePlanForm.getDevPlanID())) {
+			devicePlan2 = elecDevicePlanDao.findObjectByID(elecDevicePlanForm
+					.getDevPlanID());
+			devicePlan.setCreateDate(devicePlan2.getCreateDate());
+			devicePlan.setCreateEmpID(devicePlan2.getCreateEmpID());
+			devicePlan.setPurchaseState(devicePlan2.getPurchaseState());
+			devicePlan.setComment(devicePlan2.getComment());
+			elecDevicePlanDao.deleteObjectByIDs(elecDevicePlanForm
+					.getDevPlanID());
+		} else {
+			// 不是修改的时候，在创建的时候需要设置的属性
+			devicePlan.setCreateDate(new Date());
+			devicePlan.setCreateEmpID(user != null ? user.getUserID() : "");
+			devicePlan.setPurchaseState("0");
+			devicePlan.setComment(elecDevicePlanForm.getComment());
+		}
 		elecDevicePlanDao.save(devicePlan);
 	}
 
@@ -45,6 +63,10 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 	private ElecDevicePlan convertVOToPo(ElecDevicePlanForm elecDevicePlanForm,
 			ElecUser user) {
 		ElecDevicePlan elecDevicePlan = new ElecDevicePlan();
+		elecDevicePlan
+				.setDevPlanID(elecDevicePlanForm.getDevPlanID() != null
+						&& !"".equals(elecDevicePlanForm.getDevPlanID()) ? elecDevicePlanForm
+						.getDevPlanID() : "");
 		// 可以页面可以得到的属性
 		elecDevicePlan.setDevType(elecDevicePlanForm.getDevType());
 		elecDevicePlan.setDevName(elecDevicePlanForm.getDevName());
@@ -71,20 +93,10 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		elecDevicePlan.setoPUnit(elecDevicePlanForm.getOpUnit());
 		elecDevicePlan.setConfigure(elecDevicePlanForm.getConfigure());
 
-		// 不需要修改的数据，创建人和创建时间
-		elecDevicePlan.setCreateDate(new Date());
-		if (user != null) {
-			elecDevicePlan.setCreateEmpID(user.getUserID());
-			// 不需要修改的数据，创建人和创建时间
-			// 每次操作后可能需要改变的
-			elecDevicePlan.setLastEmpID(user.getUserID());
-		}
-		// 每次操作后可能需要改变的
+		elecDevicePlan.setLastEmpID(user != null ? user.getUserID() : "");
 		elecDevicePlan.setLastDate(new Date());
-		elecDevicePlan.setPurchaseState("0");
-		elecDevicePlan.setIsDelete("0");
 
-		elecDevicePlan.setComment(elecDevicePlanForm.getComment());
+		elecDevicePlan.setIsDelete("0");
 		return elecDevicePlan;
 	}
 
@@ -144,6 +156,11 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 	// 将PO对象转成VO对象
 	private ElecDevicePlanForm convertPoToVo(ElecDevicePlan elecDevicePlan) {
 		ElecDevicePlanForm elecDevicePlanForm = new ElecDevicePlanForm();
+
+		elecDevicePlanForm.setDevPlanID(elecDevicePlan.getDevPlanID() != null
+				&& !"".equals(elecDevicePlan.getDevPlanID()) ? elecDevicePlan
+				.getDevPlanID() : "");
+
 		elecDevicePlanForm.setDevName(elecDevicePlan.getDevName());
 		elecDevicePlanForm.setQuality(elecDevicePlan.getQuality());
 		elecDevicePlanForm.setDevExpense(String.valueOf(elecDevicePlan
@@ -153,6 +170,21 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		elecDevicePlanForm.setUseUnit(elecDevicePlan.getUseUnit());
 		elecDevicePlanForm.setPurchaseState(elecDevicePlan.getPurchaseState());
 		elecDevicePlanForm.setDevPlanID(elecDevicePlan.getDevPlanID());
+		// 增加设置的项，修改页面和查看页面需要
+		elecDevicePlanForm.setDevType(elecDevicePlan.getDevType());
+		elecDevicePlanForm.setTrademark(elecDevicePlan.getTrademark());
+		elecDevicePlanForm.setQunit(elecDevicePlan.getqUnit());
+		elecDevicePlanForm.setProduceHome(elecDevicePlan.getProduceHome());
+		elecDevicePlanForm.setProduceArea(elecDevicePlan.getProduceArea());
+		elecDevicePlanForm.setJctID(elecDevicePlan.getJctID());
+		elecDevicePlanForm.setPlanDate(elecDevicePlan.getPlanDate().toString());
+		elecDevicePlanForm.setAdjustPeriod(elecDevicePlan.getAdjustPeriod());
+		elecDevicePlanForm.setApUnit(elecDevicePlan.getaPUnit());
+		elecDevicePlanForm
+				.setOverhaulPeriod(elecDevicePlan.getOverhaulPeriod());
+		elecDevicePlanForm.setOpUnit(elecDevicePlan.getoPUnit());
+		elecDevicePlanForm.setConfigure(elecDevicePlan.getConfigure());
+
 		return elecDevicePlanForm;
 	}
 
@@ -223,11 +255,20 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		if (plantodevID != null && !"".equals(plantodevID)) {
 			plantodevIDs = plantodevID.trim().split(",");
 		}
-		List<ElecDevicePlan> plans = elecDevicePlanDao.findObjectByIDs(plantodevIDs);
+		List<ElecDevicePlan> plans = elecDevicePlanDao
+				.findObjectByIDs(plantodevIDs);
 		for (ElecDevicePlan elecDevicePlan : plans) {
 			elecDevicePlan.setPurchaseState("1");
 			elecDevicePlanDao.update(elecDevicePlan);
 		}
+	}
+
+	// 通过主键ID找到devicePlan
+	@Override
+	public ElecDevicePlanForm findDevicePlanByID(String devPlanID) {
+		ElecDevicePlan devicePlan = elecDevicePlanDao.findObjectByID(devPlanID);
+		ElecDevicePlanForm devicePlanForm = this.convertPoToVo(devicePlan);
+		return devicePlanForm;
 	}
 
 }

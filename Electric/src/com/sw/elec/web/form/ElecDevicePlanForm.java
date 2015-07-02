@@ -46,6 +46,8 @@ public class ElecDevicePlanForm implements Serializable {
 
 	private String plantodev;// 购置的设备计划DevPlanID
 
+	private String viewflag;// 区别编辑页面和查看页面
+
 	public String getDevPlanID() {
 		return devPlanID;
 	}
@@ -292,6 +294,14 @@ public class ElecDevicePlanForm implements Serializable {
 
 	public void setPlantodev(String plantodev) {
 		this.plantodev = plantodev;
+	}
+
+	public String getViewflag() {
+		return viewflag;
+	}
+
+	public void setViewflag(String viewflag) {
+		this.viewflag = viewflag;
 	}
 
 }

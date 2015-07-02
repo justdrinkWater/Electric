@@ -213,6 +213,9 @@
 				<param name="actionName">elecDevicePlanAction_home</param>
 				<param name="namesapce">/equapment</param>
 			</result>
+			<result name="edit">
+				/WEB-INF/page/equapment/planEdit.jsp
+			</result>
 		</action>
 	</package>
 </struts>

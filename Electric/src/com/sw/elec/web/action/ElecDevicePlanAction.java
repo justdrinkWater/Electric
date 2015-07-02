@@ -2,6 +2,7 @@ package com.sw.elec.web.action;
 
 import java.util.List;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sw.elec.container.ServiceProvider;
 import com.sw.elec.service.IElecDevicePlanService;
@@ -18,7 +19,7 @@ public class ElecDevicePlanAction extends BaseAction implements
 
 	private IElecDictionaryService elecDictionaryService = (IElecDictionaryService) ServiceProvider
 			.getService(IElecDictionaryService.SERVICE_NAME);
-	
+
 	private ElecDevicePlanForm elecDevicePlanForm = new ElecDevicePlanForm();
 
 	@Override
@@ -28,10 +29,11 @@ public class ElecDevicePlanAction extends BaseAction implements
 
 	public String home() {
 		this.initDictionary();
-		List<ElecDevicePlanForm> planList = elecDevicePlanService.findAllDevicePlanWithPage(elecDevicePlanForm,request);
+		List<ElecDevicePlanForm> planList = elecDevicePlanService
+				.findAllDevicePlanWithPage(elecDevicePlanForm, request);
 		this.request.setAttribute("planList", planList);
 		String searchflag = elecDevicePlanForm.getSearchFlag();
-		if(searchflag != null && "1".equals(searchflag))
+		if (searchflag != null && "1".equals(searchflag))
 			return "planList";
 		return "home";
 	}
@@ -54,24 +56,37 @@ public class ElecDevicePlanAction extends BaseAction implements
 		this.request.setAttribute("opUnits", opUnits);
 		this.request.setAttribute("apUnits", apUnits);
 	}
-	
-	public String add(){
+
+	public String add() {
 		this.initDictionary();
 		return "add";
 	}
-	
-	public String save(){
-		elecDevicePlanService.save(elecDevicePlanForm,request);
+
+	public String save() {
+		elecDevicePlanService.save(elecDevicePlanForm, request);
 		return "list";
 	}
-	
-	public String delete(){
+
+	public String delete() {
 		elecDevicePlanService.delete(elecDevicePlanForm);
 		return "list";
 	}
-	
-	public String purchase(){
+
+	public String purchase() {
 		elecDevicePlanService.purchase(elecDevicePlanForm);
 		return "list";
+	}
+
+	public String edit() {
+		this.initDictionary();
+		ElecDevicePlanForm devicePlanForm = elecDevicePlanService
+				.findDevicePlanByID(elecDevicePlanForm.getDevPlanID());
+		if("1".equals(elecDevicePlanForm.getViewflag())){
+			this.request.setAttribute("viewflag", "1");
+		}else{
+			this.request.setAttribute("viewflag", "");
+		}
+		ActionContext.getContext().getValueStack().push(devicePlanForm);
+		return "edit";
 	}
 }

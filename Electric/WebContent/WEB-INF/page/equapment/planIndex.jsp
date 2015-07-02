@@ -212,7 +212,7 @@
 													<s:property value="%{#plan.num}"/>
 												</td>
 												<td align="center" width="22%">
-													<a href="javascript:;" onClick="openWindow('planView.jsp',800,450);" class="cl_01">
+													<a href="javascript:;" onClick="openWindow('elecDevicePlanAction_edit.do?devPlanID=<s:property value="%{#plan.devPlanID}"/>&viewflag=1',800,450);" class="cl_01">
 														<s:property value="%{#plan.devName}"/>
 													</a>
 												</td>

@@ -72,8 +72,9 @@ public class ElecDeviceAction extends BaseAction implements
 				.findDevice(elecDeviceForm.getDevID());
 		if ("1".equals(elecDeviceForm.getViewflag())) {
 			this.request.setAttribute("viewflag", "1");
+		}else{
+			this.request.setAttribute("viewflag", "");
 		}
-		this.request.setAttribute("viewflag", "");
 		ActionContext.getContext().getValueStack().push(elecDeviceF);
 		return "edit";
 	}
