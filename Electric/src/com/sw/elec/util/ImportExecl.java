@@ -14,6 +14,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.sw.elec.dao.IElecDictionaryDao;
+import com.sw.elec.dao.impl.ElecDictionaryDaoImpl;
+
 public class ImportExecl {
 	/** 总行数 */
 	private int totalRows = 0;

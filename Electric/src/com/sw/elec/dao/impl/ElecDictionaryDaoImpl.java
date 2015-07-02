@@ -39,7 +39,8 @@ public class ElecDictionaryDaoImpl extends CommonDaoImpl<ElecDictionary>
 		 * o.`DdlCode` = "1"
 		 */
 		String hqlWhere = "SELECT o.ddlName FROM elec_dictionary o WHERE o.keyword = '"
-				+ keyword + (ddlcode != null? "' AND o.ddlCode = '" + ddlcode + "'":"");
+				+ keyword
+				+ (ddlcode != null ? "' AND o.ddlCode = '" + ddlcode + "'" : "");
 		List<Object> list = (List<Object>) this.getHibernateTemplate().execute(
 				new HibernateCallback<List<Object>>() {
 
@@ -49,6 +50,26 @@ public class ElecDictionaryDaoImpl extends CommonDaoImpl<ElecDictionary>
 						return session.createSQLQuery(hqlWhere).list();
 					}
 				});
+		return list;
+	}
+
+	// 通过关键字和ddlName找到ddlCode
+	@Override
+	public List<Object> findDictionaryDDLCode(String ddlName, String content) {
+		/**
+		 * SELECT o.`DdlCode` FROM elec_dictionary o WHERE o.`Keyword` = "所属单位"
+		 * AND o.`DdlName` = '安徽台'
+		 */
+		String hqlWhere = "SELECT o.ddlCode FROM elec_dictionary o WHERE o.keyword = '"
+				+ ddlName + "' AND o.ddlName = '" + content + "'";
+		List<Object> list = this.getHibernateTemplate().execute(new HibernateCallback<List<Object>>() {
+
+			@Override
+			public List<Object> doInHibernate(Session session)
+					throws HibernateException {
+				return session.createSQLQuery(hqlWhere).list();
+			}
+		});
 		return list;
 	}
 

@@ -165,11 +165,10 @@
 								<input name="BT_Add" type="button" style="font-size: 12px; color: black;" id="BT_Add"
 									onClick="openWindow('elecDevicePlanAction_add.do',800,450);" value="添加" /> 
 								<input name="BT_import" type="button" style="font-size: 12px; color: black;" id="BT_import"
-									onClick="openWindow('elecDevicePlanAction_import.do','600','450');" value="导入">
+									onClick="openWindow('elecDevicePlanAction_importpage.do','600','450');" value="导入">
 								<input type="button" name="chkall" height="20" style="font-size: 12px; color: black;" value="购置"
 									onclick="jsDPToD()"> 
-								<input type="button" name="chkall2"	height="20" style="font-size: 12px; color: black;" value="计划顺延"
-									onclick="jsPlanNext()">
+									&nbsp;	&nbsp;
 							</td>
 						</TR>
 					</table>

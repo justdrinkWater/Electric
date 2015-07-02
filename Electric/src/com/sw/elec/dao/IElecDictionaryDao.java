@@ -11,4 +11,6 @@ public interface IElecDictionaryDao extends ICommonDao<ElecDictionary> {
 
 	List<Object> findDictionaryName(String string, String isDuty);
 
+	List<Object> findDictionaryDDLCode(String string, String content);
+
 }

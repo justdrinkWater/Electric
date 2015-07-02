@@ -216,6 +216,9 @@
 			<result name="edit">
 				/WEB-INF/page/equapment/planEdit.jsp
 			</result>
+			<result name="import">
+				/WEB-INF/page/equapment/planImport.jsp
+			</result>
 		</action>
 	</package>
 </struts>

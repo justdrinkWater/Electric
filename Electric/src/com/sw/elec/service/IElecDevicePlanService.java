@@ -19,4 +19,6 @@ public interface IElecDevicePlanService {
 	void purchase(ElecDevicePlanForm elecDevicePlanForm);
 
 	ElecDevicePlanForm findDevicePlanByID(String devPlanID);
+
+	void saveDevicePlanByFile(ElecDevicePlanForm elecDevicePlanForm);
 }

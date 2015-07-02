@@ -89,4 +89,12 @@ public class ElecDevicePlanAction extends BaseAction implements
 		ActionContext.getContext().getValueStack().push(devicePlanForm);
 		return "edit";
 	}
+	
+	public String importpage(){
+		return "import";
+	}
+	public String importExcel(){
+		elecDevicePlanService.saveDevicePlanByFile(elecDevicePlanForm);
+		return "";
+	}
 }

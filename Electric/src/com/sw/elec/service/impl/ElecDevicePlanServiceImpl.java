@@ -1,5 +1,6 @@
 package com.sw.elec.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ import com.sw.elec.dao.IElecDictionaryDao;
 import com.sw.elec.domain.ElecDevicePlan;
 import com.sw.elec.domain.ElecUser;
 import com.sw.elec.service.IElecDevicePlanService;
+import com.sw.elec.util.ImportExecl;
 import com.sw.elec.util.PageInfo;
 import com.sw.elec.util.StringHelper;
 import com.sw.elec.web.form.ElecDevicePlanForm;
@@ -114,12 +116,12 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
 		orderBy.put(" o.lastDate", "desc");
 		if (hqlWhere != null && !"".equals(hqlWhere) && params != null) {
-			hqlWhere += " and o.isDelete = '0'";
+			hqlWhere += " and o.isDelete = '0' and o.purchaseState = '0'";
 			listDevicePlan = elecDevicePlanDao
 					.findCollectionByConditionWithPage(hqlWhere, params,
 							orderBy, pageInfo);
 		} else {
-			hqlWhere += " and o.isDelete = '0'";
+			hqlWhere += " and o.isDelete = '0' and o.purchaseState <> '1'";
 			listDevicePlan = elecDevicePlanDao
 					.findCollectionByConditionWithPage(hqlWhere, null, orderBy,
 							pageInfo);
@@ -269,6 +271,31 @@ public class ElecDevicePlanServiceImpl implements IElecDevicePlanService {
 		ElecDevicePlan devicePlan = elecDevicePlanDao.findObjectByID(devPlanID);
 		ElecDevicePlanForm devicePlanForm = this.convertPoToVo(devicePlan);
 		return devicePlanForm;
+	}
+
+	//通过上传的文件保存设备购置计划
+	@Override
+	public void saveDevicePlanByFile(ElecDevicePlanForm elecDevicePlanForm) {
+		File file = elecDevicePlanForm.getFile();
+		String filePath = file.getAbsolutePath();
+		List<Object[]> list = ImportExecl.read(filePath, elecDevicePlanForm.getFileExtension());
+		List<ElecDevicePlan> planList = new ArrayList<ElecDevicePlan>();
+		ElecDevicePlan devicePlan = null;
+		//取出各个Object数组的值组成ElecDevicePlan对象
+		for (Object[] objects : list) {
+			devicePlan = new ElecDevicePlan();
+			devicePlan.setDevName(objects[0].toString());
+			devicePlan.setQuality(objects[1].toString());
+			devicePlan.setDevExpense(Double.valueOf(objects[2].toString()));
+			devicePlan.setSpecType(objects[3].toString());
+			devicePlan.setUseness(objects[4].toString());
+			devicePlan.setUseUnit(objects[5].toString());
+			devicePlan.setPurchaseState(objects[6].toString());
+			devicePlan.setDevType(objects[7].toString());
+			devicePlan.setJctID(objects[8].toString());
+			planList.add(devicePlan);
+		}
+		elecDevicePlanDao.saveObjectsByCollection(planList);
 	}
 
 }

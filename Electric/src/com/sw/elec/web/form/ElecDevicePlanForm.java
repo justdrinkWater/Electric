@@ -1,5 +1,6 @@
 package com.sw.elec.web.form;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -47,6 +48,10 @@ public class ElecDevicePlanForm implements Serializable {
 	private String plantodev;// 购置的设备计划DevPlanID
 
 	private String viewflag;// 区别编辑页面和查看页面
+
+	private File file;// 导入的excel文件
+
+	private String fileExtension;// 文件的扩展名，struct2上传文件会只会将文件变成文件输入流，所以无法获得文件的后缀名
 
 	public String getDevPlanID() {
 		return devPlanID;
@@ -302,6 +307,22 @@ public class ElecDevicePlanForm implements Serializable {
 
 	public void setViewflag(String viewflag) {
 		this.viewflag = viewflag;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 
 }
