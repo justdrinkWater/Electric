@@ -39,5 +39,6 @@
 		<mapping resource="com/sw/elec/domain/ElecDevice.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecAdjust.hbm.xml"></mapping>
 		<mapping resource="com/sw/elec/domain/ElecDevicePlan.hbm.xml"></mapping>
+		<mapping resource="com/sw/elec/domain/ElecStation.hbm.xml"></mapping>
 	</session-factory>
 </hibernate-configuration>	

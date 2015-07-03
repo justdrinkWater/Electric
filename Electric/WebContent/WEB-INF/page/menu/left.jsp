@@ -265,7 +265,7 @@ TH {
 										onmouseover="backgroundColorChange(this,'white');"
 										onmouseout="backgroundColorChange(this,'');"><A
 										class="cl_01" onclick="linkcolorchange(this)"
-										href="${pageContext.request.contextPath }/siteEquapment/siteInfoIndex.jsp"
+										href="${pageContext.request.contextPath }/siteEquapment/elecStationAction_home.do"
 										target="mainFrame">站点基本信息</A></TD>
 								</TR>
 								<%}if(popedom.contains("f")){ %>

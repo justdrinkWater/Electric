@@ -144,7 +144,7 @@
 	</package>
 	<!-- 技术设施维护管理 -->
 	<package name="equapment" namespace="/equapment" extends="struts-default">
-	<!-- 仪器设备管理 -->
+		<!-- 仪器设备管理 -->
 		<action name="elecDeviceAction_*" class="com.sw.elec.web.action.ElecDeviceAction"
 			method="{1}">
 			<result name="home">
@@ -168,7 +168,8 @@
 			</result>
 		</action>
 		<!-- 设备校准管理 -->
-		<action name="elecAdjustAction_*" class="com.sw.elec.web.action.ElecAdjustAction" method="{1}">
+		<action name="elecAdjustAction_*" class="com.sw.elec.web.action.ElecAdjustAction"
+			method="{1}">
 			<result name="home">
 				/WEB-INF/page/equapment/adjustIndex.jsp
 			</result>
@@ -199,9 +200,10 @@
 			</result>
 		</action>
 		<!-- 设备购置计划管理 -->
-		<action name="elecDevicePlanAction_*" class="com.sw.elec.web.action.ElecDevicePlanAction" method="{1}">
+		<action name="elecDevicePlanAction_*" class="com.sw.elec.web.action.ElecDevicePlanAction"
+			method="{1}">
 			<result name="home">
-				/WEB-INF/page/equapment/planIndex.jsp			
+				/WEB-INF/page/equapment/planIndex.jsp
 			</result>
 			<result name="planList">
 				/WEB-INF/page/equapment/planList.jsp
@@ -218,6 +220,33 @@
 			</result>
 			<result name="import">
 				/WEB-INF/page/equapment/planImport.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 站点设备运行管理 -->
+	<package name="siteEquapment" extends="struts-default"
+		namespace="/siteEquapment">
+		<!-- 站点基本信息 -->
+		<action name="elecStationAction_*" class="com.sw.elec.web.action.ElecStationAction"
+			method="{1}">
+			<result name="home">
+				/WEB-INF/page/siteEquapment/siteInfoIndex.jsp
+			</result>
+			<result name="add">
+				/WEB-INF/page/siteEquapment/siteInfoAdd.jsp
+			</result>
+			<result name="list" type="redirectAction">
+				<param name="actionName">elecStationAction_home</param>
+				<param name="namesapce">/siteEquapment</param>
+			</result>
+			<result name="infoList">
+				/WEB-INF/page/siteEquapment/siteInfoList.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/page/siteEquapment/siteInfoEdit.jsp
+			</result>
+			<result name="exportSet">
+				/WEB-INF/page/siteEquapment/siteInfoExport.jsp
 			</result>
 		</action>
 	</package>

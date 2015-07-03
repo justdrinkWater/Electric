@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sw.elec.domain.ElecStation" table="Elec_Station">
+		<id name="stationID" type="string">
+			<column name="stationID" not-null="true"></column>
+			<generator class="uuid" ></generator>
+		</id>
+		<property name="jctID" type="string">
+			<column name="jctID"></column>
+		</property>
+		<property name="stationCode" type="string">
+			<column name="stationCode"></column>
+		</property>
+		<property name="stationName" type="string">
+			<column name="stationName"></column>
+		</property>
+		<property name="jCFrequency" type="string">
+			<column name="jCFrequency"></column>
+		</property>
+		<property name="produceHome" type="string">
+			<column name="produceHome"></column>
+		</property>
+		<property name="contactType" type="string">
+			<column name="contactType"></column>
+		</property>
+		<property name="useStartDate" type="date">
+			<column name="useStartDate"></column>
+		</property>
+		<property name="comment" type="string">
+			<column name="comment"></column>
+		</property>
+		<property name="isDelete" type="string">
+			<column name="isDelete"></column>
+		</property>
+		<property name="createEmpID" type="string">
+			<column name="createEmpID"></column>
+		</property>
+		<property name="createDate" type="date">
+			<column name="createDate"></column>
+		</property>
+		<property name="lastEmpID" type="string">
+			<column name="lastEmpID"></column>
+		</property>
+		<property name="lastDate" type="date">
+			<column name="lastDate"></column>
+		</property>
+		<property name="stationType" type="string">
+			<column name="stationType"></column>
+		</property>
+		<property name="attributionGround" type="string">
+			<column name="attributionGround"></column>
+		</property>
+	</class>
+</hibernate-mapping>

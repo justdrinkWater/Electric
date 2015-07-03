@@ -219,7 +219,7 @@ public class ElecDeviceServiceImpl implements IElecDeviceService {
 			elecDevice.setOpState("0");
 		}
 
-		// 非表中的属性
+		// 非页面中的属性
 		elecDevice.setIsDelete("0");
 		elecDevice.setLastEmpID(elecUser.getUserID());
 		elecDevice.setLastDate(new Date());
